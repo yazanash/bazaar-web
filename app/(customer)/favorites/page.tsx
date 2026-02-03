@@ -1,6 +1,6 @@
 
 import { VehicleCard } from "../components/home/VehicleCard";
-export default function Favorites() {
+export default function FavoritesPage() {
   return (
     <div className="py-2 space-y-8 max-w-full">
       
