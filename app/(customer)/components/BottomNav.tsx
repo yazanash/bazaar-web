@@ -10,7 +10,7 @@ export function MaterialNavBar() {
   const navItems = [
     { href: "/profile", icon: User, label: "حسابي" },
     { href: "/", icon: Home, label: "الرئيسية" },
-    { href: "/add", icon: Plus, label: "إعلاناتي" },
+    { href: "/myads", icon: Plus, label: "إعلاناتي" },
   ];
 
   return (
