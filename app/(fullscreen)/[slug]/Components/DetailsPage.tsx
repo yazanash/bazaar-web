@@ -17,7 +17,7 @@ export default function VehicleDetailsPage({ data }: { data: any }) {
 
       {/* 3. بطاقة صاحب الإعلان */}
       <SellerCard
-        name={data.user?.name || "مُعلن"}
+        name={data.name}
         type={data.sellerType}
         phone={data.phoneNumber}
       />
@@ -28,6 +28,8 @@ export default function VehicleDetailsPage({ data }: { data: any }) {
         color={data.color}
         fuelType={data.fuelType}
         isUsed={data.isUsed}
+        installment={data.installment}
+        usedKilometers={data.usedKilometers}
       />
 
       {/* 5. بطاقة المواصفات المخصصة */}
@@ -42,7 +44,6 @@ export default function VehicleDetailsPage({ data }: { data: any }) {
         }
       />
 
-      {/* 6. البطاقة العائمة للتواصل */}
       <FloatingActions phone={data.phoneNumber} />
     </div>
   );

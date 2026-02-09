@@ -1,27 +1,27 @@
 // --- 1. Enums التعريفات البرمجية ---
 
 export enum PostDateFilter { 
-  AnyTime="AnyTime",
-   Past24="Past24", PastWeek="PastWeek", PastMonth="PastMonth" }
-export enum GenderType { NotSpecified="NotSpecified", Male="Male", Female="Female" }
-export enum CarBodyType { NotSpecified="NotSpecified", Sedan="Sedan", Hatchback="Hatchback", Station="Station",
-   Coupe="Coupe", Convertible="Convertible", SUV="SUV", OffRoad="OffRoad" }
-export enum MotorBodyType { NotSpecified="NotSpecified", Chrome="Chrome", CarbonFiber="CarbonFiber", Steel="Steel", Aluminum ="Aluminum"}
-export enum FuelType { NotSpecified="NotSpecified", Diesel="Diesel", Gasoline="Gasoline", Electric="Electric", Hybrid="Hybrid" }
-export enum SellerType { NotSpecified="NotSpecified", Owner="Owner", Broker="Broker", Agency ="Agency"}
+  AnyTime="anyTime",
+   Past24="past24", PastWeek="pastWeek", PastMonth="pastMonth" }
+export enum GenderType { NotSpecified="notSpecified", Male="male", Female="female" }
+export enum CarBodyType { NotSpecified="notSpecified", Sedan="sedan", Hatchback="hatchback", Station="station",
+   Coupe="coupe", Convertible="convertible", SUV="suv", OffRoad="offRoad" }
+export enum MotorBodyType { NotSpecified="notSpecified", Chrome="chrome", CarbonFiber="carbonFiber", Steel="steel", Aluminum ="aluminum"}
+export enum FuelType { NotSpecified="notSpecified", Diesel="diesel", Gasoline="gasoline", Electric="electric", Hybrid="hybrid" }
+export enum SellerType { NotSpecified="notSpecified", Owner="owner", Broker="broker", Agency ="agency"}
 export enum Category 
-{ NotSpecified="NotSpecified", 
-  Passenger="Passenger", 
-  Motorcycles="Motorcycles", 
-  Trucks ="Trucks"}
-export enum Transmission { NotSpecified="NotSpecified", Manual="Manual", Automatic="Automatic", CVT="CVT", DualClutch ="DualClutch"}
-export enum MotorTransmission { NotSpecified="NotSpecified", Manual="Manual", Automatic="Automatic", SemiAutomatic="SemiAutomatic" }
-export enum RegistrationType { NotSpecified="NotSpecified", PublicReg="PublicReg", PrivateReg="PrivateReg" }
-export enum DriveSystem { NotSpecified="NotSpecified", FWD="FWD", RWD="RWD", AWD="AWD", FourWD="FourWD" }
-export enum UsageType { NotSpecified="NotSpecified", InternalUsage="InternalUsage", ExternalUsage="ExternalUsage", Personal="Personal" }
-export enum TrucksUsageType { NotSpecified="NotSpecified", Personal="Personal", HeavyTransport="HeavyTransport", WaterTanker="WaterTanker", Refrigerated="Refrigerated", FurnitureMoving="FurnitureMoving", Construction="Construction" }
-export enum PubStatus { NotSpecified="NotSpecified", Accepted="Accepted", Rejected="Rejected", Pending="Pending", Closed="Closed" }
-export enum TruckBodyType { NotSpecified="NotSpecified", Refrigerated="Refrigerated", Closed="Closed", Open="Open", Tanker="Tanker", Chassis="Chassis", Tipper="Tipper", Pickup ="Pickup"}
+{ NotSpecified="notSpecified", 
+  Passenger="passenger", 
+  Motorcycles="motorcycles", 
+  Trucks ="trucks"}
+export enum Transmission { NotSpecified="notSpecified", Manual="manual", Automatic="automatic", CVT="cvt", DualClutch ="dualClutch"}
+export enum MotorTransmission { NotSpecified="notSpecified", Manual="manual", Automatic="automatic", SemiAutomatic="semiAutomatic" }
+export enum RegistrationType { NotSpecified="notSpecified", PublicReg="publicReg", PrivateReg="privateReg" }
+export enum DriveSystem { NotSpecified="notSpecified", FWD="fwd", RWD="rwd", AWD="awd", FourWD="fourWD" }
+export enum UsageType { NotSpecified="notSpecified", InternalUsage="internalUsage", ExternalUsage="externalUsage", Personal="personal" }
+export enum TrucksUsageType { NotSpecified="notSpecified", Personal="personal", HeavyTransport="heavyTransport", WaterTanker="waterTanker", Refrigerated="refrigerated", FurnitureMoving="furnitureMoving", Construction="construction" }
+export enum PubStatus { NotSpecified="notSpecified", Accepted="accepted", Rejected="rejected", Pending="pending", Closed="closed" }
+export enum TruckBodyType { NotSpecified="notSpecified", Refrigerated="refrigerated", Closed="closed", Open="open", Tanker="tanker", Chassis="chassis", Tipper="tipper", Pickup ="pickup"}
 
 
 export const ArabicLabels: Record<string, Record<string, string>> = {
@@ -123,5 +123,10 @@ export const ArabicLabels: Record<string, Record<string, string>> = {
     [MotorBodyType.Chrome]: "كروم",
     [MotorBodyType.Steel]: "ستيل",
     [MotorBodyType.NotSpecified]: "غير محدد",
+  },
+  RegistrationType: {
+    [RegistrationType.PrivateReg]: "خصوصي",
+    [RegistrationType.PublicReg]: "عمومي", 
+    [RegistrationType.NotSpecified]: "غير محدد",
   },
 };

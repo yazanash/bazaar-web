@@ -8,7 +8,6 @@ const page = async () => {
     if (result.success && result.data) {
       return <ProfileForm initialData={result.data} />;
     }
-
     return <ProfileForm />;
   } catch (error: any) {
     if (error.message.includes("401")) {

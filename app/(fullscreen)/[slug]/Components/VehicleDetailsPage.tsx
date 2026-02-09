@@ -31,7 +31,9 @@ export default function AdDetailsPage({ adDetail }: Props) {
         description={data.description}
         color={data.color}
         fuelType={data.fuelType}
+        usedKilometers={data.usedKilometers}
         isUsed={data.isUsed}
+        installment={data.installment}
       />
 
       <SpecsCard
