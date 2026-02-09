@@ -3,6 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SearchFilters } from "./SearchFilters";
+import { Suspense } from "react";
 
 export default function SearchHeader() {
   const router = useRouter();
@@ -16,7 +17,10 @@ export default function SearchHeader() {
         >
           <ArrowRight size={22} className="text-slate-600" />
         </button>
-        <SearchFilters />
+        <Suspense fallback={<div>جاري التحميل...</div>}>
+          <SearchFilters />
+      </Suspense>
+    
       </div>
     </div>
   );
