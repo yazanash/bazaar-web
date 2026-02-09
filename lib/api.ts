@@ -1,4 +1,8 @@
-import { PaginatedResponse, VehicleAdDetailsResponse, VehicleAdResponse } from "@/types/ad";
+import {
+  PaginatedResponse,
+  VehicleAdDetailsResponse,
+  VehicleAdResponse,
+} from "@/types/ad";
 import { ProfileData } from "@/types/profile";
 import { cookies } from "next/headers";
 const BASE_URL = "https://bazaar.runasp.net/api";
@@ -43,7 +47,7 @@ export const api = {
 
   getAdBySlug: async (slug: string): Promise<VehicleAdDetailsResponse> => {
     return fetchApi<VehicleAdDetailsResponse>(`/ads/ad/${slug}`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
   },
 
@@ -75,7 +79,6 @@ export const api = {
     });
   },
   toggleFavorite: async (id: number): Promise<{ message: string }> => {
-  
     return fetchApi<{ message: string }>("/Ads/Like", {
       method: "POST",
       body: JSON.stringify({ id }),
