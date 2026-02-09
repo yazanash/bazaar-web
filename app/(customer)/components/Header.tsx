@@ -1,7 +1,6 @@
 "use client";
 
 import { Bell, Search } from "lucide-react";
-import { SearchFilters } from "./SearchFilters"; // استيراد المكون الجديد
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 export function UnifiedHeader() {
