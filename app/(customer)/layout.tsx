@@ -1,7 +1,8 @@
-import { MaterialNavBar } from "./components/BottomNav";
-import { SidebarLink } from "./components/SidebarLink";
+import { MaterialNavBar } from "@/components/CustomerComponents/BottomNav";
+import { SidebarLink } from "@/components/CustomerComponents/SidebarLink";
 import { Home, Bell, Plus, Heart, User } from "lucide-react";
-import { UnifiedHeader } from "./components/Header";
+import { UnifiedHeader } from "@/components/CustomerComponents/Header";
+import Image from "next/image";
 export default function CustomerLayout({
   children,
 }: {
@@ -9,12 +10,16 @@ export default function CustomerLayout({
 }) {
   return (
     <div className="h-screen w-full bg-[#F0F2F5] flex overflow-hidden font-sans ">
-      {/* 1. السايدبار الثابت (ليس بحاجة لـ sticky لأنه داخل flex بـ h-screen) */}
       <aside className="hidden md:flex flex-col w-72 bg-white border-e border-slate-200 shadow-sm">
         <div className="p-8">
-          <h1 className="text-2xl font-black text-blue-900 italic tracking-tighter">
-            BAZAAR
-          </h1>
+          <Image
+            src="/logo.png" 
+            alt="Bazaar Logo"
+            width={150} 
+            height={40} 
+            className="h-10 w-auto object-contain" 
+            priority 
+          />
         </div>
 
         <nav className="flex-1 px-4 space-y-1">

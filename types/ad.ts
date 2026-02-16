@@ -13,9 +13,7 @@ import {
   TruckBodyType,
   TrucksUsageType,
 } from "@/types/enums";
-import { CarSpecs } from "./filters";
 
-// واجهة المدينة
 export interface CityResponse {
   id: number;
   arabicName: string;
@@ -58,31 +56,31 @@ export interface PaginatedResponse<T> {
   pageSize: number;
 }
 export interface CarSpecsResponse {
-  Transmission: Transmission;
-  RegistrationType: RegistrationType;
-  CarBodyType: CarBodyType;
-  DriveSystem: DriveSystem;
-  IsModified: boolean;
-  ModificationDescription: string;
-  SeatsCount: number;
-  DoorsCount: number;
-  UsageType: UsageType;
+  transmission: Transmission;
+  registrationType: RegistrationType;
+  carBodyType: CarBodyType;
+  driveSystem: DriveSystem;
+  isModified: boolean;
+  modificationDescription: string;
+  seatsCount: number;
+  doorsCount: number;
+  usageType: UsageType;
 }
 export interface TruckSpecsResponse {
-  AxisCount: number;
-  BackstorageLenght: number;
-  BackstorageHeight: number;
-  TruckBodyType: TruckBodyType;
-  TrucksUsageType: TrucksUsageType;
-  IsRegistered: boolean;
-  Payload: number;
+  axisCount: number;
+  backstorageLenght: number;
+  backstorageHeight: number;
+  truckBodyType: TruckBodyType;
+  trucksUsageType: TrucksUsageType;
+  isRegistered: boolean;
+  payload: number;
 }
 export interface MotorSpecsResponse {
-  MotorTransmission: MotorTransmission;
-  IsRegistered: boolean;
-  MotorBodyType: MotorBodyType;
-  IsModified: boolean;
-  ModificationDescription: string;
+  motorTransmission: MotorTransmission;
+  isRegistered: boolean;
+  motorBodyType: MotorBodyType;
+  isModified: boolean;
+  modificationDescription: string;
 }
 
 export interface VehicleAdDetailsResponse {
@@ -110,4 +108,39 @@ export interface VehicleAdDetailsResponse {
   gallery: string[];
   viewsCount: number;
   favoritesCount: number;
+}
+export interface Masters {
+  cities: CityResponse[];
+  models: ManufacturerModelResponse[];
+}
+export interface ImageRequest {
+  id?: Number;
+  imagePath: string;
+  order: Number;
+}
+
+export interface VehicleAdRequest {
+  id?:number;
+  cityId: number;
+  vehicleModelId: number;
+  manufactureYear: number;
+  isUsed: boolean;
+  fuelType: FuelType;
+  installment: boolean;
+  price: number;
+  category: Category;
+  usedKilometers: number;
+  color: string;
+  description: string;
+
+  carSpecs?: CarSpecsResponse;
+  truckSpecs?: TruckSpecsResponse;
+  motorSpecs?: MotorSpecsResponse;
+  gallery: ImageRequest[];
+}
+
+export interface UserAdsResponse {
+  pubStatus: PubStatus;
+  reasone: string;
+  vehicleAdResponse: VehicleAdResponse;
 }

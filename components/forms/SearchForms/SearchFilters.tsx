@@ -23,7 +23,8 @@ import {
   MotorSpecs,
 } from "@/types/filters";
 import { useSearchFilters } from "@/hooks/useSearchFilter";
-
+import { CityResponse, ManufacturerModelResponse } from "@/types/ad";
+import { getMasters } from "@/lib/actions/masterData";
 export function SearchFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -35,13 +36,30 @@ export function SearchFilters() {
   const [carSpecs, setCarSpecs] = useState<CarSpecs>({});
   const [truckSpecs, setTruckSpecs] = useState<TruckSpecs>({});
   const [motorSpecs, setMotorSpecs] = useState<MotorSpecs>({});
+  const [cities, setCities] = useState<CityResponse[]>([]);
+  const [models, setModels] = useState<ManufacturerModelResponse[]>([]);
+  const [isLoadingMaster, setIsLoadingMaster] = useState(false);
 
+  const fetchMasterData = async () => {
+    setIsLoadingMaster(true);
+    try {
+      // افترضنا أن الـ API يرجع كائن يحتوي على المصفوفات
+      const response = await getMasters();
+      setCities(response.data?.cities ?? []);
+      setModels(response.data?.models ?? []);
+    } catch (error) {
+      console.error("Error fetching master data", error);
+    } finally {
+      setIsLoadingMaster(false);
+    }
+  };
   useEffect(() => {
     if (open) {
       setGeneral(getGeneral());
       setCarSpecs(getCarSpecs());
       setTruckSpecs(getTruckSpecs());
       setMotorSpecs(getMotorSpecs());
+      fetchMasterData();
     }
   }, [open, searchParams]);
 
@@ -91,10 +109,10 @@ export function SearchFilters() {
           <Search size={24} className="text-blue-600" />
         </DrawerHeader>
 
-        <div
-          className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar"
-        >
+        <div className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar">
           <GeneralSection
+            cities={cities}
+            models={models}
             states={general}
             setStates={(val) => setGeneral((prev) => ({ ...prev, ...val }))}
           />

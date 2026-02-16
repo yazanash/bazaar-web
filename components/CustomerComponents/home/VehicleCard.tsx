@@ -12,14 +12,12 @@ export function VehicleCard({ ad }: VehicleCardProps) {
   const router = useRouter();
   const [isFavorite, setIsFavorite] = useState(ad.isFavorite);
 
-  // دالة النقر على البطاقة
   const handleCardClick = () => {
     router.push(`/${ad.slug}`);
   };
 
-  // دالة المشاركة
   const handleShare = (e: React.MouseEvent) => {
-    e.stopPropagation(); // منع النقر من الوصول للبطاقة
+    e.stopPropagation(); 
     if (navigator.share) {
       navigator.share({
         title: ad.vehicleModel.name,
@@ -28,34 +26,28 @@ export function VehicleCard({ ad }: VehicleCardProps) {
     }
   };
 
-  // دالة التفضيل
   const handleFavorite = async (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsFavorite(!isFavorite);
     await toggleFavoriteAction(ad.id);
   };
   return (
-    <div onClick={handleCardClick} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
-      {/* 1. قسم الصورة مع التناسب 170x100 */}
+    <div onClick={handleCardClick} className= " cursor-pointer bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+    
       <div className="relative aspect-170/100 bg-slate-200 flex items-center justify-center overflow-hidden">
-        {/* استبدل src بصورة حقيقية لاحقاً */}
+      
         <img
           src={getImageUrl(ad.thumbnail)}
           alt={ad.slug}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        {/* Placeholder للنص كما في الصورة */}
-        {/* <span className="text-slate-400 font-bold text-xl">170 × 100</span> */}
       </div>
 
-      {/* 2. محتوى البيانات */}
       <div className="p-3 space-y-2" dir="rtl">
-        {/* اسم المركبة */}
         <h3 className="text-base font-bold text-slate-800 truncate">
          {ad.vehicleModel.name} - {ad.manufactureYear}
         </h3>
 
-        {/* السعر والمنطقة */}
         <div className="flex flex-col items-start gap-1">
           <span className="text-lg font-black text-slate-900 leading-none">
              ${ad.price.toLocaleString()}

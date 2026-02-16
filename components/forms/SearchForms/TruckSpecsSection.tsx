@@ -53,7 +53,6 @@ export const TruckSpecsSection = ({ states, setStates }: Props) => {
           </Select>
         </div>
 
-        {/* نوع الاستخدام للشاحنات */}
         <div className="space-y-2">
           <Label className="text-xs font-black text-slate-500 mr-1">
             نوع الاستخدام
@@ -86,7 +85,6 @@ export const TruckSpecsSection = ({ states, setStates }: Props) => {
         </div>
       </div>
 
-      {/* قسم الحمولة (Payload) */}
       <div className="space-y-3">
         <Label className="text-xs font-black text-slate-500 mr-1 flex items-center gap-2">
           <Weight size={14} className="text-slate-400" /> سعة الحمولة (طن)

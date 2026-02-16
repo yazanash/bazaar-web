@@ -21,9 +21,10 @@ export async function saveProfileAction(
 }
 export async function getProfileAction() {
   try {
-    const data = await api.getProfile(); 
-    return { success: true, data }; 
-  } catch (e) {
-    return { success: false, data: null };
+    const data = await api.getProfile();
+    return { success: true, data , status: 200};
+  } catch (e: any) {
+    return { success: false, data: null , 
+      status: e.response?.status || 500};
   }
 }

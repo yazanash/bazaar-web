@@ -4,8 +4,6 @@ import {
   Heart,
   Share2,
   Clock,
-  History,
-  WalletCards,
   GroupIcon
 } from "lucide-react";
 import { ArabicLabels, Category } from "@/types/enums";

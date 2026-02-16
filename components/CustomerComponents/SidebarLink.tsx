@@ -16,17 +16,12 @@ export function SidebarLink({ href, icon, label }: { href: string, icon: React.R
           : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"}
       `}
     >
-      {/* الأيقونة */}
       <div className={`transition-transform duration-200 ${isActive ? "scale-110" : "group-hover:scale-110"}`}>
         {icon}
       </div>
-
-      {/* النص */}
       <span className={`text-lg font-bold ${isActive ? "text-blue-700" : "text-slate-600"}`}>
         {label}
       </span>
-
-     
     </Link>
   );
 }

@@ -1,7 +1,7 @@
-import { Categories } from "./components/home/Categories";
+import { Categories } from "@/components/CustomerComponents/home/Categories";
 import { api } from "@/lib/api";
-import { VehicleCard } from "./components/home/VehicleCard";
-import { PromoSlider } from "./components/home/PromoSlider";
+import { VehicleCard } from "@/components/CustomerComponents/home/VehicleCard";
+import { PromoSlider } from "@/components/CustomerComponents/home/PromoSlider";
 import { Suspense } from "react";
 export default async function HomePage() {
   try {
@@ -10,14 +10,14 @@ export default async function HomePage() {
     return (
       <div className="py-2 space-y-8 max-w-full">
         <PromoSlider />
-         <Suspense fallback={<div>جاري التحميل...</div>}>
-                  <Categories />
-              </Suspense>
+        <Suspense fallback={<div>جاري التحميل...</div>}>
+          <Categories />
+        </Suspense>
         <section className="px-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-black text-slate-800">Special Ads</h2>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-20">
             {ads.map((ad) => (
               <VehicleCard key={ad.id} ad={ad} />

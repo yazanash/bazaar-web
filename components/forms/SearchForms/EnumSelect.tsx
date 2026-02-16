@@ -1,10 +1,10 @@
 import { ArabicLabels } from "@/types/enums";
 interface EnumSelectProps {
   label: string;
-  value: string | number; // ليدعم الحالتين
+  value: string | number; 
   onChange: (val: any) => void;
-  options: any[]; // مصفوفة من قيم الـ Enum (سواء string أو number)
-  enumKey: keyof typeof ArabicLabels; // عشان يقرأ أسماء الـ Enums الموجودة عندك فقط
+  options: any[]; 
+  enumKey: keyof typeof ArabicLabels; 
 }
 
 export function EnumSelect({
@@ -25,7 +25,6 @@ export function EnumSelect({
         <option value="">غير محدد</option>
         {options.map((optValue: string | number) => (
           <option key={optValue} value={optValue}>
-            {/* الوصول للترجمة باستخدام القيمة (String Key) */}
             {ArabicLabels[enumKey][optValue as any] || optValue}
           </option>
         ))}

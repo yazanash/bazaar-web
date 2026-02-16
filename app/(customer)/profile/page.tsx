@@ -1,4 +1,4 @@
-import ProfileForm from "./components/ProfileForm";
+import ProfileForm from "../../../components/forms/ProfileForms/ProfileForm";
 import { UnauthorizedBlock } from "@/components/UnauthorizedBlock";
 import { getProfileAction } from "@/lib/actions/profile";
 const page = async () => {

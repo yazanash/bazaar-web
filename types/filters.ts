@@ -1,24 +1,24 @@
 import { CarBodyType, Category, DriveSystem, FuelType, MotorBodyType, MotorTransmission, PostDateFilter, Transmission, TruckBodyType, TrucksUsageType, UsageType } from "./enums";
 
 export interface GeneralFilter {
-  Keyword?: string; // Done
-  CityId?: number;// Done
-  VehicleModelId ?: number;// Done
-  Category?: Category;// Done
-  PriceFrom?: number;// Done
-  PriceTo?: number;// Done
-  IsUsed?: boolean;// Done
-  Installment?: boolean;// Done
-  FuelType?: FuelType;// Done
-  PostDate?: PostDateFilter;// Done
+  Keyword?: string; 
+  CityId?: number;
+  VehicleModelId ?: number;
+  Category?: Category;
+  PriceFrom?: number;
+  PriceTo?: number;
+  IsUsed?: boolean;
+  Installment?: boolean;
+  FuelType?: FuelType;
+  PostDate?: PostDateFilter;
 
 }
 
 export interface CarSpecs {
-  Transmission?: Transmission;// Done
-  CarBodyType?: CarBodyType;// Done
-  DriveSystem?: DriveSystem;// Done
-  UsageType?: UsageType;// Done
+  Transmission?: Transmission;
+  CarBodyType?: CarBodyType;
+  DriveSystem?: DriveSystem;
+  UsageType?: UsageType;
   SeatsCount?: number;
   DoorsCount?: number;
   IsModified?:boolean

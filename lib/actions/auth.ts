@@ -4,7 +4,6 @@ import { api } from "@/lib/api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-// الأكشن الخاص بطلب الـ OTP (يمكن استدعاؤه مباشرة من الفورم)
 export async function requestOtpAction(email: string) {
   try {
     await api.requestOtp(email);
@@ -25,7 +24,7 @@ export async function loginAction(email: string, otp: string) {
         secure: process.env.NODE_ENV === "production", 
         sameSite: "lax",
         path: "/",
-        maxAge: 60 * 60 * 24 * 7, // مدة الصلاحية: أسبوع
+        maxAge: 60 * 60 * 24 * 7,
       });
     }
 

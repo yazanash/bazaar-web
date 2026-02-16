@@ -18,7 +18,7 @@ export default function LoginPage() {
 
   const handleRequestOtp = async () => {
     if (!email) return;
-    setErrorMessage(null); // تصغير الخطأ عند المحاولة الجديدة
+    setErrorMessage(null); 
     
     startTransition(async () => {
       const result = await requestOtpAction(email);
@@ -62,7 +62,6 @@ export default function LoginPage() {
         </CardHeader>
 
         <CardContent className="pb-10 space-y-6">
-          {/* عرض رسالة الخطأ إن وجدت */}
           {errorMessage && (
             <Alert variant="destructive" className="rounded-2xl bg-red-50 border-red-100 text-red-600 animate-in shake-1 duration-300">
               <AlertCircle size={18} />

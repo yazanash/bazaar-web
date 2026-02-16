@@ -33,7 +33,6 @@ export function GeneralDetailsCard({
           التفاصيل والوصف
         </h2>
 
-        {/* شبكة معلومات سريعة */}
         <div className="grid grid-cols-2 gap-4">
           <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl">
             <Palette size={18} className="text-slate-400" />
@@ -88,7 +87,6 @@ export function GeneralDetailsCard({
           </div>
         </div>
 
-        {/* النص الوصفي */}
         <div className="space-y-2">
           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
             وصف المعلن

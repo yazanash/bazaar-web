@@ -12,7 +12,6 @@ export function ImageSlider({ images }: { images: string[] }) {
 
   return (
     <div className="relative w-full aspect-4/3 bg-slate-200">
-      {/* أزرار التحكم العلوية */}
       <div className="absolute top-4 left-4 right-4 z-20 flex justify-between items-center pointer-events-none">
         <button
           onClick={() => router.back()}

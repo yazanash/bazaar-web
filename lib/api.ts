@@ -1,11 +1,14 @@
 import {
+  Masters,
   PaginatedResponse,
+  UserAdsResponse,
   VehicleAdDetailsResponse,
+  VehicleAdRequest,
   VehicleAdResponse,
 } from "@/types/ad";
 import { ProfileData } from "@/types/profile";
 import { cookies } from "next/headers";
-const BASE_URL = "https://bazaar.runasp.net/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function fetchApi<T>(
   endpoint: string,
@@ -16,17 +19,19 @@ async function fetchApi<T>(
     const cookieStore = await cookies();
     token = cookieStore.get("session_token")?.value;
   } catch (e) {}
-
+  const headers: Record<string, string> = {
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(options?.headers as any),
+  };
+  if (!(options?.body instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
+  }
   const res = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options?.headers,
-    },
+    headers, // نمرر الهيدرز المعدلة هنا
   });
   if (!res.ok) {
-    console.error(`API Error: ${res.status} - ${res.statusText}`);
+    console.error(`API Error: ${res.status} - ${res.statusText} `);
     throw new Error(`API Error: ${res.status} - ${res.statusText}`);
   }
 
@@ -44,9 +49,22 @@ export const api = {
       },
     );
   },
+  getUserAds: async (page = 1): Promise<PaginatedResponse<UserAdsResponse>> => {
+    return fetchApi<PaginatedResponse<UserAdsResponse>>(
+      `/MyAds?pageNumber=${page}&pageSize=10`,
+      {
+        next: { revalidate: 60 },
+      },
+    );
+  },
 
   getAdBySlug: async (slug: string): Promise<VehicleAdDetailsResponse> => {
     return fetchApi<VehicleAdDetailsResponse>(`/ads/ad/${slug}`, {
+      cache: "no-store",
+    });
+  },
+  getAdById: async (id: number): Promise<VehicleAdRequest> => {
+    return fetchApi<VehicleAdRequest>(`/myads/${id}`, {
       cache: "no-store",
     });
   },
@@ -54,13 +72,6 @@ export const api = {
   getManufacturers: async () => {
     return fetchApi<any[]>("/Manufacturers", {
       cache: "force-cache",
-    });
-  },
-
-  getUserAds: async (token?: string): Promise<PaginatedResponse<any>> => {
-    return fetchApi<PaginatedResponse<any>>("/ads/user-ads", {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-      cache: "no-store",
     });
   },
   searchAds: async (
@@ -78,13 +89,38 @@ export const api = {
       cache: "no-store",
     });
   },
+  getMasters: async (): Promise<Masters> => {
+    return fetchApi<Masters>("/Masters", {
+      cache: "no-store",
+    });
+  },
   toggleFavorite: async (id: number): Promise<{ message: string }> => {
     return fetchApi<{ message: string }>("/Ads/Like", {
       method: "POST",
       body: JSON.stringify({ id }),
     });
   },
-
+  createAd: async (payload: VehicleAdRequest): Promise<{ message: string }> => {
+    return fetchApi<{ message: string }>("/MyAds", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
+  updateAd: async (
+    id: number,
+    payload: VehicleAdRequest,
+  ): Promise<{ message: string }> => {
+    return fetchApi<{ message: string }>(`/MyAds/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    });
+  },
+  uploadImage: async (formData: FormData): Promise<{ url: string }> => {
+    return fetchApi<{ url: string }>("/MyAds/upload-image", {
+      method: "POST",
+      body: formData,
+    });
+  },
   requestOtp: async (email: string): Promise<{ message: string }> => {
     return fetchApi<{ message: string }>("/Authentication/RequestOtp", {
       method: "POST",

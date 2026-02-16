@@ -19,7 +19,6 @@ export function Categories() {
       params.set("Category", categoryValue.toString());
     }
 
-    // 3. نوجه المستخدم للرابط الجديد (مثلاً /search?Category=1)
     router.push(`/search?${params.toString()}`);
   };
   const cats = [
@@ -30,7 +29,6 @@ export function Categories() {
 
   return (
     <div className="px-4 py-4">
-      {/* شبكة أزرار بحدود واضحة */}
       <div className="flex gap-3">
         {cats.map((item) => {
           const Icon = item.icon;

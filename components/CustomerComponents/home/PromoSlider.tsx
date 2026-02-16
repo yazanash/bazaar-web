@@ -20,7 +20,6 @@ export function PromoSlider() {
     slidesPerView={1}
     autoplay={{ delay: 3000 }}
     pagination={{ clickable: true }}
-    // التغيير السحري هنا: aspect-[2.5/1] يعني العرض مرتين ونص قد الارتفاع
     className="w-full aspect-[2.5/1] md:aspect-3/1 rounded-2xl md:rounded-[2.5rem] shadow-sm border border-white"
   >
     {slides.map((slide) => (
@@ -37,7 +36,6 @@ export function PromoSlider() {
   </Swiper>
 
   <style jsx global>{`
-    /* تصغير حجم النقاط ليتناسب مع الارتفاع الصغير */
     .swiper-pagination-bullet { width: 5px; height: 5px; }
     .swiper-pagination-bullet-active { width: 12px !important; }
     .swiper-pagination { bottom: 5px !important; }

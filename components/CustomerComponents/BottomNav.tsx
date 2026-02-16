@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Plus, User } from "lucide-react";
-import { cn } from "@/lib/utils"; // لا تنسى استيراد cn من مجلد lib
+import { cn } from "@/lib/utils";
 
 export function MaterialNavBar() {
   const pathname = usePathname();

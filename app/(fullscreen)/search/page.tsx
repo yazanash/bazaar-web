@@ -1,7 +1,6 @@
-// app/search/page.tsx
 import { api } from "@/lib/api";
-import { VehicleCard } from "@/app/(customer)/components/home/VehicleCard";
-import SearchHeader from "./Components/SearchHeader";
+import { VehicleCard } from "@/components/CustomerComponents/home/VehicleCard";
+import SearchHeader from "@/components/forms/SearchForms/SearchHeader";
 import { VehicleAdResponse } from "@/types/ad";
 import { Search } from "lucide-react";
 export default async function SearchPage({
@@ -10,10 +9,7 @@ export default async function SearchPage({
   searchParams: any;
 }) {
   const params = await searchParams;
-
-  // نتحقق إذا كان هناك أي فلتر مفعل (بما في ذلك الكاتيجوري أو النص)
   const hasFilters = Object.keys(params).length > 0;
-
   let ads: VehicleAdResponse[] = [];
   if (hasFilters) {
     const query = new URLSearchParams(params).toString();
@@ -23,12 +19,10 @@ export default async function SearchPage({
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20" dir="rtl">
-      {/* هيدر البحث ثابت وفيه زر الفلترة */}
       <SearchHeader />
 
       <main className="p-4">
         {!hasFilters ? (
-          // حالة البداية: Empty State
           <div className="flex flex-col items-center justify-center pt-20 text-center space-y-4">
             <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center">
               <Search size={40} className="text-blue-200" />
@@ -43,7 +37,6 @@ export default async function SearchPage({
             </div>
           </div>
         ) : (
-          // حالة عرض النتائج
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {ads.map((ad: VehicleAdResponse) => (
               <VehicleCard key={ad.id} ad={ad} />

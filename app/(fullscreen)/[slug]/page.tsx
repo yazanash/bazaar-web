@@ -1,4 +1,4 @@
-import VehicleDetailsPage from "./Components/DetailsPage";
+import VehicleDetailsPage from "@/components/AdDetailsComponents/DetailsPage";
 import { notFound } from "next/navigation";
 import { getAdBySlug } from "@/lib/actions/ads";
 export default async function AdDetailsPage({
@@ -9,7 +9,6 @@ export default async function AdDetailsPage({
   const { slug } = await params;
 
   try {
-    // جلب البيانات من الـ API
     const adData = await getAdBySlug(slug);
 
     if (!adData.data) {

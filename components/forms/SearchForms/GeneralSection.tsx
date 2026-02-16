@@ -23,16 +23,18 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { CityResponse, ManufacturerModelResponse } from "@/types/ad";
 
 interface Props {
   states: GeneralFilter;
   setStates: (val: Partial<GeneralFilter>) => void;
+  cities:CityResponse[];
+  models: ManufacturerModelResponse[]
 }
 
-export const GeneralSection = ({ states, setStates }: Props) => {
+export const GeneralSection = ({ states, setStates,cities,models }: Props) => {
   return (
     <div className="space-y-8">
-      {/* قسم البحث والكلمات الدلالية */}
       <section className="space-y-3">
         <Label className="text-xs font-black text-slate-400 mr-1 uppercase">
           البحث الذكي
@@ -49,7 +51,6 @@ export const GeneralSection = ({ states, setStates }: Props) => {
         </div>
       </section>
 
-      {/* اختيار الفئة الأساسية (Tabs Style) */}
       <div className="grid grid-cols-3 gap-2 bg-slate-100 p-1.5 rounded-2xl">
         {[Category.Passenger, Category.Motorcycles, Category.Trucks].map(
           (cat) => (
@@ -68,7 +69,6 @@ export const GeneralSection = ({ states, setStates }: Props) => {
         )}
       </div>
 
-      {/* الموقع والماركة */}
       <div className="grid grid-cols-1 gap-6">
         <div className="space-y-2">
           <Label className="text-sm font-bold text-slate-600 flex items-center gap-2">
@@ -83,9 +83,11 @@ export const GeneralSection = ({ states, setStates }: Props) => {
             </SelectTrigger>
 
             <SelectContent className="z-200">
-              <SelectItem value="0">غير محدد</SelectItem>
-              <SelectItem value="1">دمشق</SelectItem>
-              <SelectItem value="2">حلب</SelectItem>
+              {cities?.map((city) => (
+            <SelectItem key={city.id} value={String(city.id)}>
+              {city.arabicName}
+            </SelectItem>
+          ))}
             </SelectContent>
           </Select>
         </div>
@@ -102,14 +104,16 @@ export const GeneralSection = ({ states, setStates }: Props) => {
               <SelectValue placeholder="كل الماركات" />
             </SelectTrigger>
             <SelectContent className="z-200">
-              <SelectItem value="1">BMW</SelectItem>
-              <SelectItem value="2">Mercedes</SelectItem>
+                {models?.map((model) => (
+            <SelectItem key={model.id} value={String(model.id)}>
+              {model.name}
+            </SelectItem>
+          ))}
             </SelectContent>
           </Select>
         </div>
       </div>
 
-      {/* خيارات الحالة والتقسيط (Modern Switches) */}
       <div className="grid grid-cols-1 gap-3">
         <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
           <div className="flex items-center gap-3">
@@ -138,7 +142,6 @@ export const GeneralSection = ({ states, setStates }: Props) => {
         </div>
       </div>
 
-      {/* نطاق السعر */}
       <div className="space-y-3">
         <Label className="text-sm font-bold text-slate-600">
           نطاق السعر ($)
@@ -161,7 +164,6 @@ export const GeneralSection = ({ states, setStates }: Props) => {
         </div>
       </div>
 
-      {/* خيارات النوع والتاريخ */}
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label className="text-xs font-bold text-slate-500 flex items-center gap-1">

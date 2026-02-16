@@ -27,10 +27,8 @@ export const CarSpecsSection = ({ states, setStates }: Props) => {
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
       
-      {/* شبكة خيارات الـ Select */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         
-        {/* ناقل الحركة */}
         <div className="space-y-2">
           <Label className="text-xs font-black text-slate-500 mr-1">ناقل الحركة</Label>
           <Select 
@@ -48,7 +46,6 @@ export const CarSpecsSection = ({ states, setStates }: Props) => {
           </Select>
         </div>
 
-        {/* نوع الهيكل */}
         <div className="space-y-2">
           <Label className="text-xs font-black text-slate-500 mr-1">نوع الهيكل</Label>
           <Select 
@@ -66,7 +63,6 @@ export const CarSpecsSection = ({ states, setStates }: Props) => {
           </Select>
         </div>
 
-        {/* نظام الدفع */}
         <div className="space-y-2">
           <Label className="text-xs font-black text-slate-500 mr-1">نظام الدفع</Label>
           <Select 
@@ -83,8 +79,6 @@ export const CarSpecsSection = ({ states, setStates }: Props) => {
             </SelectContent>
           </Select>
         </div>
-
-        {/* نوع الاستخدام */}
         <div className="space-y-2">
           <Label className="text-xs font-black text-slate-500 mr-1">نوع الاستخدام</Label>
           <Select 
@@ -103,7 +97,6 @@ export const CarSpecsSection = ({ states, setStates }: Props) => {
         </div>
       </div>
 
-      {/* حقول الأرقام (مقاعد وأبواب) */}
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label className="text-xs font-bold text-slate-500 flex items-center gap-2">
@@ -131,7 +124,6 @@ export const CarSpecsSection = ({ states, setStates }: Props) => {
         </div>
       </div>
 
-      {/* توجل "معدلة" بشكل عصري */}
       <div className="flex items-center justify-between p-4 bg-blue-50/50 rounded-2xl border border-blue-100">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm text-blue-600">

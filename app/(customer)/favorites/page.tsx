@@ -1,6 +1,5 @@
-// app/favorites/page.tsx
-import { api } from "@/lib/api"; // عدل المسار حسب مكان ملف الـ API عندك
-import { VehicleCard } from "../components/home/VehicleCard";
+import { api } from "@/lib/api"; 
+import { VehicleCard } from "@/components/CustomerComponents/home/VehicleCard";
 import { HeartOff } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -38,7 +37,6 @@ export default async function FavoritesPage() {
         </div>
 
         {ads.length === 0 ? (
-          /* حالة القائمة فارغة */
           <div className="h-[60vh] flex flex-col items-center justify-center text-center space-y-6 bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-200">
             <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-md">
               <HeartOff size={44} className="text-slate-300" />
@@ -58,7 +56,6 @@ export default async function FavoritesPage() {
             </Link>
           </div>
         ) : (
-          /* شبكة عرض الإعلانات */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-24 font-bold">
             {ads.map((ad) => (
               <VehicleCard key={ad.id} ad={ad} />
