@@ -10,26 +10,10 @@ export default function CustomerLayout({
 }) {
   return (
     <div className="h-screen w-full bg-[#F0F2F5] flex overflow-hidden font-sans ">
-      <aside className="hidden md:flex flex-col w-72 bg-white border-e border-slate-200 shadow-sm">
-        <div className="p-8">
-          <Image
-            src="/logo.png" 
-            alt="Bazaar Logo"
-            width={150} 
-            height={40} 
-            className="h-10 w-auto object-contain" 
-            priority 
-          />
-        </div>
-
+      {/* <aside className="hidden md:flex flex-col w-72 bg-white border-e pt-8 border-slate-200 shadow-sm">
         <nav className="flex-1 px-4 space-y-1">
           <SidebarLink href="/" icon={<Home size={22} />} label="Home" />
           <SidebarLink href="/myads" icon={<Plus size={22} />} label="My Ads" />
-          <SidebarLink
-            href="/favorites"
-            icon={<Heart size={22} />}
-            label="Favorites"
-          />
           <SidebarLink
             href="/profile"
             icon={<User size={22} />}
@@ -42,7 +26,7 @@ export default function CustomerLayout({
             Bazaar v1.0
           </p>
         </div>
-      </aside>
+      </aside> */}
 
       <div className="flex-1 flex flex-col h-full relative min-w-0">
         <UnifiedHeader />
@@ -52,7 +36,7 @@ export default function CustomerLayout({
           <div className="h-24 md:hidden" />
         </main>
 
-        <div className="md:hidden absolute bottom-0 left-0 right-0 z-50">
+        <div className="absolute bottom-0 left-0 right-0 z-50">
           <MaterialNavBar />
         </div>
       </div>

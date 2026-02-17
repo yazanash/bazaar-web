@@ -28,7 +28,7 @@ async function fetchApi<T>(
   }
   const res = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
-    headers, // نمرر الهيدرز المعدلة هنا
+    headers,
   });
   if (!res.ok) {
     console.error(`API Error: ${res.status} - ${res.statusText} `);
@@ -66,12 +66,6 @@ export const api = {
   getAdById: async (id: number): Promise<VehicleAdRequest> => {
     return fetchApi<VehicleAdRequest>(`/myads/${id}`, {
       cache: "no-store",
-    });
-  },
-
-  getManufacturers: async () => {
-    return fetchApi<any[]>("/Manufacturers", {
-      cache: "force-cache",
     });
   },
   searchAds: async (
@@ -115,8 +109,8 @@ export const api = {
       body: JSON.stringify(payload),
     });
   },
-  uploadImage: async (formData: FormData): Promise<{ url: string }> => {
-    return fetchApi<{ url: string }>("/MyAds/upload-image", {
+  uploadImage: async (formData: FormData): Promise<{ imageUrl: string }> => {
+    return fetchApi<{ imageUrl: string }>("/MyAds/upload-image", {
       method: "POST",
       body: formData,
     });

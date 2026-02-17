@@ -115,7 +115,7 @@ export interface Masters {
 }
 export interface ImageRequest {
   id?: Number;
-  imagePath: string;
+  imageUrl: string;
   order: Number;
 }
 

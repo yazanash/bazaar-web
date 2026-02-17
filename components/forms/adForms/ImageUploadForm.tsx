@@ -32,7 +32,7 @@ export function ImageUploadSection({ form }: { form: any }) {
           const data = response.data;
           newImages.push({
             id: 0,
-            imagePath: data?.url,
+            imageUrl: data?.imageUrl,
             order: newImages.length,
           });
         }
@@ -105,7 +105,7 @@ export function ImageUploadSection({ form }: { form: any }) {
               ${index === 0 ? "border-blue-600 ring-4 ring-blue-100" : "border-slate-100"}`}
           >
             <img
-              src={getImageUrl(`${img.imagePath}`)}
+              src={getImageUrl(`${img.imageUrl}`)}
               className="w-full h-full object-cover"
               alt="Vehicle"
             />

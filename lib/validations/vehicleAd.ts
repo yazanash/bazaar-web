@@ -33,7 +33,7 @@ export const vehicleFormSchema = z.object({
     .array(
       z.object({
         id: z.number().default(0),
-        imagePath: z.string().min(1),
+        imageUrl: z.string().min(1),
         order: z.number(),
       }),
     )
