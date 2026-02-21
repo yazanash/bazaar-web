@@ -23,7 +23,11 @@ import {
   MotorSpecs,
 } from "@/types/filters";
 import { useSearchFilters } from "@/hooks/useSearchFilter";
-import { CityResponse, ManufacturerModelResponse } from "@/types/ad";
+import {
+  CityResponse,
+  ManufacturerModelResponse,
+  ManufacturerResponse,
+} from "@/types/ad";
 import { getMasters } from "@/lib/actions/masterData";
 export function SearchFilters() {
   const router = useRouter();
@@ -38,6 +42,9 @@ export function SearchFilters() {
   const [motorSpecs, setMotorSpecs] = useState<MotorSpecs>({});
   const [cities, setCities] = useState<CityResponse[]>([]);
   const [models, setModels] = useState<ManufacturerModelResponse[]>([]);
+  const [manufacturers, setManufacturers] = useState<ManufacturerResponse[]>(
+    [],
+  );
   const [isLoadingMaster, setIsLoadingMaster] = useState(false);
 
   const fetchMasterData = async () => {
@@ -47,6 +54,7 @@ export function SearchFilters() {
       const response = await getMasters();
       setCities(response.data?.cities ?? []);
       setModels(response.data?.models ?? []);
+      setManufacturers(response.data?.manufacturer ?? []);
     } catch (error) {
       console.error("Error fetching master data", error);
     } finally {
@@ -114,6 +122,7 @@ export function SearchFilters() {
             cities={cities}
             models={models}
             states={general}
+            manufacturers={manufacturers}
             setStates={(val) => setGeneral((prev) => ({ ...prev, ...val }))}
           />
 

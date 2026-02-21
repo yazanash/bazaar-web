@@ -114,7 +114,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
         />
         <FormField
           control={form.control}
-          name="truckSpecs.backstorageLenght"
+          name="truckSpecs.backstorageLength"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold">طول الصندوق الخلفي</FormLabel>

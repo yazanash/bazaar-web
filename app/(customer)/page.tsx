@@ -7,9 +7,10 @@ export default async function HomePage() {
   try {
     const data = await api.getHomeAds();
     const ads = data.items;
+    const adBanners =  await api.getAdBanners();
     return (
       <div className="py-2 space-y-8 max-w-full">
-        <PromoSlider />
+        <PromoSlider adBanners={adBanners}/>
         <Suspense fallback={<div>جاري التحميل...</div>}>
           <Categories />
         </Suspense>

@@ -14,8 +14,7 @@ import {
   MotorBodyType,
 } from "@/types/enums";
 const enumToZod = (e: any) => Object.values(e) as [string, ...string[]];
-// lib/validations/vehicleAd.ts
-// ... (الإستيرادات والدالة المساعدة كما هي)
+
 
 export const vehicleFormSchema = z.object({
   cityId: z.coerce.number().min(1),
@@ -68,7 +67,7 @@ export const vehicleFormSchema = z.object({
       truckBodyType: z.enum(enumToZod(TruckBodyType)).optional(),
       trucksUsageType: z.enum(enumToZod(TrucksUsageType)).optional(),
       axisCount: z.coerce.number().default(2),
-      backstorageLenght: z.coerce.number().default(0),
+      backstorageLength: z.coerce.number().default(0),
       backstorageHeight: z.coerce.number().default(0),
       isRegistered: z.boolean().default(false),
       payload: z.coerce.number().default(0),

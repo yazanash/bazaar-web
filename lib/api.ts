@@ -6,6 +6,7 @@ import {
   VehicleAdRequest,
   VehicleAdResponse,
 } from "@/types/ad";
+import { AdBannerResponse } from "@/types/adBanner";
 import { ProfileData } from "@/types/profile";
 import { cookies } from "next/headers";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -68,6 +69,11 @@ export const api = {
       cache: "no-store",
     });
   },
+  getAdBanners: async (): Promise<AdBannerResponse[]> => {
+    return fetchApi<AdBannerResponse[]>(`/AdBanners`, {
+      cache: "no-store",
+    });
+  },
   searchAds: async (
     queryString: string,
   ): Promise<PaginatedResponse<VehicleAdResponse>> => {
@@ -113,6 +119,11 @@ export const api = {
     return fetchApi<{ imageUrl: string }>("/MyAds/upload-image", {
       method: "POST",
       body: formData,
+    });
+  },
+  deleteAdById: async (id: number): Promise<{}> => {
+    return fetchApi<{}>(`/MyAds/${id}`, {
+      method: "DELETE",
     });
   },
   requestOtp: async (email: string): Promise<{ message: string }> => {

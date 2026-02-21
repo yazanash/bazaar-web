@@ -25,7 +25,8 @@ export default async function AddAdPage({
         <AddAdForm
           cities={master.data?.cities ?? []}
           models={master.data?.models ?? []}
-          initialData={adData.data?? undefined}
+          manufacturer={master.data?.manufacturer ?? []}
+          initialData={adData.data ?? undefined}
         />
       </div>
     </main>

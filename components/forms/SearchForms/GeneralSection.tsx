@@ -23,16 +23,27 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { CityResponse, ManufacturerModelResponse } from "@/types/ad";
+import {
+  CityResponse,
+  ManufacturerModelResponse,
+  ManufacturerResponse,
+} from "@/types/ad";
 
 interface Props {
   states: GeneralFilter;
   setStates: (val: Partial<GeneralFilter>) => void;
-  cities:CityResponse[];
-  models: ManufacturerModelResponse[]
+  cities: CityResponse[];
+  models: ManufacturerModelResponse[];
+  manufacturers: ManufacturerResponse[];
 }
 
-export const GeneralSection = ({ states, setStates,cities,models }: Props) => {
+export const GeneralSection = ({
+  states,
+  setStates,
+  cities,
+  models,
+  manufacturers,
+}: Props) => {
   return (
     <div className="space-y-8">
       <section className="space-y-3">
@@ -84,14 +95,36 @@ export const GeneralSection = ({ states, setStates,cities,models }: Props) => {
 
             <SelectContent className="z-200">
               {cities?.map((city) => (
-            <SelectItem key={city.id} value={String(city.id)}>
-              {city.arabicName}
-            </SelectItem>
-          ))}
+                <SelectItem key={city.id} value={String(city.id)}>
+                  {city.arabicName}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
-
+        <div className="space-y-2">
+          <Label className="text-sm font-bold text-slate-600 flex items-center gap-2">
+            <Search size={16} className="text-blue-500" /> المصنع
+          </Label>
+          <Select
+            value={states.ManufacturerId?.toString()}
+            onValueChange={(v) => setStates({ ManufacturerId: Number(v) })}
+          >
+            <SelectTrigger className="h-12 bg-slate-50 border-slate-200 rounded-xl font-bold">
+              <SelectValue placeholder="كل المصانع" />
+            </SelectTrigger>
+            <SelectContent className="z-200">
+              {manufacturers?.map((manufacturer) => (
+                <SelectItem
+                  key={manufacturer.id}
+                  value={String(manufacturer.id)}
+                >
+                  {manufacturer.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <div className="space-y-2">
           <Label className="text-sm font-bold text-slate-600 flex items-center gap-2">
             <Search size={16} className="text-blue-500" /> الماركة
@@ -104,11 +137,11 @@ export const GeneralSection = ({ states, setStates,cities,models }: Props) => {
               <SelectValue placeholder="كل الماركات" />
             </SelectTrigger>
             <SelectContent className="z-200">
-                {models?.map((model) => (
-            <SelectItem key={model.id} value={String(model.id)}>
-              {model.name}
-            </SelectItem>
-          ))}
+              {models?.map((model) => (
+                <SelectItem key={model.id} value={String(model.id)}>
+                  {model.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

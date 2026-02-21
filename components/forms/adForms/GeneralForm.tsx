@@ -17,7 +17,11 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { CityResponse, ManufacturerModelResponse } from "@/types/ad";
+import {
+  CityResponse,
+  ManufacturerModelResponse,
+  ManufacturerResponse,
+} from "@/types/ad";
 import { Category, FuelType, ArabicLabels } from "@/types/enums";
 import { UseFormReturn } from "react-hook-form";
 
@@ -25,17 +29,26 @@ interface GeneralSectionProps {
   form: UseFormReturn<any>;
   cities: CityResponse[];
   models: ManufacturerModelResponse[];
+  manufacturers: ManufacturerResponse[];
 }
 
-export function GeneralSection({ form, cities, models }: GeneralSectionProps) {
-
+export function GeneralSection({
+  form,
+  cities,
+  models,
+  manufacturers,
+}: GeneralSectionProps) {
   const selectedCategory = form.watch("category");
-  const isUsed = form.watch("IsUsed");
-
+  const selectedManufacturer = form.watch("manufacturerId");
+  const isUsed = form.watch("isUsed");
   const filteredModels = models?.filter(
-    (mod) => mod.category === selectedCategory
+    (mod) =>
+      mod.category === selectedCategory &&
+      mod.manufacturerId == selectedManufacturer,
   );
-
+  const filteredManufcturer = manufacturers?.filter((m) =>
+    m.supportedCategories.includes(selectedCategory),
+  );
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-black text-slate-800 border-r-4 border-blue-600 pr-3">
@@ -49,11 +62,11 @@ export function GeneralSection({ form, cities, models }: GeneralSectionProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold">نوع المركبة</FormLabel>
-              <Select 
+              <Select
                 onValueChange={(val) => {
                   field.onChange(val);
                   form.setValue("vehicleModelId", "");
-                }} 
+                }}
                 defaultValue={field.value}
               >
                 <FormControl>
@@ -73,13 +86,42 @@ export function GeneralSection({ form, cities, models }: GeneralSectionProps) {
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="manufacturerId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-bold">الماركة</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value?.toString()}
+              >
+                <FormControl>
+                  <SelectTrigger className="h-12 rounded-xl bg-slate-50 border-slate-200">
+                    <SelectValue placeholder="اختر المصنع" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="max-h-75 z-150">
+                  {filteredManufcturer?.map((manufacturer) => (
+                    <SelectItem
+                      key={manufacturer.id}
+                      value={manufacturer.id.toString()}
+                    >
+                      {manufacturer.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="vehicleModelId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">الماركة والموديل</FormLabel>
+              <FormLabel className="font-bold"> الموديل</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 value={field.value?.toString()}
@@ -87,7 +129,13 @@ export function GeneralSection({ form, cities, models }: GeneralSectionProps) {
               >
                 <FormControl>
                   <SelectTrigger className="h-12 rounded-xl bg-slate-50 border-slate-200">
-                    <SelectValue placeholder={selectedCategory ? "اختر الموديل..." : "اختر نوع المركبة أولاً"} />
+                    <SelectValue
+                      placeholder={
+                        selectedCategory
+                          ? "اختر الموديل..."
+                          : "اختر نوع المركبة أولاً"
+                      }
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="max-h-75">
@@ -157,12 +205,12 @@ export function GeneralSection({ form, cities, models }: GeneralSectionProps) {
             <FormItem>
               <FormLabel className="font-bold">سنة الصنع</FormLabel>
               <FormControl>
-                <Input 
-                   type="number" 
-                   {...field} 
-                   className="h-12 rounded-xl border-slate-200"
-                   min={1950}
-                   max={new Date().getFullYear() + 1}
+                <Input
+                  type="number"
+                  {...field}
+                  className="h-12 rounded-xl border-slate-200"
+                  min={1950}
+                  max={new Date().getFullYear() + 1}
                 />
               </FormControl>
               <FormMessage />
@@ -176,7 +224,11 @@ export function GeneralSection({ form, cities, models }: GeneralSectionProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold">نوع الوقود</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                value={field.value}
+              >
                 <FormControl>
                   <SelectTrigger className="h-12 rounded-xl border-slate-200">
                     <SelectValue placeholder="اختر الوقود" />
@@ -202,28 +254,16 @@ export function GeneralSection({ form, cities, models }: GeneralSectionProps) {
             <FormItem>
               <FormLabel className="font-bold">اللون</FormLabel>
               <FormControl>
-                <Input {...field} className="h-12 rounded-xl border-slate-200" placeholder="مثال: أسود ملوكي" />
+                <Input
+                  {...field}
+                  className="h-12 rounded-xl border-slate-200"
+                  placeholder="مثال: أسود ملوكي"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
-        {isUsed && (
-          <FormField
-            control={form.control}
-            name="usedKilometers"
-            render={({ field }) => (
-              <FormItem className="animate-in fade-in slide-in-from-top-2 duration-300">
-                <FormLabel className="font-bold">الكيلوميترات المقطوعة</FormLabel>
-                <FormControl>
-                  <Input type="number" {...field} className="h-12 rounded-xl border-slate-200" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
 
         <div className="grid grid-cols-2 gap-4 col-span-1 md:col-span-2">
           <FormField
@@ -231,7 +271,9 @@ export function GeneralSection({ form, cities, models }: GeneralSectionProps) {
             name="isUsed"
             render={({ field }) => (
               <FormItem className="flex flex-row items-center justify-between rounded-2xl border p-4 shadow-sm bg-white border-slate-100">
-                <FormLabel className="font-bold cursor-pointer text-slate-700">المركبة مستعملة؟</FormLabel>
+                <FormLabel className="font-bold cursor-pointer text-slate-700">
+                  المركبة مستعملة؟
+                </FormLabel>
                 <FormControl>
                   <Switch
                     checked={field.value}
@@ -241,13 +283,35 @@ export function GeneralSection({ form, cities, models }: GeneralSectionProps) {
               </FormItem>
             )}
           />
-
+          {isUsed && (
+            <FormField
+              control={form.control}
+              name="usedKilometers"
+              render={({ field }) => (
+                <FormItem className="animate-in fade-in slide-in-from-top-2 duration-300">
+                  <FormLabel className="font-bold">
+                    الكيلوميترات المقطوعة
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      className="h-12 rounded-xl border-slate-200"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <FormField
             control={form.control}
             name="installment"
             render={({ field }) => (
               <FormItem className="flex flex-row items-center justify-between rounded-2xl border p-4 shadow-sm bg-white border-slate-100">
-                <FormLabel className="font-bold cursor-pointer text-slate-700">قابلة للتقسيط؟</FormLabel>
+                <FormLabel className="font-bold cursor-pointer text-slate-700">
+                  قابلة للتقسيط؟
+                </FormLabel>
                 <FormControl>
                   <Switch
                     checked={field.value}
@@ -265,8 +329,8 @@ export function GeneralSection({ form, cities, models }: GeneralSectionProps) {
             <FormItem className="col-span-1 md:col-span-2">
               <FormLabel className="font-bold">وصف الإعلان</FormLabel>
               <FormControl>
-                <Textarea 
-                  {...field} 
+                <Textarea
+                  {...field}
                   className="rounded-2xl border-slate-200 bg-slate-50 focus:bg-white transition-colors"
                   placeholder="اكتب تفاصيل إضافية عن حالة المركبة والمميزات..."
                   rows={4}

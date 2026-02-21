@@ -1,14 +1,33 @@
+"use client";
 import {
   MapPin,
   Calendar,
   Heart,
   Share2,
   Clock,
-  GroupIcon
+  GroupIcon,
 } from "lucide-react";
 import { ArabicLabels, Category } from "@/types/enums";
 import { VehicleAdDetailsResponse } from "@/types/ad";
+import { useState } from "react";
+import { toggleFavoriteAction } from "@/lib/actions/ads";
 export function BasicInfoCard({ data }: { data: VehicleAdDetailsResponse }) {
+  const [isFavorite, setIsFavorite] = useState(data.isFavorite);
+  const handleShare = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (navigator.share) {
+      navigator.share({
+        title: data.vehicleModel.name,
+        url: `${window.location.origin}/${data.slug}`,
+      });
+    }
+  };
+
+  const handleFavorite = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFavorite(!isFavorite);
+    await toggleFavoriteAction(data.id);
+  };
   return (
     <section className="px-4">
       <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
@@ -19,7 +38,8 @@ export function BasicInfoCard({ data }: { data: VehicleAdDetailsResponse }) {
             </h1>
             <div className="flex items-center gap-3 text-slate-500 font-bold text-sm">
               <span className="flex items-center gap-1">
-                <GroupIcon size={14} /> {ArabicLabels.Category[data.category as Category]}
+                <GroupIcon size={14} />{" "}
+                {ArabicLabels.Category[data.category as Category]}
               </span>
               <span className="flex items-center gap-1">
                 <MapPin size={14} /> {data.city?.arabicName}
@@ -30,13 +50,13 @@ export function BasicInfoCard({ data }: { data: VehicleAdDetailsResponse }) {
             </div>
           </div>
           <div className="flex gap-2">
-            <button className="p-2 bg-slate-50 rounded-full hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors">
+            <button onClick={handleFavorite} className="p-2 bg-slate-50 rounded-full hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors">
               <Heart
                 size={20}
                 fill={data.isFavorite ? "currentColor" : "none"}
               />
             </button>
-            <button className="p-2 bg-slate-50 rounded-full hover:bg-blue-50 text-slate-400 hover:text-blue-500 transition-colors">
+            <button onClick={handleShare} className="p-2 bg-slate-50 rounded-full hover:bg-blue-50 text-slate-400 hover:text-blue-500 transition-colors">
               <Share2 size={20} />
             </button>
           </div>
@@ -50,7 +70,6 @@ export function BasicInfoCard({ data }: { data: VehicleAdDetailsResponse }) {
             <Clock size={12} />
           </div>
         </div>
-       
       </div>
     </section>
   );

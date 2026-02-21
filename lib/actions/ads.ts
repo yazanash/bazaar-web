@@ -27,15 +27,19 @@ export async function getAdBySlug(slug: string) {
 export async function createAd(payload: VehicleAdRequest) {
   try {
     const data = await api.createAd(payload);
+    revalidatePath("/myads");
+    revalidatePath("/");
     return { success: true, data };
   } catch (error) {
     console.error(error);
     return { success: true, data: null };
   }
 }
-export async function updateAd(id:number,payload: VehicleAdRequest) {
+export async function updateAd(id: number, payload: VehicleAdRequest) {
   try {
-    const data = await api.updateAd(id,payload);
+    const data = await api.updateAd(id, payload);
+    revalidatePath("/myads");
+    revalidatePath("/");
     return { success: true, data };
   } catch (error) {
     console.error(error);
@@ -66,6 +70,18 @@ export async function getUserAds() {
 export async function getAdById(id: number) {
   try {
     const data = await api.getAdById(id);
+    return { success: true, data };
+  } catch (error) {
+    console.error(error);
+    return { success: true, data: null };
+  }
+}
+
+export async function deleteAdById(id: number) {
+  try {
+    const data = await api.deleteAdById(id);
+    revalidatePath("/myads");
+    revalidatePath("/");
     return { success: true, data };
   } catch (error) {
     console.error(error);

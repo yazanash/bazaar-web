@@ -61,7 +61,7 @@ export const mapToVehicleRequest = (
             trucksUsageType: data.truckSpecs
               ?.trucksUsageType as TrucksUsageType,
             axisCount: Number(data.truckSpecs?.axisCount),
-            backstorageLenght: Number(data.truckSpecs?.backstorageLenght),
+            backstorageLength: Number(data.truckSpecs?.backstorageLength),
             backstorageHeight: Number(data.truckSpecs?.backstorageHeight),
             isRegistered: data.truckSpecs?.isRegistered,
             payload: data.truckSpecs?.payload,
@@ -121,7 +121,7 @@ export const mapResponseToForm = (data: VehicleAdRequest): any => {
             trucksUsageType: data.truckSpecs
               ?.trucksUsageType as TrucksUsageType,
             axisCount: Number(data.truckSpecs?.axisCount),
-            backstorageLenght: Number(data.truckSpecs?.backstorageLenght),
+            backstorageLength: Number(data.truckSpecs?.backstorageLength),
             backstorageHeight: Number(data.truckSpecs?.backstorageHeight),
             isRegistered: data.truckSpecs?.isRegistered,
             payload: data.truckSpecs?.payload,

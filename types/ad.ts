@@ -24,6 +24,12 @@ export interface ManufacturerModelResponse {
   id: number;
   name: string;
   category: string;
+  manufacturerId: number;
+}
+export interface ManufacturerResponse {
+  id: number;
+  name: string;
+  supportedCategories: Category[];
 }
 
 export interface VehicleAdResponse {
@@ -68,7 +74,7 @@ export interface CarSpecsResponse {
 }
 export interface TruckSpecsResponse {
   axisCount: number;
-  backstorageLenght: number;
+  backstorageLength: number;
   backstorageHeight: number;
   truckBodyType: TruckBodyType;
   trucksUsageType: TrucksUsageType;
@@ -112,6 +118,7 @@ export interface VehicleAdDetailsResponse {
 export interface Masters {
   cities: CityResponse[];
   models: ManufacturerModelResponse[];
+  manufacturer: ManufacturerResponse[];
 }
 export interface ImageRequest {
   id?: Number;
@@ -120,7 +127,7 @@ export interface ImageRequest {
 }
 
 export interface VehicleAdRequest {
-  id?:number;
+  id?: number;
   cityId: number;
   vehicleModelId: number;
   manufactureYear: number;

@@ -155,6 +155,7 @@ export function CarSpecsSection({ form }: { form: any }) {
                 <FormControl>
                   <Input
                     {...field}
+                    value={field.value ?? ""}
                     placeholder="اذكر التعديلات التي تمت على السيارة..."
                     className="h-12 rounded-xl"
                   />
@@ -174,6 +175,7 @@ export function CarSpecsSection({ form }: { form: any }) {
                 <Input
                   type="number"
                   {...field}
+                   value={field.value ?? 0}
                   className="h-12 rounded-xl border-slate-200"
                   placeholder="0"
                 />
@@ -192,6 +194,7 @@ export function CarSpecsSection({ form }: { form: any }) {
                 <Input
                   type="number"
                   {...field}
+                     value={field.value ?? 0}
                   className="h-12 rounded-xl border-slate-200"
                   placeholder="0"
                 />

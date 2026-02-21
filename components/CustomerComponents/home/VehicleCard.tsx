@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Heart, Share2, MapPin, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,11 +17,11 @@ export function VehicleCard({ ad }: VehicleCardProps) {
   };
 
   const handleShare = (e: React.MouseEvent) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     if (navigator.share) {
       navigator.share({
         title: ad.vehicleModel.name,
-        url: `${window.location.origin}/ads/${ad.slug}`,
+        url: `${window.location.origin}/${ad.slug}`,
       });
     }
   };
@@ -32,10 +32,11 @@ export function VehicleCard({ ad }: VehicleCardProps) {
     await toggleFavoriteAction(ad.id);
   };
   return (
-    <div onClick={handleCardClick} className= " cursor-pointer bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
-    
+    <div
+      onClick={handleCardClick}
+      className=" cursor-pointer bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
+    >
       <div className="relative aspect-170/100 bg-slate-200 flex items-center justify-center overflow-hidden">
-      
         <img
           src={getImageUrl(ad.thumbnail)}
           alt={ad.slug}
@@ -45,12 +46,12 @@ export function VehicleCard({ ad }: VehicleCardProps) {
 
       <div className="p-3 space-y-2" dir="rtl">
         <h3 className="text-base font-bold text-slate-800 truncate">
-         {ad.vehicleModel.name} - {ad.manufactureYear}
+          {ad.vehicleModel.name} - {ad.manufactureYear}
         </h3>
 
         <div className="flex flex-col items-start gap-1">
           <span className="text-lg font-black text-slate-900 leading-none">
-             ${ad.price.toLocaleString()}
+            ${ad.price.toLocaleString()}
           </span>
           <div className="flex items-center gap-1 text-slate-500">
             <MapPin size={14} />
@@ -60,13 +61,13 @@ export function VehicleCard({ ad }: VehicleCardProps) {
 
         <div className="flex items-center justify-between pt-1 border-t border-slate-50">
           <div className="flex gap-3 text-slate-400">
-            <button 
+            <button
               onClick={(e) => handleFavorite(e)}
               className={`transition-all active:scale-125 ${isFavorite ? "text-red-500" : "text-slate-300 hover:text-red-400"}`}
             >
               <Heart size={22} fill={isFavorite ? "currentColor" : "none"} />
             </button>
-            <button 
+            <button
               onClick={handleShare}
               className="text-slate-300 hover:text-blue-500 transition-colors active:scale-90"
             >
@@ -82,5 +83,4 @@ export function VehicleCard({ ad }: VehicleCardProps) {
       </div>
     </div>
   );
-  
 }
