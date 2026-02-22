@@ -40,7 +40,7 @@ const UserSettingsComp = () => {
         className="flex cursor-pointer w-full items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm"
       >
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-green-50 text-red-600 rounded-lg">
+          <div className="p-2 bg-red-50 text-red-600 rounded-lg">
             <LogOut size={20} />
           </div>
           <span className="font-black">تسجيل الخروج</span>
