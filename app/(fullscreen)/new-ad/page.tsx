@@ -1,7 +1,18 @@
 import AddAdForm from "@/components/forms/adForms/AddAdForm";
+import { NeedProfileBlock } from "@/components/NeedProfileBlock";
+import { UnauthorizedBlock } from "@/components/UnauthorizedBlock";
 import { getMasters } from "@/lib/actions/masterData";
+import { getProfileAction } from "@/lib/actions/profile";
+import { redirect } from "next/navigation";
 
 export default async function AddAdPage() {
+  const result = await getProfileAction();
+  if (result.status == 401) {
+    return <UnauthorizedBlock />;
+  }
+  if (result.status == 404) {
+   return <NeedProfileBlock />;
+  }
   const master = await getMasters();
   return (
     <main className="min-h-screen bg-slate-50 py-12 px-4">

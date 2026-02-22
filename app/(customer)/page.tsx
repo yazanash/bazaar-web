@@ -5,12 +5,13 @@ import { PromoSlider } from "@/components/CustomerComponents/home/PromoSlider";
 import { Suspense } from "react";
 export default async function HomePage() {
   try {
-    const data = await api.getHomeAds();
-    const ads = data.items;
-    const adBanners =  await api.getAdBanners();
+    const response = await api.getHomeAds();
+    const ads = response.data?.items;
+    const adBannerResponse = await api.getAdBanners();
+    const adBanners = adBannerResponse.data ?? [];
     return (
-      <div className="py-2 space-y-8 max-w-full">
-        <PromoSlider adBanners={adBanners}/>
+      <div className="space-y-8 max-w-full">
+        <PromoSlider adBanners={adBanners} />
         <Suspense fallback={<div>جاري التحميل...</div>}>
           <Categories />
         </Suspense>
@@ -20,7 +21,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-20">
-            {ads.map((ad) => (
+            {ads?.map((ad) => (
               <VehicleCard key={ad.id} ad={ad} />
             ))}
           </div>

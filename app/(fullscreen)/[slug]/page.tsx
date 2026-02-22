@@ -11,7 +11,7 @@ export default async function AdDetailsPage({
   try {
     const adData = await getAdBySlug(slug);
 
-    if (!adData.data) {
+    if (adData.status == 404) {
       return notFound();
     }
 

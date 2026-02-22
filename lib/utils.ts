@@ -21,3 +21,10 @@ export function createUrl(
   const queryString = `${paramsString.length ? "?" : ""}${paramsString}`;
   return `${pathname}${queryString}`;
 }
+
+export interface ApiResponse<T> {
+  data: T | null;
+  status: number;
+  message: string | null;
+  success: boolean;
+}

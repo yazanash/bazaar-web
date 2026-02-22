@@ -7,24 +7,17 @@ export async function saveProfileAction(
   formData: ProfileData,
   isUpdate: boolean,
 ) {
-  try {
-    if (isUpdate) {
-      await api.updateProfile(formData);
-    } else {
-      await api.createProfile(formData);
-    }
+  if (isUpdate) {
+    const response = await api.updateProfile(formData);
     revalidatePath("/profile");
-    return { success: true };
-  } catch (e) {
-    return { success: false };
+    return response;
+  } else {
+    const response = await api.createProfile(formData);
+    revalidatePath("/profile");
+    return response;
   }
 }
 export async function getProfileAction() {
-  try {
-    const data = await api.getProfile();
-    return { success: true, data , status: 200};
-  } catch (e: any) {
-    return { success: false, data: null , 
-      status: e.response?.status || 500};
-  }
+  const response = await api.getProfile();
+  return response;
 }

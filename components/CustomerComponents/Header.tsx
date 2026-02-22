@@ -25,7 +25,7 @@ export function UnifiedHeader() {
           <HeaderLink href="/" icon={<Home size={20} />} label="الرئيسية" />
           <HeaderLink href="/myads" icon={<Plus size={20} />} label="إعلاناتي" />
           <HeaderLink href="/favorites" icon={<Heart size={20} />} label="المفضلة" />
-          <HeaderLink href="/profile" icon={<User size={20} />} label="حسابي" />
+          <HeaderLink href="/user-settings" icon={<User size={20} />} label="حسابي" />
         </nav>
 
         {/* زر المفضل للموبايل فقط (عشان ما يختفي الهيدر) */}

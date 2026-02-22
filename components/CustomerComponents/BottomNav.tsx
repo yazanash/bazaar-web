@@ -8,7 +8,7 @@ export function MaterialNavBar() {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/profile", icon: User, label: "حسابي" },
+    { href: "/user-settings", icon: User, label: "حسابي" },
     { href: "/", icon: Home, label: "الرئيسية" },
     { href: "/myads", icon: Plus, label: "إعلاناتي" },
   ];

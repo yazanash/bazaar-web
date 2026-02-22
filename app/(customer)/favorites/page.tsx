@@ -1,4 +1,4 @@
-import { api } from "@/lib/api"; 
+import { api } from "@/lib/api";
 import { VehicleCard } from "@/components/CustomerComponents/home/VehicleCard";
 import { HeartOff } from "lucide-react";
 import Link from "next/link";
@@ -6,15 +6,25 @@ import { Button } from "@/components/ui/button";
 import { UnauthorizedBlock } from "@/components/UnauthorizedBlock";
 
 export default async function FavoritesPage() {
-
   let favoritesData = null;
   try {
-    favoritesData = await api.getFavorites();
-  } catch (error:any) {
+    const response = await api.getFavorites();
+    if (response.status == 200) {
+      favoritesData = response.data;
+    }
+    if(response.status == 401){
+        return <UnauthorizedBlock />;
+    }
+    
+  } catch (error: any) {
     if (error.message.includes("401")) {
       return <UnauthorizedBlock />;
     }
-    return <div className="text-center py-20 font-bold text-red-500">حدث خطأ أثناء تحميل البيانات.</div>;
+    return (
+      <div className="text-center py-20 font-bold text-red-500">
+        حدث خطأ أثناء تحميل البيانات.
+      </div>
+    );
   }
 
   const ads = favoritesData?.items || [];

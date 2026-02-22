@@ -2,10 +2,18 @@ import { UserAdCard } from "@/components/UserAdsComponents/UserAdCard";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { getUserAds } from "@/lib/actions/ads";
+import { UnauthorizedBlock } from "@/components/UnauthorizedBlock";
 import { UserAdsResponse } from "@/types/ad";
+import WalletCard from "@/components/UserWallet";
+import { getUserWallet } from "@/lib/actions/userWallet";
 export default async function MyAdsPage() {
-  const data = await getUserAds();
-  const ads = data.data;
+  const walletResult = await getUserWallet();
+  const wallet = walletResult.data;
+  const response = await getUserAds();
+  if (response.status == 401) {
+    return <UnauthorizedBlock />;
+  }
+  const ads = response.data;
   if (!ads)
     return (
       <h1>
@@ -28,8 +36,8 @@ export default async function MyAdsPage() {
           </div>
         </Link>
       </div>
-      {/* القائمة */}
-      <div className="max-w-2xl mx-auto space-y-4">
+      {wallet && <WalletCard UserWallet={wallet} />}
+      <div className="max-w-2xl mt-2 mx-auto space-y-4">
         {ads.items.map((item: UserAdsResponse) => (
           <UserAdCard key={item.vehicleAdResponse.id} ad={item} />
         ))}

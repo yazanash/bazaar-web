@@ -13,8 +13,8 @@ export default async function SearchPage({
   let ads: VehicleAdResponse[] = [];
   if (hasFilters) {
     const query = new URLSearchParams(params).toString();
-    const data = await api.searchAds(query);
-    ads = data.items;
+    const response = await api.searchAds(query);
+    ads = response.data?.items??[];
   }
 
   return (

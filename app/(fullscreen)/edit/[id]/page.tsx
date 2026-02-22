@@ -9,7 +9,7 @@ export default async function AddAdPage({
   const { id } = await params;
   const adData = await getAdById(Number(id));
   const master = await getMasters();
-  if (!adData) {
+  if (adData.status == 404) {
     return <h1>Not found</h1>;
   }
   return (

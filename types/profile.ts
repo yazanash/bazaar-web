@@ -7,3 +7,9 @@ export interface ProfileData {
   sellerType: SellerType;
   birthDate: Date | string;
 }
+
+export interface UserWalletResponse{
+  adsLimit:number;
+  featureLimits :number;
+  expiryDate:string; 
+}

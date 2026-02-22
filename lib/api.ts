@@ -7,14 +7,15 @@ import {
   VehicleAdResponse,
 } from "@/types/ad";
 import { AdBannerResponse } from "@/types/adBanner";
-import { ProfileData } from "@/types/profile";
+import { ProfileData, UserWalletResponse } from "@/types/profile";
 import { cookies } from "next/headers";
+import { ApiResponse } from "./utils";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function fetchApi<T>(
   endpoint: string,
   options?: RequestInit,
-): Promise<T> {
+): Promise<ApiResponse<T>> {
   let token: string | undefined;
   try {
     const cookieStore = await cookies();
@@ -27,22 +28,47 @@ async function fetchApi<T>(
   if (!(options?.body instanceof FormData)) {
     headers["Content-Type"] = "application/json";
   }
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
-  if (!res.ok) {
-    console.error(`API Error: ${res.status} - ${res.statusText} `);
-    throw new Error(`API Error: ${res.status} - ${res.statusText}`);
-  }
+  try {
+    const res = await fetch(`${BASE_URL}${endpoint}`, {
+      ...options,
+      headers,
+    });
+    const status = res.status;
+    let resultData = null;
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      resultData = await res.json();
+    }
 
-  return res.json();
+    if (!res.ok) {
+      return {
+        data: null,
+        status: status,
+        message: resultData?.message || `خطأ في الطلب: ${res.statusText}`,
+        success: false,
+      };
+    }
+
+    return {
+      data: resultData as T,
+      status: status,
+      message: "تمت العملية بنجاح",
+      success: true,
+    };
+  } catch (error: any) {
+    return {
+      data: null,
+      status: 500,
+      message: error.message || "حدث خطأ غير متوقع في الخادم",
+      success: false,
+    };
+  }
 }
 
 export const api = {
   getHomeAds: async (
     page = 1,
-  ): Promise<PaginatedResponse<VehicleAdResponse>> => {
+  ): Promise<ApiResponse<PaginatedResponse<VehicleAdResponse>>> => {
     return fetchApi<PaginatedResponse<VehicleAdResponse>>(
       `/ads/home?pageNumber=${page}&pageSize=10`,
       {
@@ -50,7 +76,16 @@ export const api = {
       },
     );
   },
-  getUserAds: async (page = 1): Promise<PaginatedResponse<UserAdsResponse>> => {
+    getUserWallet: async (
+  ): Promise<ApiResponse<UserWalletResponse>> => {
+    return fetchApi<UserWalletResponse>(
+      `/Packages/my`,
+      {
+        next: { revalidate: 60 },
+      },
+    );
+  },
+  getUserAds: async (page = 1): Promise<ApiResponse<PaginatedResponse<UserAdsResponse>>> => {
     return fetchApi<PaginatedResponse<UserAdsResponse>>(
       `/MyAds?pageNumber=${page}&pageSize=10`,
       {
@@ -59,24 +94,24 @@ export const api = {
     );
   },
 
-  getAdBySlug: async (slug: string): Promise<VehicleAdDetailsResponse> => {
+  getAdBySlug: async (slug: string): Promise<ApiResponse<VehicleAdDetailsResponse>> => {
     return fetchApi<VehicleAdDetailsResponse>(`/ads/ad/${slug}`, {
       cache: "no-store",
     });
   },
-  getAdById: async (id: number): Promise<VehicleAdRequest> => {
+  getAdById: async (id: number): Promise<ApiResponse<VehicleAdRequest>> => {
     return fetchApi<VehicleAdRequest>(`/myads/${id}`, {
       cache: "no-store",
     });
   },
-  getAdBanners: async (): Promise<AdBannerResponse[]> => {
+  getAdBanners: async (): Promise<ApiResponse<AdBannerResponse[]>> => {
     return fetchApi<AdBannerResponse[]>(`/AdBanners`, {
       cache: "no-store",
     });
   },
   searchAds: async (
     queryString: string,
-  ): Promise<PaginatedResponse<VehicleAdResponse>> => {
+  ): Promise<ApiResponse<PaginatedResponse<VehicleAdResponse>>> => {
     return fetchApi<PaginatedResponse<VehicleAdResponse>>(
       `/ads/search?${queryString}`,
       {
@@ -84,23 +119,23 @@ export const api = {
       },
     );
   },
-  getFavorites: async (): Promise<PaginatedResponse<VehicleAdResponse>> => {
+  getFavorites: async (): Promise<ApiResponse<PaginatedResponse<VehicleAdResponse>>> => {
     return fetchApi<PaginatedResponse<VehicleAdResponse>>("/ads/favorites", {
       cache: "no-store",
     });
   },
-  getMasters: async (): Promise<Masters> => {
+  getMasters: async (): Promise<ApiResponse<Masters>> => {
     return fetchApi<Masters>("/Masters", {
       cache: "no-store",
     });
   },
-  toggleFavorite: async (id: number): Promise<{ message: string }> => {
+  toggleFavorite: async (id: number): Promise<ApiResponse<{ message: string }>> => {
     return fetchApi<{ message: string }>("/Ads/Like", {
       method: "POST",
       body: JSON.stringify({ id }),
     });
   },
-  createAd: async (payload: VehicleAdRequest): Promise<{ message: string }> => {
+  createAd: async (payload: VehicleAdRequest): Promise<ApiResponse<{ message: string }>> => {
     return fetchApi<{ message: string }>("/MyAds", {
       method: "POST",
       body: JSON.stringify(payload),
@@ -109,31 +144,31 @@ export const api = {
   updateAd: async (
     id: number,
     payload: VehicleAdRequest,
-  ): Promise<{ message: string }> => {
+  ): Promise<ApiResponse<{ message: string }>> => {
     return fetchApi<{ message: string }>(`/MyAds/${id}`, {
       method: "PUT",
       body: JSON.stringify(payload),
     });
   },
-  uploadImage: async (formData: FormData): Promise<{ imageUrl: string }> => {
+  uploadImage: async (formData: FormData): Promise<ApiResponse<{ imageUrl: string }>> => {
     return fetchApi<{ imageUrl: string }>("/MyAds/upload-image", {
       method: "POST",
       body: formData,
     });
   },
-  deleteAdById: async (id: number): Promise<{}> => {
+  deleteAdById: async (id: number): Promise<ApiResponse<{}>> => {
     return fetchApi<{}>(`/MyAds/${id}`, {
       method: "DELETE",
     });
   },
-  requestOtp: async (email: string): Promise<{ message: string }> => {
+  requestOtp: async (email: string): Promise<ApiResponse<{ message: string }>> => {
     return fetchApi<{ message: string }>("/Authentication/RequestOtp", {
       method: "POST",
       body: JSON.stringify({ email }),
     });
   },
 
-  verifyOtp: async (email: string, otp: string): Promise<{ token: string }> => {
+  verifyOtp: async (email: string, otp: string): Promise<ApiResponse<{ token: string }>> => {
     return fetchApi<{ token: string }>("/Authentication/VerifyOtp", {
       method: "POST",
       body: JSON.stringify({ email, otp }),
