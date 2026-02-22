@@ -38,7 +38,7 @@ export function MaterialNavBar() {
                 className={cn(
                   "relative px-6 py-1.5 rounded-full transition-all duration-300",
                   isActive
-                    ? "bg-cyan-100 text-cyan-900"
+                    ? "bg-yellow-200-100 text-cyan-900"
                     : "text-gray-500 group-hover:bg-gray-100",
                 )}
               >
