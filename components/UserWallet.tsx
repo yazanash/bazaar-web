@@ -13,7 +13,7 @@ export default function WalletCard({ UserWallet }: UserWalletProps) {
   });
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center shadow-sm">
+    <div className="mb-5 bg-white border border-slate-100 rounded-2xl p-4 flex items-center shadow-sm">
       {/* 1. اللوغو عاليسار (أو اليمين حسب الـ RTL) */}
       <div className="shrink-0 w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
         <LayoutGrid size={20} /> 
