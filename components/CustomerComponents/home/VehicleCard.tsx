@@ -5,6 +5,7 @@ import { useState } from "react";
 import { VehicleAdResponse } from "@/types/ad";
 import { getImageUrl } from "@/lib/utils";
 import { toggleFavoriteAction } from "@/lib/actions/ads";
+import Link from "next/link";
 interface VehicleCardProps {
   ad: VehicleAdResponse;
 }
@@ -32,8 +33,8 @@ export function VehicleCard({ ad }: VehicleCardProps) {
     await toggleFavoriteAction(ad.id);
   };
   return (
-    <div
-      onClick={handleCardClick}
+    <Link
+      href={`/${ad.slug}`}
       className=" cursor-pointer bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
     >
       <div className="relative aspect-170/100 bg-slate-200 flex items-center justify-center overflow-hidden">
@@ -81,6 +82,6 @@ export function VehicleCard({ ad }: VehicleCardProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

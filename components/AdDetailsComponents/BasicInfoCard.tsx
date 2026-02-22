@@ -50,13 +50,16 @@ export function BasicInfoCard({ data }: { data: VehicleAdDetailsResponse }) {
             </div>
           </div>
           <div className="flex gap-2">
-            <button onClick={handleFavorite} className="p-2 bg-slate-50 rounded-full hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors">
-              <Heart
-                size={20}
-                fill={data.isFavorite ? "currentColor" : "none"}
-              />
+            <button
+              onClick={(e) => handleFavorite(e)}
+              className={`transition-all active:scale-125 ${isFavorite ? "text-red-500" : "text-slate-300 hover:text-red-400"}`}
+            >
+              <Heart size={22} fill={isFavorite ? "currentColor" : "none"} />
             </button>
-            <button onClick={handleShare} className="p-2 bg-slate-50 rounded-full hover:bg-blue-50 text-slate-400 hover:text-blue-500 transition-colors">
+            <button
+              onClick={handleShare}
+              className="p-2 bg-slate-50 rounded-full hover:bg-blue-50 text-slate-400 hover:text-blue-500 transition-colors"
+            >
               <Share2 size={20} />
             </button>
           </div>
