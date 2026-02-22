@@ -29,7 +29,9 @@ export default function RootLayout({
       >
           <NextTopLoader
           color="#0095A6"
+          height={4}
           showSpinner={false}
+          zIndex={999999}
           shadow="0 0 10px #0095A6,0 0 5px #0095A6"
         />
         {children}
