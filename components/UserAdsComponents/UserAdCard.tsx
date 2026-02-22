@@ -3,6 +3,7 @@ import { MapPin, Eye, Heart } from "lucide-react";
 import { getImageUrl } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { UserAdsResponse } from "@/types/ad";
+import Link from "next/link";
 export function UserAdCard({ ad }: { ad: UserAdsResponse }) {
   const router = useRouter();
   const getStatusConfig = (status: string) => {
@@ -32,12 +33,10 @@ export function UserAdCard({ ad }: { ad: UserAdsResponse }) {
 
   const status = getStatusConfig(ad.pubStatus);
   const vehicle = ad.vehicleAdResponse;
-  const handleCardClick = () => {
-    router.push(`/edit/${ad.vehicleAdResponse.id}`);
-  };
+ 
   return (
-    <div
-      onClick={handleCardClick}
+    <Link
+      href={`/edit/${ad.vehicleAdResponse.id}`}
       className=" cursor-pointer bg-white rounded-[2rem] p-3 shadow-sm border border-slate-100 mb-4 flex gap-4 relative overflow-hidden"
     >
       <div className="relative w-32 h-32 shrink-0 overflow-hidden rounded-3xl">
@@ -83,6 +82,6 @@ export function UserAdCard({ ad }: { ad: UserAdsResponse }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

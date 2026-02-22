@@ -28,7 +28,7 @@ export function Categories() {
   ];
 
   return (
-    <div className="px-4 py-4">
+    <div className="px-4 py-1">
       <div className="flex gap-3">
         {cats.map((item) => {
           const Icon = item.icon;
