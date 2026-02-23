@@ -31,7 +31,7 @@ export function MotorSpecsSection({ form }: { form: any }) {
               <FormLabel>ناقل الحركة</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-blue-100">
+                  <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
                     <SelectValue placeholder="آلي / عادي" />
                   </SelectTrigger>
                 </FormControl>
@@ -55,7 +55,7 @@ export function MotorSpecsSection({ form }: { form: any }) {
               <FormLabel>نوع الهيكل</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-blue-100">
+                  <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
                     <SelectValue placeholder="اختر نوع الهيكل" />
                   </SelectTrigger>
                 </FormControl>
@@ -75,7 +75,7 @@ export function MotorSpecsSection({ form }: { form: any }) {
           control={form.control}
           name="motorSpecs.isModified"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-xl border p-3 shadow-sm bg-white">
+            <FormItem className="flex w-full flex-row items-center justify-between rounded-xl border p-3 shadow-sm bg-white">
               <div className="space-y-0.5">
                 <FormLabel>هل المركبة معدلة؟</FormLabel>
               </div>
@@ -89,18 +89,18 @@ export function MotorSpecsSection({ form }: { form: any }) {
           )}
         />
 
-        {form.watch("motorSpecs.IsModified") && (
+        {form.watch("motorSpecs.isModified") && (
           <FormField
             control={form.control}
-            name="motorSpecs.ةodificationDescription"
+            name="motorSpecs.modificationDescription"
             render={({ field }) => (
               <FormItem className="col-span-full">
                 <FormLabel>تفاصيل التعديل</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="اذكر التعديلات التي تمت على السيارة..."
-                    className="h-12 rounded-xl"
+                    placeholder="اذكر التعديلات التي تمت على الدراجة..."
+                    className="h-12  w-full rounded-xl"
                   />
                 </FormControl>
                 <FormMessage />

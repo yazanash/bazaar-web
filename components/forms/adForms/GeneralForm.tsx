@@ -70,7 +70,7 @@ export function GeneralSection({
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl bg-slate-50 border-slate-200">
+                  <SelectTrigger className="h-12 w-full text-center rounded-xl bg-slate-50 border-slate-200">
                     <SelectValue placeholder="اختر الفئة" />
                   </SelectTrigger>
                 </FormControl>
@@ -97,7 +97,7 @@ export function GeneralSection({
                 value={field.value?.toString()}
               >
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl bg-slate-50 border-slate-200">
+                  <SelectTrigger className="h-12 w-full rounded-xl bg-slate-50 border-slate-200">
                     <SelectValue placeholder="اختر المصنع" />
                   </SelectTrigger>
                 </FormControl>
@@ -128,7 +128,7 @@ export function GeneralSection({
                 disabled={!selectedCategory}
               >
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl bg-slate-50 border-slate-200">
+                  <SelectTrigger className="h-12 w-full rounded-xl bg-slate-50 border-slate-200">
                     <SelectValue
                       placeholder={
                         selectedCategory
@@ -161,7 +161,7 @@ export function GeneralSection({
                 <Input
                   type="number"
                   {...field}
-                  className="h-12 rounded-xl border-slate-200"
+                  className="h-12 rounded-xl  w-full border-slate-200"
                   placeholder="0.00"
                 />
               </FormControl>
@@ -181,7 +181,7 @@ export function GeneralSection({
                 value={field.value?.toString()}
               >
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-slate-200">
+                  <SelectTrigger className="h-12  w-full rounded-xl border-slate-200">
                     <SelectValue placeholder="اختر المدينة" />
                   </SelectTrigger>
                 </FormControl>
@@ -208,7 +208,7 @@ export function GeneralSection({
                 <Input
                   type="number"
                   {...field}
-                  className="h-12 rounded-xl border-slate-200"
+                  className="h-12 w-full rounded-xl border-slate-200"
                   min={1950}
                   max={new Date().getFullYear() + 1}
                 />
@@ -230,7 +230,7 @@ export function GeneralSection({
                 value={field.value}
               >
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-slate-200">
+                  <SelectTrigger className="h-12 w-full rounded-xl border-slate-200">
                     <SelectValue placeholder="اختر الوقود" />
                   </SelectTrigger>
                 </FormControl>
@@ -256,7 +256,7 @@ export function GeneralSection({
               <FormControl>
                 <Input
                   {...field}
-                  className="h-12 rounded-xl border-slate-200"
+                  className="h-12 w-full rounded-xl border-slate-200"
                   placeholder="مثال: أسود ملوكي"
                 />
               </FormControl>
@@ -270,7 +270,7 @@ export function GeneralSection({
             control={form.control}
             name="isUsed"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-2xl border p-4 shadow-sm bg-white border-slate-100">
+              <FormItem className="flex flex-row w-full items-center justify-between rounded-2xl border p-4 shadow-sm bg-white border-slate-100">
                 <FormLabel className="font-bold cursor-pointer text-slate-700">
                   المركبة مستعملة؟
                 </FormLabel>
@@ -288,7 +288,7 @@ export function GeneralSection({
               control={form.control}
               name="usedKilometers"
               render={({ field }) => (
-                <FormItem className="animate-in fade-in slide-in-from-top-2 duration-300">
+                <FormItem className="animate-in w-full fade-in slide-in-from-top-2 duration-300">
                   <FormLabel className="font-bold">
                     الكيلوميترات المقطوعة
                   </FormLabel>
@@ -296,7 +296,7 @@ export function GeneralSection({
                     <Input
                       type="number"
                       {...field}
-                      className="h-12 rounded-xl border-slate-200"
+                      className="h-12 rounded-xl w-full border-slate-200"
                     />
                   </FormControl>
                   <FormMessage />
@@ -308,7 +308,7 @@ export function GeneralSection({
             control={form.control}
             name="installment"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-2xl border p-4 shadow-sm bg-white border-slate-100">
+              <FormItem className="flex w-full flex-row items-center justify-between rounded-2xl border p-4 shadow-sm bg-white border-slate-100">
                 <FormLabel className="font-bold cursor-pointer text-slate-700">
                   قابلة للتقسيط؟
                 </FormLabel>
@@ -331,7 +331,7 @@ export function GeneralSection({
               <FormControl>
                 <Textarea
                   {...field}
-                  className="rounded-2xl border-slate-200 bg-slate-50 focus:bg-white transition-colors"
+                  className="rounded-2xl  w-full border-slate-200 bg-slate-50 focus:bg-white transition-colors"
                   placeholder="اكتب تفاصيل إضافية عن حالة المركبة والمميزات..."
                   rows={4}
                 />

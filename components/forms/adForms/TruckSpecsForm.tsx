@@ -35,7 +35,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
               <FormLabel>نوع الهيكل</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-blue-100">
+                  <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
                     <SelectValue placeholder="اختر نوع الهيكل" />
                   </SelectTrigger>
                 </FormControl>
@@ -59,7 +59,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
               <FormLabel>نوع الاسنخدام</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-blue-100">
+                  <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
                     <SelectValue placeholder="اختر نوع الاستخدام" />
                   </SelectTrigger>
                 </FormControl>
@@ -80,7 +80,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
           control={form.control}
           name="carSpecs.isRegistered"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-xl border p-3 shadow-sm bg-white">
+            <FormItem className="flex w-full flex-row items-center justify-between rounded-xl border p-3 shadow-sm bg-white">
               <div className="space-y-0.5">
                 <FormLabel>هل المركبة مسجلة؟</FormLabel>
               </div>
@@ -104,7 +104,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
                 <Input
                   type="number"
                   {...field}
-                  className="h-12 rounded-xl border-slate-200"
+                  className="h-12 w-full rounded-xl border-slate-200"
                   placeholder="0"
                 />
               </FormControl>
@@ -122,7 +122,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
                 <Input
                   type="number"
                   {...field}
-                  className="h-12 rounded-xl border-slate-200"
+                  className="h-12 w-full rounded-xl border-slate-200"
                   placeholder="0"
                 />
               </FormControl>
@@ -140,7 +140,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
                 <Input
                   type="number"
                   {...field}
-                  className="h-12 rounded-xl border-slate-200"
+                  className="h-12 w-full rounded-xl border-slate-200"
                   placeholder="0"
                 />
               </FormControl>
@@ -158,7 +158,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
                 <Input
                   type="number"
                   {...field}
-                  className="h-12 rounded-xl border-slate-200"
+                  className="h-12 w-full rounded-xl border-slate-200"
                   placeholder="0"
                 />
               </FormControl>

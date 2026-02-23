@@ -38,7 +38,7 @@ export function CarSpecsSection({ form }: { form: any }) {
               <FormLabel>ناقل الحركة</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-blue-100">
+                  <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
                     <SelectValue placeholder="آلي / عادي" />
                   </SelectTrigger>
                 </FormControl>
@@ -62,7 +62,7 @@ export function CarSpecsSection({ form }: { form: any }) {
               <FormLabel>الهيكل</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-blue-100">
+                  <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
                     <SelectValue placeholder="اختر نوع الهيكل" />
                   </SelectTrigger>
                 </FormControl>
@@ -87,7 +87,7 @@ export function CarSpecsSection({ form }: { form: any }) {
               <FormLabel>التسجيل</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-blue-100">
+                  <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
                     <SelectValue placeholder="اختر نوع التسجيل" />
                   </SelectTrigger>
                 </FormControl>
@@ -111,7 +111,7 @@ export function CarSpecsSection({ form }: { form: any }) {
               <FormLabel>نظام الدفع</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-blue-100">
+                  <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
                     <SelectValue placeholder="اختر نظام الدفع " />
                   </SelectTrigger>
                 </FormControl>
@@ -131,7 +131,7 @@ export function CarSpecsSection({ form }: { form: any }) {
           control={form.control}
           name="carSpecs.isModified"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-xl border p-3 shadow-sm bg-white">
+            <FormItem className="flex w-full flex-row items-center justify-between rounded-xl border p-3 shadow-sm bg-white">
               <div className="space-y-0.5">
                 <FormLabel>هل المركبة معدلة؟</FormLabel>
               </div>
@@ -157,7 +157,7 @@ export function CarSpecsSection({ form }: { form: any }) {
                     {...field}
                     value={field.value ?? ""}
                     placeholder="اذكر التعديلات التي تمت على السيارة..."
-                    className="h-12 rounded-xl"
+                    className="h-12 w-full rounded-xl"
                   />
                 </FormControl>
                 <FormMessage />
@@ -175,8 +175,8 @@ export function CarSpecsSection({ form }: { form: any }) {
                 <Input
                   type="number"
                   {...field}
-                   value={field.value ?? 0}
-                  className="h-12 rounded-xl border-slate-200"
+                  value={field.value ?? 0}
+                  className="h-12 w-full rounded-xl border-slate-200"
                   placeholder="0"
                 />
               </FormControl>
@@ -194,8 +194,8 @@ export function CarSpecsSection({ form }: { form: any }) {
                 <Input
                   type="number"
                   {...field}
-                     value={field.value ?? 0}
-                  className="h-12 rounded-xl border-slate-200"
+                  value={field.value ?? 0}
+                  className="h-12 w-full rounded-xl border-slate-200"
                   placeholder="0"
                 />
               </FormControl>
@@ -211,7 +211,7 @@ export function CarSpecsSection({ form }: { form: any }) {
               <FormLabel>نوع الاستخدام</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl border-blue-100">
+                  <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
                     <SelectValue placeholder="اختر نوع الاستخدام " />
                   </SelectTrigger>
                 </FormControl>

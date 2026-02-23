@@ -10,6 +10,7 @@ import { AdBannerResponse } from "@/types/adBanner";
 import { ProfileData, UserWalletResponse } from "@/types/profile";
 import { cookies } from "next/headers";
 import { ApiResponse } from "./utils";
+import { Package } from "@/types/package";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function fetchApi<T>(
@@ -76,16 +77,19 @@ export const api = {
       },
     );
   },
-    getUserWallet: async (
-  ): Promise<ApiResponse<UserWalletResponse>> => {
-    return fetchApi<UserWalletResponse>(
-      `/Packages/my`,
-      {
-        next: { revalidate: 60 },
-      },
-    );
+  getPackages: async (): Promise<ApiResponse<Package[]>> => {
+    return fetchApi<Package[]>(`/Packages`, {
+      next: { revalidate: 60 },
+    });
   },
-  getUserAds: async (page = 1): Promise<ApiResponse<PaginatedResponse<UserAdsResponse>>> => {
+  getUserWallet: async (): Promise<ApiResponse<UserWalletResponse>> => {
+    return fetchApi<UserWalletResponse>(`/Packages/my`, {
+      next: { revalidate: 60 },
+    });
+  },
+  getUserAds: async (
+    page = 1,
+  ): Promise<ApiResponse<PaginatedResponse<UserAdsResponse>>> => {
     return fetchApi<PaginatedResponse<UserAdsResponse>>(
       `/MyAds?pageNumber=${page}&pageSize=10`,
       {
@@ -94,7 +98,9 @@ export const api = {
     );
   },
 
-  getAdBySlug: async (slug: string): Promise<ApiResponse<VehicleAdDetailsResponse>> => {
+  getAdBySlug: async (
+    slug: string,
+  ): Promise<ApiResponse<VehicleAdDetailsResponse>> => {
     return fetchApi<VehicleAdDetailsResponse>(`/ads/ad/${slug}`, {
       cache: "no-store",
     });
@@ -119,7 +125,9 @@ export const api = {
       },
     );
   },
-  getFavorites: async (): Promise<ApiResponse<PaginatedResponse<VehicleAdResponse>>> => {
+  getFavorites: async (): Promise<
+    ApiResponse<PaginatedResponse<VehicleAdResponse>>
+  > => {
     return fetchApi<PaginatedResponse<VehicleAdResponse>>("/ads/favorites", {
       cache: "no-store",
     });
@@ -129,13 +137,17 @@ export const api = {
       cache: "no-store",
     });
   },
-  toggleFavorite: async (id: number): Promise<ApiResponse<{ message: string }>> => {
+  toggleFavorite: async (
+    id: number,
+  ): Promise<ApiResponse<{ message: string }>> => {
     return fetchApi<{ message: string }>("/Ads/Like", {
       method: "POST",
       body: JSON.stringify({ id }),
     });
   },
-  createAd: async (payload: VehicleAdRequest): Promise<ApiResponse<{ message: string }>> => {
+  createAd: async (
+    payload: VehicleAdRequest,
+  ): Promise<ApiResponse<{ message: string }>> => {
     return fetchApi<{ message: string }>("/MyAds", {
       method: "POST",
       body: JSON.stringify(payload),
@@ -150,7 +162,9 @@ export const api = {
       body: JSON.stringify(payload),
     });
   },
-  uploadImage: async (formData: FormData): Promise<ApiResponse<{ imageUrl: string }>> => {
+  uploadImage: async (
+    formData: FormData,
+  ): Promise<ApiResponse<{ imageUrl: string }>> => {
     return fetchApi<{ imageUrl: string }>("/MyAds/upload-image", {
       method: "POST",
       body: formData,
@@ -161,14 +175,19 @@ export const api = {
       method: "DELETE",
     });
   },
-  requestOtp: async (email: string): Promise<ApiResponse<{ message: string }>> => {
+  requestOtp: async (
+    email: string,
+  ): Promise<ApiResponse<{ message: string }>> => {
     return fetchApi<{ message: string }>("/Authentication/RequestOtp", {
       method: "POST",
       body: JSON.stringify({ email }),
     });
   },
 
-  verifyOtp: async (email: string, otp: string): Promise<ApiResponse<{ token: string }>> => {
+  verifyOtp: async (
+    email: string,
+    otp: string,
+  ): Promise<ApiResponse<{ token: string }>> => {
     return fetchApi<{ token: string }>("/Authentication/VerifyOtp", {
       method: "POST",
       body: JSON.stringify({ email, otp }),
