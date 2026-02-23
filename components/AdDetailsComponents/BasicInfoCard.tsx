@@ -18,7 +18,7 @@ export function BasicInfoCard({ data }: { data: VehicleAdDetailsResponse }) {
     if (navigator.share) {
       navigator.share({
         title: data.vehicleModel.name,
-        url: `${window.location.origin}/${data.slug}`,
+        url: `${window.location.origin}/ads/${data.slug}`,
       });
     }
   };

@@ -33,7 +33,7 @@ export function UserAdCard({ ad }: { ad: UserAdsResponse }) {
 
   const status = getStatusConfig(ad.pubStatus);
   const vehicle = ad.vehicleAdResponse;
- 
+
   return (
     <Link
       href={`/edit/${ad.vehicleAdResponse.id}`}

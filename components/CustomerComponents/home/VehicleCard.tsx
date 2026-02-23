@@ -13,16 +13,14 @@ export function VehicleCard({ ad }: VehicleCardProps) {
   const router = useRouter();
   const [isFavorite, setIsFavorite] = useState(ad.isFavorite);
 
-  const handleCardClick = () => {
-    router.push(`/${ad.slug}`);
-  };
+
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (navigator.share) {
       navigator.share({
         title: ad.vehicleModel.name,
-        url: `${window.location.origin}/${ad.slug}`,
+        url: `${window.location.origin}/ads/${ad.slug}`,
       });
     }
   };
@@ -34,7 +32,7 @@ export function VehicleCard({ ad }: VehicleCardProps) {
   };
   return (
     <Link
-      href={`/${ad.slug}`}
+      href={`/ads/${ad.slug}`}
       className=" cursor-pointer bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
     >
       <div className="relative aspect-170/100 bg-slate-200 flex items-center justify-center overflow-hidden">
