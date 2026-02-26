@@ -20,7 +20,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { title: "المصانع والموديلات", icon: Factory, href: "/admin/manufacturers" },
     { title: "الباقات", icon: CreditCard, href: "/admin/packages" },
     { title: "طلبات الدفع", icon: Wallet, href: "/admin/payments" },
-    { title: "بوابات الدفع", icon: Settings, href: "/admin/gateways" },
+    { title: "بوابات الدفع", icon: Settings, href: "/admin/payment-gateways" },
   ];
 
   return (
