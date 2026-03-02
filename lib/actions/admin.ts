@@ -6,7 +6,7 @@ import { ManufacturerDataService } from "../services/manufacturerDataService";
 import { AdsDataService } from "../services/adsDataService";
 import { PaymentGatewayDataService } from "../services/paymentGatewayDataService";
 import { PaymentRequestDataService } from "../services/paymentRequestDataService";
-import { ModelResponse } from "@/types/admin";
+import { ModelResponse, PaymentGateway } from "@/types/admin";
 export async function getStats() {
   const response = await api.getStats();
   return response;
@@ -67,5 +67,14 @@ export async function getPaymentRequests() {
 
 export async function getPaymentGateways() {
   const response = await PaymentGatewayDataService.getPaymentGateways();
+  return response;
+}
+export async function createPaymentGateways(gateway:PaymentGateway) {
+  const response = await PaymentGatewayDataService.createPaymentGateway(gateway);
+  return response;
+}
+
+export async function updatePaymentGateways(gateway:PaymentGateway) {
+  const response = await PaymentGatewayDataService.updatePaymentGateway(gateway);
   return response;
 }

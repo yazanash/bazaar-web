@@ -42,5 +42,5 @@ export interface PaymentGateway {
   name: string;
   accountNumber: string;
   instructions: string;
-  isActive: true;
+  isActive: boolean;
 }

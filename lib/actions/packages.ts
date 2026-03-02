@@ -1,3 +1,4 @@
+"use server";
 import { Package } from "@/types/package";
 import { api } from "../api";
 import { PackageDataService } from "../services/packageDataService";

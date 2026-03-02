@@ -8,4 +8,21 @@ export const PaymentGatewayDataService = {
       next: { revalidate: 60 },
     });
   },
+  createPaymentGateway: async (
+    gateway: PaymentGateway,
+  ): Promise<ApiResponse<PaymentGateway>> => {
+    return fetchApi<PaymentGateway>("/PaymentGateways", {
+      method: "POST",
+      body: JSON.stringify(gateway),
+    });
+  },
+
+  updatePaymentGateway: async (
+    gateway: PaymentGateway,
+  ): Promise<ApiResponse<PaymentGateway>> => {
+    return fetchApi<PaymentGateway>(`/PaymentGateways/${gateway.id}`, {
+      method: "PUT",
+      body: JSON.stringify(gateway),
+    });
+  },
 };
