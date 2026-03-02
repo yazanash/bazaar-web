@@ -3,14 +3,14 @@
 import { api } from "@/lib/api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-
+import { AuthDataService } from "../services/authDataService";
 export async function requestOtpAction(email: string) {
-  await api.requestOtp(email);
+  await AuthDataService.requestOtp(email);
   return { success: true, message: "تم إرسال الرمز بنجاح" };
 }
 
 export async function loginAction(email: string, otp: string) {
-  const response = await api.verifyOtp(email, otp);
+  const response = await AuthDataService.verifyOtp(email, otp);
 
   if (response.data?.token) {
     const cookieStore = await cookies();

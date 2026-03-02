@@ -3,6 +3,7 @@ import { VehicleCard } from "@/components/CustomerComponents/home/VehicleCard";
 import SearchHeader from "@/components/forms/SearchForms/SearchHeader";
 import { VehicleAdResponse } from "@/types/ad";
 import { Search } from "lucide-react";
+import { AdsDataService } from "@/lib/services/adsDataService";
 export default async function SearchPage({
   searchParams,
 }: {
@@ -13,8 +14,8 @@ export default async function SearchPage({
   let ads: VehicleAdResponse[] = [];
   if (hasFilters) {
     const query = new URLSearchParams(params).toString();
-    const response = await api.searchAds(query);
-    ads = response.data?.items??[];
+    const response = await AdsDataService.searchAds(query);
+    ads = response.data?.items ?? [];
   }
 
   return (

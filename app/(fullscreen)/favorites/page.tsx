@@ -4,18 +4,17 @@ import { HeartOff } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { UnauthorizedBlock } from "@/components/UnauthorizedBlock";
-
+import { AdsDataService } from "@/lib/services/adsDataService";
 export default async function FavoritesPage() {
   let favoritesData = null;
   try {
-    const response = await api.getFavorites();
+    const response = await AdsDataService.getFavorites();
     if (response.status == 200) {
       favoritesData = response.data;
     }
-    if(response.status == 401){
-        return <UnauthorizedBlock />;
+    if (response.status == 401) {
+      return <UnauthorizedBlock />;
     }
-    
   } catch (error: any) {
     if (error.message.includes("401")) {
       return <UnauthorizedBlock />;
@@ -76,12 +75,3 @@ export default async function FavoritesPage() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-

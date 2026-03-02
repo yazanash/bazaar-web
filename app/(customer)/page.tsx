@@ -3,11 +3,13 @@ import { api } from "@/lib/api";
 import { VehicleCard } from "@/components/CustomerComponents/home/VehicleCard";
 import { PromoSlider } from "@/components/CustomerComponents/home/PromoSlider";
 import { Suspense } from "react";
+import { AdBannersDataService } from "@/lib/services/adBannersDataService";
+import { AdsDataService } from "@/lib/services/adsDataService";
 export default async function HomePage() {
   try {
-    const response = await api.getHomeAds();
+    const response = await AdsDataService.getHomeAds();
     const ads = response.data?.items;
-    const adBannerResponse = await api.getAdBanners();
+    const adBannerResponse = await AdBannersDataService.getAdBanners();
     const adBanners = adBannerResponse.data ?? [];
     return (
       <div className="space-y-8 max-w-full">

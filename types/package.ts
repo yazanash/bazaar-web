@@ -3,5 +3,5 @@ export interface Package {
   name: string;
   adLimits: number;
   featuredLimit: number;
-  price: string;
+  price: number;
 }
