@@ -35,7 +35,7 @@ export interface PaymentRequest {
   receiptImagePath: string;
   status: string;
   adminNote: string;
-  userEmail: "yazan.ash.doonaas@gmail.com";
+  userEmail: string;
 }
 export interface PaymentGateway {
   id: number;

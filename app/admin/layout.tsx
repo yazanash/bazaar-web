@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
@@ -93,6 +94,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             >
               <Menu size={20} />
             </button>
+             <Link href="/" className="flex items-center shrink-0">
+          <Image src="/logo.png" alt="Bazaar" width={40} height={40} className="w-auto h-10 object-contain" priority />
+        </Link>
             <h2 className="text-lg font-black text-slate-800 hidden sm:block">لوحة التحكم</h2>
           </div>
         </header>

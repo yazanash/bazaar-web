@@ -64,17 +64,31 @@ export async function getPaymentRequests() {
   const response = await PaymentRequestDataService.getPaymentRequests();
   return response;
 }
+export async function changePaymentRequest(
+  id: number,
+  status: string,
+  adminNote: string,
+) {
+  const response = await PaymentRequestDataService.changePaymentRequest(
+    id,
+    status,
+    adminNote,
+  );
+  return response;
+}
 
 export async function getPaymentGateways() {
   const response = await PaymentGatewayDataService.getPaymentGateways();
   return response;
 }
-export async function createPaymentGateways(gateway:PaymentGateway) {
-  const response = await PaymentGatewayDataService.createPaymentGateway(gateway);
+export async function createPaymentGateways(gateway: PaymentGateway) {
+  const response =
+    await PaymentGatewayDataService.createPaymentGateway(gateway);
   return response;
 }
 
-export async function updatePaymentGateways(gateway:PaymentGateway) {
-  const response = await PaymentGatewayDataService.updatePaymentGateway(gateway);
+export async function updatePaymentGateways(gateway: PaymentGateway) {
+  const response =
+    await PaymentGatewayDataService.updatePaymentGateway(gateway);
   return response;
 }
