@@ -72,14 +72,14 @@ export default function PaymentRequestsList({
       );
 
       if (res.success) {
-      // تحديث الحالة المحلية لحذف الطلب من القائمة أو تحديث الـ Badge
-      setRequests((prev) => prev.filter((r) => r.id !== selectedRequest.id));
-      setSelectedRequest(null);
-      alert(
-        type === "accepted"
-          ? "تم تفعيل الاشتراك بنجاح"
-          : "تم رفض الطلب وإبلاغ المستخدم",
-      );
+        // تحديث الحالة المحلية لحذف الطلب من القائمة أو تحديث الـ Badge
+        setRequests((prev) => prev.filter((r) => r.id !== selectedRequest.id));
+        setSelectedRequest(null);
+        alert(
+          type === "accepted"
+            ? "تم تفعيل الاشتراك بنجاح"
+            : "تم رفض الطلب وإبلاغ المستخدم",
+        );
       }
     } catch (error) {
       console.error(error);
@@ -115,90 +115,71 @@ export default function PaymentRequestsList({
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden text-right">
-        <Table>
-          <TableHeader className="bg-slate-50">
-            <TableRow className="border-none">
-              <TableHead className="p-5 text-right font-black">
-                المستخدم
-              </TableHead>
-              <TableHead className="text-right font-black">
-                تفاصيل الاتصال
-              </TableHead>
-              <TableHead className="text-right font-black">
-                الباقة والمبلغ
-              </TableHead>
-              <TableHead className="text-right font-black">
-                بوابة الدفع
-              </TableHead>
-              <TableHead className="text-center font-black">
-                الإجراءات
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {requests.map((req) => (
-              <TableRow
-                key={req.id}
-                className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"
+      <div className="flex flex-col gap-4">
+        {requests.map((req) => (
+          <div
+            key={req.id}
+            className="group bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-blue-200 transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-6"
+          >
+            {/* 1. قسم المستخدم والمعرف */}
+            <div className="flex flex-col gap-2 min-w-50">
+              <div className="flex items-center gap-2">
+                <span className="bg-slate-100 text-slate-500 text-[10px] font-black px-2 py-0.5 rounded-lg">
+                  ID: {req.id}
+                </span>
+                <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">
+                  Payment Request
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-slate-700 font-bold">
+                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                  <Mail size={14} />
+                </div>
+                <span className="text-sm truncate">{req.userEmail}</span>
+              </div>
+            </div>
+
+            {/* 2. تفاصيل الباقة والمبلغ - تمييز بصري للمبلغ */}
+            <div className="flex flex-row md:flex-col items-center md:items-start justify-between md:justify-center gap-2 px-4 py-2 md:py-0 border-y md:border-y-0 md:border-r border-slate-50">
+              <Badge
+                variant="outline"
+                className="w-fit bg-amber-50 text-amber-700 border-amber-100 font-black text-[10px] px-3 py-1 rounded-full"
               >
-                <TableCell className="p-5">
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold text-blue-500 tracking-tighter">
-                      ID: {req.id}
-                    </span>
-                  </div>
-                </TableCell>
+                <Package size={12} className="ml-1" /> {req.packageName}
+              </Badge>
+              <div className="text-xl font-black text-slate-900">
+                {req.packagePrice}{" "}
+                <span className="text-sm text-slate-400 font-bold">$</span>
+              </div>
+            </div>
 
-                <TableCell>
-                  <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
-                      <Mail size={14} className="text-slate-400" />{" "}
-                      {req.userEmail}
-                    </div>
-                    {/* <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
-                      <Phone size={14} className="text-slate-400" /> {req.phone}
-                    </div> */}
-                  </div>
-                </TableCell>
+            {/* 3. بوابة الدفع */}
+            <div className="flex items-center gap-3 md:w-40">
+              <div className="p-2 rounded-xl bg-slate-50 text-slate-400">
+                <CreditCard size={18} />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[9px] font-bold text-slate-400 uppercase">
+                  Payment via
+                </span>
+                <span className="text-xs font-black text-slate-700">
+                  {req.paymentGatewayName}
+                </span>
+              </div>
+            </div>
 
-                <TableCell>
-                  <div className="flex flex-col gap-1">
-                    <Badge
-                      variant="outline"
-                      className="w-fit bg-amber-50 text-amber-700 border-amber-100 font-bold"
-                    >
-                      <Package size={12} className="ml-1" /> {req.packageName}
-                    </Badge>
-                    <span className="font-black text-slate-900">
-                      {req.packagePrice} $
-                    </span>
-                  </div>
-                </TableCell>
-
-                <TableCell>
-                  <div className="flex items-center gap-2 font-bold text-slate-700">
-                    <CreditCard size={16} className="text-slate-400" />
-                    {req.paymentGatewayName}
-                  </div>
-                </TableCell>
-
-                <TableCell className="text-center">
-                  <div className="flex items-center justify-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="rounded-xl border-slate-200 font-bold text-slate-600"
-                      onClick={() => handleViewRequest(req)}
-                    >
-                      <ExternalLink size={16} className="ml-1" /> الوصل
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            {/* 4. الإجراءات - زر "الوصل" بشكل بارز */}
+            <div className="flex items-center gap-2 mt-2 md:mt-0">
+              <Button
+                onClick={() => handleViewRequest(req)}
+                className="flex-1 md:flex-none h-12 md:px-8 rounded-2xl bg-blue-600 hover:bg-slate-900 text-white font-black text-sm shadow-lg shadow-blue-100 transition-all active:scale-95"
+              >
+                <ExternalLink size={16} className="ml-2" />
+                عرض الوصل
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
       <Sheet
         open={!!selectedRequest}

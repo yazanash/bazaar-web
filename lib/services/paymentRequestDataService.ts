@@ -5,19 +5,19 @@ import { ApiResponse } from "../utils";
 export const PaymentRequestDataService = {
   getPaymentRequests: async (): Promise<ApiResponse<PaymentRequest[]>> => {
     return fetchApi<PaymentRequest[]>(`/PaymentRequest`, {
-      next: { revalidate: 60 },
+      cache: "no-cache",
     });
   },
-changePaymentRequest: async (
+  changePaymentRequest: async (
     id: number,
-    status:string,
-    adminNote : string
+    status: string,
+    adminNote: string,
   ): Promise<ApiResponse<{}>> => {
     return fetchApi<{}>(`/PaymentRequest/change-status/${id}`, {
       method: "POST",
       body: JSON.stringify({
         status,
-        adminNote
+        adminNote,
       }),
     });
   },
