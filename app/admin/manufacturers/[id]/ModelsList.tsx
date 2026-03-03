@@ -1,17 +1,7 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus, ArrowRight, Pencil, Trash2, CarFront } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { ModelResponse } from "@/types/admin";
 import { useState } from "react";
 import { ModelModal } from "./ModelModal";
@@ -42,7 +32,6 @@ export default function ManufacturerModelsList({
 
   return (
     <div className="space-y-8">
-      {/* Back Header */}
       <div className="flex items-center gap-4">
         <Button
           variant="ghost"
@@ -68,14 +57,12 @@ export default function ManufacturerModelsList({
         </Button>
       </div>
 
-      {/* Models Table */}
       <div className="flex flex-col gap-3">
         {allModels.map((model) => (
           <div
             key={model.id}
             className="group bg-white p-3 pr-5 rounded-[1.5rem] border border-slate-100 hover:border-blue-200 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between gap-4"
           >
-            {/* 1. القسم الأيمن: الأيقونة والاسم */}
             <div className="flex items-center gap-4 flex-1">
               <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-inner">
                 <CarFront size={22} strokeWidth={1.5} />
@@ -91,16 +78,13 @@ export default function ManufacturerModelsList({
               </div>
             </div>
 
-            {/* 2. القسم الأوسط: الفئة (Category) */}
             <div className="hidden md:flex items-center justify-center flex-1">
               <div className="bg-blue-50/50 text-blue-600 px-4 py-1.5 rounded-xl text-xs font-black border border-blue-100/50 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
                 {model.category}
               </div>
             </div>
 
-            {/* 3. القسم الأيسر: الإجراءات */}
             <div className="flex items-center gap-2">
-              {/* زر التعديل بشكل عصري */}
               <Button
                 onClick={() => handleOpenModal(model)}
                 variant="ghost"
@@ -111,7 +95,6 @@ export default function ManufacturerModelsList({
                 <span className="hidden sm:inline">تعديل</span>
               </Button>
 
-              {/* زر حذف سريع (اختياري لو حابب تظهره) */}
               <Button
                 variant="ghost"
                 size="icon"
