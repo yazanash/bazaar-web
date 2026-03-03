@@ -72,42 +72,63 @@ export default function ManufacturersList({
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filtered.map((m) => (
           <div
             key={m.id}
             onClick={() => router.push(`/admin/manufacturers/${m.id}`)}
-            className="group bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all cursor-pointer relative overflow-hidden"
+            className="group relative bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2 transition-all duration-500 cursor-pointer overflow-hidden"
           >
-            <div className="flex justify-between items-start mb-6">
-              <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
-                <Factory size={28} />
-              </div>
-
+            {/* 1. الزاوية العلوية (ID + Edit) */}
+            <div className="absolute top-6 right-6 left-6 flex justify-between items-center z-10">
+              <span className="text-[10px] font-black text-slate-300 group-hover:text-blue-200 transition-colors uppercase tracking-[0.2em]">
+                ID #{m.id}
+              </span>
               <Button
                 variant="ghost"
                 size="icon"
-                // أضفنا z-50 لضمان الظهور فوق كل طبقات الكرت
-                className="absolute left-4 top-4 z-50 rounded-full text-slate-400 hover:text-blue-600 hover:bg-slate-100"
+                className="h-9 w-9 rounded-xl bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-white hover:shadow-lg transition-all"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   handleOpenModal(m);
                 }}
               >
-                <Pencil size={20} />
+                <Pencil size={16} />
               </Button>
             </div>
 
-            <h3 className="text-xl font-black text-slate-800 mb-1">{m.name}</h3>
+            {/* 2. الأيقونة والمحتوى المركزي */}
+            <div className="pt-16 pb-8 px-8 flex flex-col items-center text-center">
+              {/* أيقونة المصنع بتصميم عائم */}
+              <div className="w-20 h-20 mb-6 relative">
+                <div className="absolute inset-0 bg-blue-600/5 rounded-[2rem] rotate-6 group-hover:rotate-12 transition-transform duration-500"></div>
+                <div className="absolute inset-0 bg-white border border-slate-100 rounded-[2rem] flex items-center justify-center text-slate-700 group-hover:text-blue-600 group-hover:border-blue-100 transition-all duration-500 shadow-sm">
+                  <Factory size={32} strokeWidth={1.5} />
+                </div>
+              </div>
 
-            <div className="mt-6 flex items-center text-blue-600 font-bold text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-              عرض الموديلات وإدارتها <ChevronLeft size={16} className="mr-1" />
+              <h3 className="text-xl font-black text-slate-800 group-hover:text-blue-600 transition-colors duration-300">
+                {m.name}
+              </h3>
+
+              <p className="text-[11px] font-bold text-slate-400 mt-2 uppercase tracking-widest">
+                Car Manufacturer
+              </p>
+            </div>
+
+            {/* 3. التذييل التفاعلي (Footer) */}
+            <div className="px-8 py-5 bg-slate-50/50 group-hover:bg-blue-600 transition-colors duration-500 flex items-center justify-between mt-auto">
+              <span className="text-xs font-black text-slate-500 group-hover:text-white/90 transition-colors">
+                إدارة الموديلات
+              </span>
+              <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-400 group-hover:text-blue-600 transition-all">
+                <ChevronLeft size={16} />
+              </div>
             </div>
           </div>
         ))}
       </div>
-
       <ManufacturerModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

@@ -69,54 +69,59 @@ export default function ManufacturerModelsList({
       </div>
 
       {/* Models Table */}
-      <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
-        <Table>
-          <TableHeader className="bg-slate-50/50">
-            <TableRow className="border-none">
-              <TableHead className="p-6 text-right font-black">
-                اسم الموديل
-              </TableHead>
-              <TableHead className="text-right font-black">
-                الفئة (Category)
-              </TableHead>
-              <TableHead className="text-center font-black">
-                الإجراءات
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {allModels.map((model) => (
-              <TableRow
-                key={model.id}
-                className="hover:bg-slate-50/50 transition-colors border-b border-slate-50"
+      <div className="flex flex-col gap-3">
+        {allModels.map((model) => (
+          <div
+            key={model.id}
+            className="group bg-white p-3 pr-5 rounded-[1.5rem] border border-slate-100 hover:border-blue-200 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between gap-4"
+          >
+            {/* 1. القسم الأيمن: الأيقونة والاسم */}
+            <div className="flex items-center gap-4 flex-1">
+              <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-inner">
+                <CarFront size={22} strokeWidth={1.5} />
+              </div>
+
+              <div className="flex flex-col">
+                <span className="text-sm font-black text-slate-800 group-hover:text-blue-600 transition-colors">
+                  {model.name}
+                </span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                  Model Details
+                </span>
+              </div>
+            </div>
+
+            {/* 2. القسم الأوسط: الفئة (Category) */}
+            <div className="hidden md:flex items-center justify-center flex-1">
+              <div className="bg-blue-50/50 text-blue-600 px-4 py-1.5 rounded-xl text-xs font-black border border-blue-100/50 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                {model.category}
+              </div>
+            </div>
+
+            {/* 3. القسم الأيسر: الإجراءات */}
+            <div className="flex items-center gap-2">
+              {/* زر التعديل بشكل عصري */}
+              <Button
+                onClick={() => handleOpenModal(model)}
+                variant="ghost"
+                size="sm"
+                className="h-10 px-4 rounded-xl text-blue-600 hover:bg-blue-50 font-bold text-xs flex items-center gap-2"
               >
-                <TableCell className="p-6 font-bold text-slate-800 text-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-slate-100 rounded-lg text-slate-400">
-                      <CarFront size={18} />
-                    </div>
-                    {model.name}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Badge className="bg-blue-50 text-blue-600 border-none px-4 py-1 rounded-lg font-bold">
-                    {model.category}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-center space-x-2 space-x-reverse">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-blue-600 hover:bg-blue-50 rounded-xl"
-                    onClick={() => handleOpenModal(model)}
-                  >
-                    <Pencil size={18} />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                <Pencil size={14} />
+                <span className="hidden sm:inline">تعديل</span>
+              </Button>
+
+              {/* زر حذف سريع (اختياري لو حابب تظهره) */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-10 w-10 rounded-xl text-red-400 hover:bg-red-50 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
+              >
+                <Trash2 size={16} />
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
       <ModelModal
         isOpen={isModalOpen}
