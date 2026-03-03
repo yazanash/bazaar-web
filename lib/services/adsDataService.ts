@@ -17,7 +17,7 @@ export const AdsDataService = {
     return fetchApi<PaginatedResponse<VehicleAdResponse>>(
       `/ads/home?pageNumber=${page}&pageSize=10`,
       {
-        next: { revalidate: 60 },
+       cache: "no-store",
       },
     );
   },
@@ -27,7 +27,7 @@ export const AdsDataService = {
     return fetchApi<PaginatedResponse<VehicleAdResponse>>(
       `/Ads/GetAdsByStatus?PubStatus=pending`,
       {
-        next: { revalidate: 60 },
+       cache: "no-store",
       },
     );
   },
@@ -37,7 +37,7 @@ export const AdsDataService = {
     return fetchApi<PaginatedResponse<UserAdsResponse>>(
       `/MyAds?pageNumber=${page}&pageSize=10`,
       {
-        next: { revalidate: 60 },
+       cache: "no-store",
       },
     );
   },

@@ -5,7 +5,7 @@ import { fetchApi } from "../api";
 export const PackageDataService = {
   getPackages: async (): Promise<ApiResponse<Package[]>> => {
     return fetchApi<Package[]>(`/Packages`, {
-      next: { revalidate: 60 },
+     cache: "no-store",
     });
   },
   createPackage: async (newPackage: Package): Promise<ApiResponse<Package>> => {

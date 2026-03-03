@@ -5,7 +5,7 @@ import { ApiResponse } from "../utils";
 export const CityDataService = {
   getCities: async (): Promise<ApiResponse<CityResponse[]>> => {
     return fetchApi<CityResponse[]>(`/Cities`, {
-      next: { revalidate: 60 },
+       cache: "no-store",
     });
   },
 

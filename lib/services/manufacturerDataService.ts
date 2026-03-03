@@ -6,14 +6,14 @@ import { ManufacturerModelsResponse, ModelResponse } from "@/types/admin";
 export const ManufacturerDataService = {
   getManufacturers: async (): Promise<ApiResponse<ManufacturerResponse[]>> => {
     return fetchApi<ManufacturerResponse[]>(`/Manufacturers`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
   },
   getManufacturer: async (
     id: number,
   ): Promise<ApiResponse<ManufacturerModelsResponse>> => {
     return fetchApi<ManufacturerModelsResponse>(`/Manufacturers/${id}`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
   },
   createManufacturers: async (

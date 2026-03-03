@@ -10,7 +10,7 @@ export const ProfileDataService = {
     fetchApi("/Profile", { method: "POST", body: JSON.stringify(data) }),
   getUserWallet: async (): Promise<ApiResponse<UserWalletResponse>> => {
     return fetchApi<UserWalletResponse>(`/Packages/my`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
   },
 };

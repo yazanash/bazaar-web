@@ -5,7 +5,7 @@ import { fetchApi } from "../api";
 export const AdminsDataService = {
   getAdmins: async (): Promise<ApiResponse<AdminUser[]>> => {
     return fetchApi<AdminUser[]>(`/Admin/GetAdmins`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
   },
   checkAdmin: async (): Promise<ApiResponse<any>> => {

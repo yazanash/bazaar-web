@@ -5,7 +5,7 @@ import { ApiResponse } from "../utils";
 export const PaymentGatewayDataService = {
   getPaymentGateways: async (): Promise<ApiResponse<PaymentGateway[]>> => {
     return fetchApi<PaymentGateway[]>(`/PaymentGateways`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
   },
   createPaymentGateway: async (
