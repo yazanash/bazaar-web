@@ -57,7 +57,7 @@ export default function StatsComponent({ stats }: StatsProps) {
       </div>
 
       {/* Stats Cards - الكروت العلوية */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         <StatCard
           title="إجمالي الإعلانات"
           value={stats?.summary.totalAds}
@@ -113,8 +113,8 @@ export default function StatsComponent({ stats }: StatsProps) {
                   dataKey="ads"
                   type="natural"
                   stroke="#3b82f6"
-                  fillOpacity={0.2} 
-                  fill="#3b82f6" 
+                  fillOpacity={0.2}
+                  fill="#3b82f6"
                   strokeWidth={3}
                 />
               </AreaChart>
@@ -184,27 +184,51 @@ export default function StatsComponent({ stats }: StatsProps) {
 }
 
 function StatCard({ title, value, sub, icon, color }: any) {
+  // استخراج اللون الأساسي لتحويله لخلفية شفافة
+  const bgColorClass = color.replace("text-", "bg-").replace("600", "500/10");
+
   return (
-    <Card className="rounded-[2rem] border-slate-100 shadow-sm overflow-hidden border-none bg-white">
-      <CardContent className="p-6">
-        <div className="flex justify-between items-start">
-          <div className={`p-3 rounded-2xl bg-slate-50 ${color}`}>
-            {React.cloneElement(icon, { size: 24 })}
+    <Card className="relative rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden group hover:shadow-xl hover:shadow-slate-200 transition-all duration-500">
+      <div
+        className={`absolute left-1 top-1 opacity-[0.03] group-hover:opacity-[0.08] group-hover:scale-110 transition-all duration-700 ${color}`}
+      >
+        {React.cloneElement(icon, { size: 140 })}
+      </div>
+
+      <CardContent className="p-8 relative z-10">
+        <div className="flex flex-col gap-6">
+          <div
+            className={`w-14 h-14 rounded-2xl ${bgColorClass} ${color} flex items-center justify-center shadow-inner transition-transform duration-500 `}
+          >
+            {React.cloneElement(icon, { size: 28, strokeWidth: 2.5 })}
           </div>
-        </div>
-        <div className="mt-4">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-            {title}
-          </p>
-          <div className="flex items-baseline gap-1 mt-1">
-            <h3 className="text-2xl font-black text-slate-800 tracking-tight">
-              {value}
-            </h3>
-            {sub && (
-              <span className="text-[10px] font-bold text-slate-400">
-                {sub}
+
+          <div className="space-y-1">
+            <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.15em] mb-1">
+              {title}
+            </p>
+
+            <div className="flex items-baseline gap-2">
+              <h3 className="text-4xl font-black text-slate-900 tracking-tighter">
+                {value?.toLocaleString() || "0"}
+              </h3>
+              {sub && (
+                <span className={`text-lg font-black ${color} opacity-80`}>
+                  {sub}
+                </span>
+              )}
+            </div>
+
+            <div className="pt-4 flex items-center gap-2">
+              <div className="h-1 flex-1 bg-slate-50 rounded-full overflow-hidden">
+                <div
+                  className={`h-full w-2/3 rounded-full opacity-40 ${color.replace("text-", "bg-")}`}
+                ></div>
+              </div>
+              <span className="text-[9px] font-black text-slate-300 uppercase">
+                Live Stats
               </span>
-            )}
+            </div>
           </div>
         </div>
       </CardContent>

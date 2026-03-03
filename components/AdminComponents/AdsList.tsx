@@ -20,8 +20,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, Search, FilterX } from "lucide-react";
+import { Eye, Search, FilterX, Calendar } from "lucide-react";
 import { VehicleAdResponse } from "@/types/ad";
+import { getImageUrl } from "@/lib/utils";
 interface AdsProps {
   ads: VehicleAdResponse[];
 }
@@ -56,84 +57,73 @@ export default function AdsList({ ads }: AdsProps) {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-45 h-12 rounded-xl border-slate-200 font-bold">
-            <SelectValue placeholder="حالة النشر" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">كل الحالات</SelectItem>
-            <SelectItem value="pending">بانتظار المراجعة</SelectItem>
-            <SelectItem value="accepted">المقبولة</SelectItem>
-            <SelectItem value="rejected">المرفوضة</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Button
-          variant="ghost"
-          onClick={() => {
-            setStatusFilter("all");
-            setSearchQuery("");
-          }}
-          className="h-12 rounded-xl text-slate-500 font-bold"
-        >
-          <FilterX size={18} className="ml-2" />
-          إعادة تعيين
-        </Button>
       </div>
 
-      {/* Table - الجدول */}
-      <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
-        <Table>
-          <TableHeader className="bg-slate-50">
-            <TableRow className="hover:bg-transparent border-none">
-              <TableHead className="text-right font-black p-5">
-                الإعلان
-              </TableHead>
-              {/* <TableHead className="text-right font-black">المعلن</TableHead> */}
-              {/* <TableHead className="text-right font-black">الحالة</TableHead> */}
-              <TableHead className="text-right font-black">السعر</TableHead>
-              <TableHead className="text-center font-black">الإجراء</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {ads.map((ad) => (
-              <TableRow
-                key={ad.id}
-                className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"
+      <div className="flex flex-col gap-4">
+        {ads.map((ad) => (
+          <div
+            key={ad.id}
+            className="group bg-white p-3 md:p-4 rounded-[2.2rem] border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 flex flex-col md:flex-row items-center gap-5"
+          >
+            <div className="relative w-full md:w-44 h-32 shrink-0 rounded-[1.5rem] bg-slate-50 overflow-hidden border border-slate-50">
+              <img
+                src={getImageUrl(ad.thumbnail) || "/placeholder-car.png"} // تأكد من مسار الصور عندك
+                alt={ad.vehicleModel.name}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              {/* ملصق الحالة فوق الصورة */}
+              {/* <div className="absolute top-2 right-2">
+                <StatusBadge
+                  status={ad.s}
+                  className="shadow-sm scale-90"
+                />
+              </div> */}
+            </div>
+
+            {/* 2. تفاصيل السيارة */}
+            <div className="flex-1 flex flex-col gap-1 w-full text-right">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[10px] font-black text-blue-500 bg-blue-50 px-2 py-0.5 rounded-lg">
+                  AD #{ad.id}
+                </span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">
+                  {ad.city?.arabicName || "كل المدن"}
+                </span>
+              </div>
+
+              <h3 className="text-lg font-black text-slate-800 group-hover:text-blue-600 transition-colors">
+                {ad.vehicleModel.name}
+              </h3>
+
+              <div className="flex items-center gap-4 mt-2">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+                  <Calendar size={14} className="text-slate-300" />
+                  {/* {new Date(ad.pos).toLocaleDateString("ar-EG")} */}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center md:items-end md:px-6 w-full md:w-auto">
+              <span className="text-[9px] font-black text-slate-400 uppercase mb-1">
+                السعر المطلوب
+              </span>
+              <div className="text-xl font-black text-blue-600 tracking-tight">
+                {ad.price.toLocaleString()}
+                <span className="text-xs mr-1 font-bold text-blue-400">$</span>
+              </div>
+            </div>
+
+            <div className="w-full md:w-auto shrink-0 border-t md:border-t-0 pt-3 md:pt-0 border-slate-50">
+              <Button
+                onClick={() => router.push(`/admin/ads/${ad.slug}`)}
+                className="w-full md:w-32 h-14 rounded-2xl bg-slate-900 hover:bg-blue-600 text-white font-black text-sm shadow-lg shadow-slate-100 transition-all active:scale-95 flex items-center justify-center gap-2"
               >
-                <TableCell className="font-bold p-5">
-                  <div className="flex flex-col">
-                    <span>{ad.vehicleModel.name}</span>
-                    <span className="text-[10px] text-slate-400 font-medium">
-                      {ad.price}
-                    </span>
-                  </div>
-                </TableCell>
-                {/* <TableCell className="text-slate-600 font-bold text-sm">
-                  {ad.city.englishName}
-                </TableCell> */}
-                {/* <TableCell>
-                  <StatusBadge status={ad.status} />
-                </TableCell> */}
-                <TableCell className="font-black text-blue-600">
-                  {ad.price}
-                </TableCell>
-                <TableCell className="text-center">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="rounded-xl font-bold border-slate-200 hover:bg-blue-600 hover:text-white"
-                    onClick={() => router.push(`/admin/ads/${ad.slug}`)}
-                  >
-                    <Eye size={16} className="ml-2" />
-                    مراجعة
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                <Eye size={18} />
+                مراجعة
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

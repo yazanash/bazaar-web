@@ -35,7 +35,7 @@ export default function AdminApprovalActions({ adId }: { adId: number }) {
         router.refresh();
         router.back();
       } else {
-        toast.error("فشل في تنفذ الاجراء");
+        toast.error(`فشل في تنفيذ الاجراء ${response.status}`);
       }
     } catch (error) {
       toast.error("حدث خطأ أثناء تحديث حالة الإعلان");
