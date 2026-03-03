@@ -4,13 +4,29 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, Car, MapPin, Factory, 
-  CreditCard, Wallet, Settings, LogOut, Menu, X, Bell
+import {
+  LayoutDashboard,
+  Car,
+  MapPin,
+  Factory,
+  CreditCard,
+  Wallet,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+  Bell,
+  Users,
+  IdCard,
+  LucideCardSim,
 } from "lucide-react";
-import { cn } from "@/lib/utils"; 
+import { cn } from "@/lib/utils";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
 
@@ -18,34 +34,47 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { title: "الإحصائيات", icon: LayoutDashboard, href: "/admin" },
     { title: "مراجعة الإعلانات", icon: Car, href: "/admin/ads" },
     { title: "إدارة المدن", icon: MapPin, href: "/admin/cities" },
-    { title: "المصانع والموديلات", icon: Factory, href: "/admin/manufacturers" },
+    {
+      title: "المصانع والموديلات",
+      icon: Factory,
+      href: "/admin/manufacturers",
+    },
     { title: "الباقات", icon: CreditCard, href: "/admin/packages" },
     { title: "طلبات الدفع", icon: Wallet, href: "/admin/payments" },
     { title: "بوابات الدفع", icon: Settings, href: "/admin/payment-gateways" },
+    { title: "اللوحات الاعلانية", icon: LucideCardSim, href: "/admin/ad-banners" },
+    { title: "الادارة", icon: Users, href: "/admin/admins" },
   ];
 
   return (
     <div className="min-h-screen bg-slate-50 flex" dir="rtl">
-      {/* Overlay للموبايل عند فتح القائمة */}
       {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden" 
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar الجانبي */}
-      <aside className={cn(
-        "fixed lg:sticky top-0 right-0 z-50 w-72 h-screen bg-white border-l border-slate-200 transition-transform duration-300 lg:translate-x-0",
-        isSidebarOpen ? "translate-x-0" : "translate-x-full"
-      )}>
+      <aside
+        className={cn(
+          "fixed lg:sticky top-0 right-0 z-50 w-72 h-screen bg-white border-l border-slate-200 transition-transform duration-300 lg:translate-x-0",
+          isSidebarOpen ? "translate-x-0" : "translate-x-full",
+        )}
+      >
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="p-6 border-b border-slate-50 flex items-center justify-between">
             <div className="font-black text-2xl text-blue-600 tracking-tighter">
-              BAZAAR <span className="text-[10px] text-slate-400 block -mt-1 uppercase tracking-widest">Control Panel</span>
+              BAZAAR{" "}
+              <span className="text-[10px] text-slate-400 block -mt-1 uppercase tracking-widest">
+                Control Panel
+              </span>
             </div>
-            <button className="lg:hidden text-slate-400" onClick={() => setSidebarOpen(false)}>
+            <button
+              className="lg:hidden text-slate-400"
+              onClick={() => setSidebarOpen(false)}
+            >
               <X size={20} />
             </button>
           </div>
@@ -61,9 +90,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   onClick={() => setSidebarOpen(false)}
                   className={cn(
                     "flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-200 font-bold text-sm",
-                    isActive 
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-100 ring-4 ring-blue-50" 
-                      : "text-slate-500 hover:bg-slate-50 hover:text-blue-600"
+                    isActive
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-100 ring-4 ring-blue-50"
+                      : "text-slate-500 hover:bg-slate-50 hover:text-blue-600",
                   )}
                 >
                   <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
@@ -88,23 +117,30 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Header العلوي */}
         <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-6 lg:px-10 flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-4">
-            <button 
-              className="lg:hidden p-2 bg-slate-100 rounded-xl text-slate-600" 
+            <button
+              className="lg:hidden p-2 bg-slate-100 rounded-xl text-slate-600"
               onClick={() => setSidebarOpen(true)}
             >
               <Menu size={20} />
             </button>
-             <Link href="/" className="flex items-center shrink-0">
-          <Image src="/logo.png" alt="Bazaar" width={40} height={40} className="w-auto h-10 object-contain" priority />
-        </Link>
-            <h2 className="text-lg font-black text-slate-800 hidden sm:block">لوحة التحكم</h2>
+            <Link href="/" className="flex items-center shrink-0">
+              <Image
+                src="/logo.png"
+                alt="Bazaar"
+                width={40}
+                height={40}
+                className="w-auto h-10 object-contain"
+                priority
+              />
+            </Link>
+            <h2 className="text-lg font-black text-slate-800 hidden sm:block">
+              لوحة التحكم
+            </h2>
           </div>
         </header>
 
         {/* مساحة عرض الصفحات */}
-        <main className="p-6 lg:p-10 max-w-400 mx-auto w-full">
-          {children}
-        </main>
+        <main className="p-6 lg:p-10 max-w-400 mx-auto w-full">{children}</main>
       </div>
     </div>
   );

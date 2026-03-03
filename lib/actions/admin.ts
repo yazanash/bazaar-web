@@ -7,6 +7,8 @@ import { AdsDataService } from "../services/adsDataService";
 import { PaymentGatewayDataService } from "../services/paymentGatewayDataService";
 import { PaymentRequestDataService } from "../services/paymentRequestDataService";
 import { ModelResponse, PaymentGateway } from "@/types/admin";
+import { AdBannersDataService } from "../services/adBannersDataService";
+import { AdBannerRequest } from "@/types/adBanner";
 export async function getStats() {
   const response = await api.getStats();
   return response;
@@ -90,5 +92,17 @@ export async function createPaymentGateways(gateway: PaymentGateway) {
 export async function updatePaymentGateways(gateway: PaymentGateway) {
   const response =
     await PaymentGatewayDataService.updatePaymentGateway(gateway);
+  return response;
+}
+export async function GetAdminAdBanners() {
+  const response = await AdBannersDataService.getAdminAdBanners();
+  return response;
+}
+export async function createAdBanner(formData: FormData) {
+  const response = await AdBannersDataService.createAdBanner(formData);
+  return response;
+}
+export async function updateAdBanner(id: number, formData: FormData) {
+  const response = await AdBannersDataService.updateAdBanner(id, formData);
   return response;
 }
