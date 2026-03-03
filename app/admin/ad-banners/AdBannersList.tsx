@@ -173,7 +173,7 @@ export default function AdBannersList({
   };
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-col md:flex-row space-y-1 ">
         <div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">
             المساحات الإعلانية
@@ -190,98 +190,84 @@ export default function AdBannersList({
         </Button>
       </div>
 
-      <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden text-right">
-        <Table>
-          <TableHeader className="bg-slate-50/50">
-            <TableRow className="border-none">
-              <TableHead className="p-5 text-right font-black w-62.5">
-                البنار
-              </TableHead>
-              <TableHead className="text-right font-black">الوجهة</TableHead>
-              <TableHead className="text-right font-black">
-                فترة العرض
-              </TableHead>
-              <TableHead className="text-center font-black">
-                الإجراءات
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {banners.map((banner) => (
-              <TableRow
-                key={banner.id}
-                className="border-b border-slate-50 hover:bg-slate-50/30 transition-colors"
+      <div className="flex flex-col gap-4">
+        {banners.map((banner) => (
+          <div
+            key={banner.id}
+            className="group bg-white p-4 rounded-[2rem] border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 flex flex-col md:flex-row items-center gap-6"
+          >
+            {/* 1. الصورة - على اليمين */}
+            <div className="relative w-full md:w-48 h-32 shrink-0 rounded-2xl bg-slate-50 border border-slate-50 overflow-hidden flex items-center justify-center p-4">
+              <img
+                src={getImageUrl(banner.imageUrl)}
+                alt="Banner"
+                className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+
+            {/* 2. المعلومات الأساسية - في الوسط */}
+            <div className="flex-1 flex flex-col gap-2 min-w-0 w-full text-right">
+              <div className="flex items-center gap-2">
+                <span className="bg-blue-50 text-blue-600 text-[10px] font-black px-2 py-0.5 rounded-lg uppercase tracking-wider">
+                  Active Ad
+                </span>
+                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  Target Link
+                </h3>
+              </div>
+
+              <a
+                href={banner.link}
+                target="_blank"
+                className="text-slate-800 font-bold text-sm hover:text-blue-600 transition-colors truncate block"
+                title={banner.link}
               >
-                <TableCell className="p-5">
-                  <div className="relative h-24 rounded-2xl overflow-hidden border-2 border-slate-100 group shadow-sm bg-slate-50">
-                    <img
-                      src={getImageUrl(banner.imageUrl)}
-                      alt="Banner"
-                      className="w-full h-full object-contain transition-transform group-hover:scale-105"
-                    />
-                  </div>
-                </TableCell>
+                {banner.link}
+              </a>
 
-                <TableCell>
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                      Link URL
-                    </span>
-                    <a
-                      href={banner.link}
-                      target="_blank"
-                      className="text-blue-600 font-bold flex items-center gap-1 hover:underline text-sm"
-                    >
-                      {banner.link.length > 35
-                        ? banner.link.substring(0, 35) + "..."
-                        : banner.link}
-                      <ExternalLink size={12} />
-                    </a>
-                  </div>
-                </TableCell>
+              {/* التواريخ بشكل أفقي ناعم */}
+              <div className="flex items-center gap-6 mt-1">
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                  <span className="text-[11px] font-bold text-slate-500">
+                    بداية:{" "}
+                    {new Date(banner.activationDate).toLocaleDateString(
+                      "ar-EG",
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-400"></div>
+                  <span className="text-[11px] font-bold text-slate-500">
+                    نهاية:{" "}
+                    {new Date(banner.expirationDate).toLocaleDateString(
+                      "ar-EG",
+                    )}
+                  </span>
+                </div>
+              </div>
+            </div>
 
-                <TableCell>
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
-                      <Calendar size={14} className="text-blue-500" />
-                      من:{" "}
-                      {new Date(banner.activationDate).toLocaleDateString(
-                        "ar-EG",
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 text-xs font-bold text-red-500">
-                      <Clock size={14} />
-                      إلى:{" "}
-                      {new Date(banner.expirationDate).toLocaleDateString(
-                        "ar-EG",
-                      )}
-                    </div>
-                  </div>
-                </TableCell>
-
-                <TableCell className="text-center">
-                  <div className="flex items-center justify-center gap-1">
-                    <Button
-                      onClick={() => handleOpenModal(banner)}
-                      variant="ghost"
-                      size="icon"
-                      className="text-blue-500 hover:bg-blue-50 rounded-xl"
-                    >
-                      <Pencil size={18} />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-red-400 hover:bg-red-50 rounded-xl"
-                    >
-                      <Trash2 size={18} />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            {/* 3. الأزرار - على اليسار */}
+            <div className="flex items-center gap-2 shrink-0 w-full md:w-auto border-t md:border-t-0 pt-4 md:pt-0 border-slate-50">
+              <Button
+                onClick={() => handleOpenModal(banner)}
+                variant="outline"
+                className="flex-1 md:flex-none h-12 md:w-32 rounded-2xl border-slate-100 text-slate-700 font-black text-xs hover:bg-slate-900 hover:text-white transition-all"
+              >
+                <Pencil size={14} className="ml-2" />
+                تعديل
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-12 w-12 rounded-2xl text-red-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+              >
+                <Trash2 size={18} />
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* مودال الإضافة والتعديل */}

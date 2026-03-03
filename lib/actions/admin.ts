@@ -9,6 +9,8 @@ import { PaymentRequestDataService } from "../services/paymentRequestDataService
 import { ModelResponse, PaymentGateway } from "@/types/admin";
 import { AdBannersDataService } from "../services/adBannersDataService";
 import { AdBannerRequest } from "@/types/adBanner";
+import { AdminsDataService } from "../services/adminsDataService";
+import { PubStatus } from "@/types/enums";
 export async function getStats() {
   const response = await api.getStats();
   return response;
@@ -104,5 +106,31 @@ export async function createAdBanner(formData: FormData) {
 }
 export async function updateAdBanner(id: number, formData: FormData) {
   const response = await AdBannersDataService.updateAdBanner(id, formData);
+  return response;
+}
+
+export async function getAdmins() {
+  const response = await AdminsDataService.getAdmins();
+  return response;
+}
+
+export async function checkAdmin() {
+  const response = await AdminsDataService.checkAdmin();
+  return response;
+}
+
+export async function addAdminRole(email: string) {
+  const response = await AdminsDataService.addAdminRole(email);
+  return response;
+}
+
+export async function revokeAdmin(id: string) {
+  const response = await AdminsDataService.revokeAdmin(id);
+  return response;
+}
+
+
+export async function changeAdStatus(status: PubStatus,reason:string) {
+  const response = await AdsDataService.changeAdStatus(status,reason);
   return response;
 }

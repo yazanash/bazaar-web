@@ -209,3 +209,9 @@ export const ArabicLabels: Record<string, Record<string, string>> = {
     [RegistrationType.NotSpecified]: "غير محدد",
   },
 };
+// واجهة البيانات القادمة من السيرفر
+export interface AdminUser {
+  id: string;
+  email: string;
+  name: string;
+}

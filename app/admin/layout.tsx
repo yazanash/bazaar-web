@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Car,
@@ -19,8 +19,10 @@ import {
   Users,
   IdCard,
   LucideCardSim,
+  ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { checkAdmin } from "@/lib/actions/admin";
 
 export default function AdminLayout({
   children,
@@ -29,7 +31,44 @@ export default function AdminLayout({
 }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const [checking, setChecking] = useState(true); // حالة التحقق من السيرفر
+  const router = useRouter();
 
+  useEffect(() => {
+    const verifyAdmin = async () => {
+      try {
+        const response = await checkAdmin();
+
+        if (response.success) {
+          setChecking(false);
+        } else {
+          router.replace("/");
+        }
+      } catch (error) {
+        console.error("Auth Error:", error);
+        router.replace("/");
+      }
+    };
+
+    verifyAdmin();
+  }, [router]);
+
+  if (checking) {
+    return (
+      <div className="h-screen w-full flex flex-col items-center justify-center bg-white gap-4">
+        <div className="relative">
+          <div className="w-12 h-12 rounded-full border-4 border-slate-100 border-t-blue-600 animate-spin"></div>
+          <ShieldCheck
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-blue-600"
+            size={20}
+          />
+        </div>
+        <p className="font-black text-slate-400 animate-pulse">
+          جاري التحقق من الصلاحيات...
+        </p>
+      </div>
+    );
+  }
   const menuItems = [
     { title: "الإحصائيات", icon: LayoutDashboard, href: "/admin" },
     { title: "مراجعة الإعلانات", icon: Car, href: "/admin/ads" },
@@ -42,7 +81,11 @@ export default function AdminLayout({
     { title: "الباقات", icon: CreditCard, href: "/admin/packages" },
     { title: "طلبات الدفع", icon: Wallet, href: "/admin/payments" },
     { title: "بوابات الدفع", icon: Settings, href: "/admin/payment-gateways" },
-    { title: "اللوحات الاعلانية", icon: LucideCardSim, href: "/admin/ad-banners" },
+    {
+      title: "اللوحات الاعلانية",
+      icon: LucideCardSim,
+      href: "/admin/ad-banners",
+    },
     { title: "الادارة", icon: Users, href: "/admin/admins" },
   ];
 
@@ -133,13 +176,10 @@ export default function AdminLayout({
                 priority
               />
             </Link>
-            <h2 className="text-lg font-black text-slate-800 hidden sm:block">
-              لوحة التحكم
-            </h2>
+            <h2 className="text-lg font-black text-slate-800">لوحة التحكم</h2>
           </div>
         </header>
 
-        {/* مساحة عرض الصفحات */}
         <main className="p-6 lg:p-10 max-w-400 mx-auto w-full">{children}</main>
       </div>
     </div>

@@ -1,6 +1,14 @@
-import { Masters, PaginatedResponse, UserAdsResponse, VehicleAdDetailsResponse, VehicleAdRequest, VehicleAdResponse } from "@/types/ad";
+import {
+  Masters,
+  PaginatedResponse,
+  UserAdsResponse,
+  VehicleAdDetailsResponse,
+  VehicleAdRequest,
+  VehicleAdResponse,
+} from "@/types/ad";
 import { fetchApi } from "../api";
 import { ApiResponse } from "../utils";
+import { PubStatus } from "@/types/enums";
 
 export const AdsDataService = {
   getHomeAds: async (
@@ -46,7 +54,7 @@ export const AdsDataService = {
       cache: "no-store",
     });
   },
- 
+
   searchAds: async (
     queryString: string,
   ): Promise<ApiResponse<PaginatedResponse<VehicleAdResponse>>> => {
@@ -75,6 +83,18 @@ export const AdsDataService = {
     return fetchApi<{ message: string }>("/Ads/Like", {
       method: "POST",
       body: JSON.stringify({ id }),
+    });
+  },
+  changeAdStatus: async (
+    status: PubStatus,
+    reason: string,
+  ): Promise<ApiResponse<any>> => {
+    return fetchApi<{ message: string }>("/Ads/Like", {
+      method: "POST",
+      body: JSON.stringify({
+        pubStatus: status,
+        reasone: status === PubStatus.Rejected ? reason : "",
+      }),
     });
   },
   createAd: async (
