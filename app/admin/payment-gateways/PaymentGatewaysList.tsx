@@ -21,6 +21,7 @@ import {
   Info,
   Power,
   PowerOff,
+  Hash,
 } from "lucide-react";
 import {
   Dialog,
@@ -37,6 +38,7 @@ import {
   createPaymentGateways,
   updatePaymentGateways,
 } from "@/lib/actions/admin";
+import { cn } from "@/lib/utils";
 
 interface PaymentGatewaysProps {
   gateways: PaymentGateway[];
@@ -116,72 +118,70 @@ export default function PaymentGatewaysList({
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
-          <Table>
-            <TableHeader className="bg-slate-50">
-              <TableRow className="border-none">
-                <TableHead className="p-5 text-right font-black">
-                  البوابة
-                </TableHead>
-                <TableHead className="text-right font-black">
-                  رقم الحساب / العنوان
-                </TableHead>
-                <TableHead className="text-center font-black">
-                  الإجراءات
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {allGateways.map((gw) => (
-                <TableRow
-                  key={gw.id}
-                  className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"
+        <div className="flex flex-col gap-3">
+          {allGateways.map((gw) => (
+            <div
+              key={gw.id}
+              className="group bg-white p-4 rounded-[1.8rem] border border-slate-100 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 flex flex-col md:flex-row items-center justify-between gap-4"
+            >
+              {/* 1. قسم المعلومات الأساسية والحالة */}
+              <div className="flex items-center gap-4 w-full md:w-auto">
+                <div
+                  className={cn(
+                    "w-12 h-12 rounded-2xl flex items-center justify-center transition-colors shadow-sm",
+                    gw.isActive
+                      ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
+                      : "bg-slate-50 text-slate-400 border border-slate-100",
+                  )}
                 >
-                  <TableCell className="p-5">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`p-2 rounded-lg ${gw.isActive ? "bg-green-100 text-green-600" : "bg-slate-100 text-slate-400"}`}
-                      >
-                        {gw.isActive ? (
-                          <Power size={18} />
-                        ) : (
-                          <PowerOff size={18} />
-                        )}
-                      </div>
-                      <span className="font-black text-slate-800">
-                        {gw.name}
-                      </span>
-                    </div>
-                  </TableCell>
+                  {gw.isActive ? <Power size={22} /> : <PowerOff size={22} />}
+                </div>
 
-                  <TableCell>
-                    <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full uppercase">
-                      {gw.accountNumber}
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <span className="font-black text-slate-800 text-base">
+                      {gw.name}
                     </span>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <div className="flex items-center justify-center gap-1">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-blue-600 hover:bg-blue-50 rounded-xl"
-                        onClick={() => handleOpenModal(gw)}
-                      >
-                        <Pencil size={18} />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-red-400 hover:bg-red-50 rounded-xl"
-                      >
-                        <Trash2 size={18} />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                    {gw.isActive ? (
+                      <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                    ) : null}
+                  </div>
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    {gw.isActive ? "نشط حالياً" : "متوقف"}
+                  </span>
+                </div>
+              </div>
+
+              {/* 2. رقم الحساب / العنوان - بشكل "Badge" أنيق */}
+              <div className="flex-1 flex justify-start md:justify-center w-full md:w-auto px-2">
+                <div className="bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 flex items-center gap-2 group-hover:bg-white group-hover:border-blue-100 transition-all w-full md:w-auto">
+                  <Hash size={14} className="text-slate-400" />
+                  <span className="text-xs font-bold text-slate-600 font-mono tracking-wider">
+                    {gw.accountNumber}
+                  </span>
+                </div>
+              </div>
+
+              {/* 3. أزرار التحكم */}
+              <div className="flex items-center gap-2 w-full md:w-auto border-t md:border-t-0 pt-3 md:pt-0 border-slate-50">
+                <Button
+                  onClick={() => handleOpenModal(gw)}
+                  variant="outline"
+                  className="flex-1 md:flex-none h-11 md:w-28 rounded-xl border-slate-100 text-blue-600 font-bold text-xs hover:bg-blue-600 hover:text-white transition-all"
+                >
+                  <Pencil size={14} className="ml-2" />
+                  تعديل
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-11 w-11 rounded-xl text-red-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                >
+                  <Trash2 size={18} />
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

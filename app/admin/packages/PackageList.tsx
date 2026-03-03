@@ -12,7 +12,14 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Pencil, Trash2, PackageIcon, ShieldCheck } from "lucide-react";
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  PackageIcon,
+  ShieldCheck,
+  LayoutDashboard,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -96,75 +103,76 @@ export default function PackagesList({ packages }: PackageProps) {
         </Button>
       </div>
 
-      <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
-        <Table>
-          <TableHeader className="bg-slate-50">
-            <TableRow className="border-none">
-              <TableHead className="p-5 text-right font-black w-12.5">
-                ID
-              </TableHead>
-              <TableHead className="text-right font-black">
-                اسم الباقة
-              </TableHead>
-              <TableHead className="text-right font-black">
-                حد الإعلانات
-              </TableHead>
-              <TableHead className="text-right font-black">
-                إعلانات مميزة
-              </TableHead>
-              <TableHead className="text-right font-black">
-                السعر (ل.س)
-              </TableHead>
-              <TableHead className="text-center font-black">
-                الإجراءات
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {allPackages.map((pkg) => (
-              <TableRow
-                key={pkg.id}
-                className="hover:bg-slate-50/50 transition-colors border-b border-slate-50"
+      <div className="flex flex-col gap-4">
+        {allPackages.map((pkg) => (
+          <div
+            key={pkg.id}
+            className="group bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 flex flex-col md:flex-row items-center gap-6"
+          >
+            {/* 1. اسم الباقة والمعرف */}
+            <div className="flex flex-col gap-1 min-w-45 w-full md:w-auto">
+              <span className="text-[10px] font-black text-blue-500 bg-blue-50 w-fit px-2 py-0.5 rounded-lg mb-1">
+                PACKAGE #{pkg.id}
+              </span>
+              <h3 className="text-lg font-black text-slate-800 tracking-tight">
+                {pkg.name}
+              </h3>
+            </div>
+
+            {/* 2. المميزات (حد الإعلانات والمميزة) */}
+            <div className="flex-1 grid grid-cols-2 gap-4 w-full md:w-auto">
+              {/* حد الإعلانات */}
+              <div className="flex flex-col gap-1 border-r border-slate-50 pr-4">
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                  حد الإعلانات
+                </span>
+                <div className="flex items-center gap-2 text-sm font-bold text-slate-700">
+                  <LayoutDashboard size={14} className="text-slate-400" />
+                  {pkg.adLimits} إعلان
+                </div>
+              </div>
+
+              {/* إعلانات مميزة */}
+              <div className="flex flex-col gap-1">
+                <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">
+                  إعلانات مميزة
+                </span>
+                <div className="flex items-center gap-2 text-sm font-bold text-blue-600">
+                  <ShieldCheck size={16} />
+                  {pkg.featuredLimit} تمييز
+                </div>
+              </div>
+            </div>
+
+            {/* 3. السعر - بشكل بارز */}
+            <div className="flex flex-col items-center md:items-end min-w-30 px-6 py-2 md:py-0 bg-slate-50 md:bg-transparent rounded-2xl w-full md:w-auto">
+              <span className="text-[9px] font-black text-slate-400 uppercase mb-1">
+                السعر الحالي
+              </span>
+              <div className="text-xl font-black text-slate-900">
+                {pkg.price.toLocaleString()}{" "}
+                <span className="text-xs text-slate-400 font-bold">ل.س</span>
+              </div>
+            </div>
+
+            {/* 4. الإجراءات */}
+            <div className="flex items-center gap-2 w-full md:w-auto border-t md:border-t-0 pt-4 md:pt-0 border-slate-50">
+              <Button
+                onClick={() => handleOpenModal(pkg)}
+                variant="outline"
+                className="flex-1 md:flex-none h-12 md:w-12 rounded-2xl border-slate-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm"
               >
-                <TableCell className="p-5 font-bold text-slate-400">
-                  #{pkg.id}
-                </TableCell>
-                <TableCell className="font-black text-slate-800">
-                  {pkg.name}
-                </TableCell>
-                <TableCell className="font-bold text-slate-600">
-                  {pkg.adLimits}
-                </TableCell>
-                <TableCell className="font-bold text-blue-600">
-                  <div className="flex items-center gap-1">
-                    <ShieldCheck size={14} />
-                    {pkg.featuredLimit}
-                  </div>
-                </TableCell>
-                <TableCell className="font-black text-slate-900">
-                  {pkg.price}
-                </TableCell>
-                <TableCell className="text-center space-x-2 space-x-reverse">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-blue-600 hover:bg-blue-50 rounded-lg"
-                    onClick={() => handleOpenModal(pkg)}
-                  >
-                    <Pencil size={18} />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-red-500 hover:bg-red-50 rounded-lg"
-                  >
-                    <Trash2 size={18} />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                <Pencil size={18} />
+              </Button>
+              <Button
+                variant="outline"
+                className="flex-1 md:flex-none h-12 md:w-12 rounded-2xl border-red-50 text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-sm"
+              >
+                <Trash2 size={18} />
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* مودال الإضافة والتعديل */}
