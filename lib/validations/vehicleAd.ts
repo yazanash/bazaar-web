@@ -12,13 +12,14 @@ import {
   TruckBodyType,
   MotorTransmission,
   MotorBodyType,
+  PubStatus,
 } from "@/types/enums";
 const enumToZod = (e: any) => Object.values(e) as [string, ...string[]];
-
 
 export const vehicleFormSchema = z.object({
   cityId: z.coerce.number().min(1),
   vehicleModelId: z.coerce.number().min(1),
+  manufacturerId: z.coerce.number().min(1),
   manufactureYear: z.coerce.number().min(1900),
   price: z.coerce.number().min(1, "السعر مطلوب"),
   category: z.enum(enumToZod(Category)),
@@ -28,6 +29,7 @@ export const vehicleFormSchema = z.object({
   usedKilometers: z.coerce.number().optional().default(0), // أضف default هنا
   color: z.string().min(1, "اللون مطلوب"),
   description: z.string().default(""),
+  status: z.enum(enumToZod(PubStatus)).default(PubStatus.Pending),
   gallery: z
     .array(
       z.object({

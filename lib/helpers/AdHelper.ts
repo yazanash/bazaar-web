@@ -13,6 +13,7 @@ import {
   FuelType,
   MotorBodyType,
   MotorTransmission,
+  PubStatus,
   RegistrationType,
   Transmission,
   TruckBodyType,
@@ -28,6 +29,7 @@ export const mapToVehicleRequest = (
     ...data,
     cityId: Number(data.cityId),
     vehicleModelId: Number(data.vehicleModelId),
+    manufacturerId: Number(data.manufacturerId),
     price: Number(data.price),
     manufactureYear: Number(data.manufactureYear),
     usedKilometers: Number(data.usedKilometers),
@@ -37,7 +39,7 @@ export const mapToVehicleRequest = (
     category: data.category as Category,
     color: data.color,
     description: data.description,
-
+    status: PubStatus.Pending,
     carSpecs:
       data.category === Category.Passenger
         ? ({
