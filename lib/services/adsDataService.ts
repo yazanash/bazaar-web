@@ -137,4 +137,9 @@ export const AdsDataService = {
       cache: "no-store",
     });
   },
+  boostAd: async (id: number): Promise<ApiResponse<any>> => {
+    return fetchApi<any>(`/MyAds/star-ad/${id}`, {
+      method: "POST",
+    });
+  },
 };
