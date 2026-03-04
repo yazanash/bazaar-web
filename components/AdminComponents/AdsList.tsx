@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Table,
@@ -20,21 +20,55 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, Search, FilterX, Calendar } from "lucide-react";
+import { Eye, Search, FilterX, Calendar, Loader2 } from "lucide-react";
 import { VehicleAdResponse } from "@/types/ad";
 import { getImageUrl } from "@/lib/utils";
+import { getPendingAds } from "@/lib/actions/admin";
+import { useInView } from "react-intersection-observer";
 interface AdsProps {
-  ads: VehicleAdResponse[];
+  initialAds: VehicleAdResponse[];
 }
 
-export default function AdsList({ ads }: AdsProps) {
+export default function AdsList({ initialAds }: AdsProps) {
   const router = useRouter();
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [ads, setAds] = useState(initialAds);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
   if (!ads) {
     return <h1>No Data</h1>;
   }
-  console.log(ads);
+  const { ref, inView } = useInView();
+
+  // ميثود جلب المزيد
+  const loadMoreAds = async () => {
+    if (isLoading || !hasMore) return;
+
+    setIsLoading(true);
+    try {
+      const nextPage = page + 1;
+      const response = await getPendingAds(nextPage);
+      const newItems = response.data?.items || [];
+
+      if (newItems.length === 0) {
+        setHasMore(false);
+      } else {
+        setAds((prev) => [...prev, ...newItems]);
+        setPage(nextPage);
+      }
+    } catch (error) {
+      console.error("Failed to load ads:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (inView) {
+      loadMoreAds();
+    }
+  }, [inView]);
   return (
     <div className="space-y-6">
       <div>
@@ -42,22 +76,6 @@ export default function AdsList({ ads }: AdsProps) {
         <p className="text-slate-500 font-bold mt-1">
           ابحث، فلتر، وراجع المنشورات
         </p>
-      </div>
-
-      {/* Filter Bar - بار الفلترة */}
-      <div className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-        <div className="relative flex-1 min-w-62.5">
-          <Search
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
-            size={18}
-          />
-          <Input
-            placeholder="ابحث عن إعلان أو معلن..."
-            className="pr-10 h-12 rounded-xl border-slate-200"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -125,6 +143,21 @@ export default function AdsList({ ads }: AdsProps) {
             </div>
           </div>
         ))}
+      </div>
+      <div ref={ref} className="py-10 flex justify-center">
+        {isLoading && (
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="animate-spin text-blue-600" size={32} />
+            <span className="text-xs text-slate-400 font-bold">
+              جاري تحميل المزيد...
+            </span>
+          </div>
+        )}
+        {!hasMore && ads.length > 0 && (
+          <p className="text-slate-400 font-bold text-sm italic">
+            لا يوجد مزيد من الإعلانات المعلقة
+          </p>
+        )}
       </div>
     </div>
   );

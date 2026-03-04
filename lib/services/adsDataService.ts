@@ -22,11 +22,11 @@ export const AdsDataService = {
       },
     );
   },
-  getPendingAds: async (): Promise<
-    ApiResponse<PaginatedResponse<VehicleAdResponse>>
-  > => {
+  getPendingAds: async (
+    page: number,
+  ): Promise<ApiResponse<PaginatedResponse<VehicleAdResponse>>> => {
     return fetchApi<PaginatedResponse<VehicleAdResponse>>(
-      `/Ads/GetAdsByStatus?PubStatus=pending`,
+      `/Ads/GetAdsByStatus?PageNumber=${page}&PageSize=10&PubStatus=pending`,
       {
         cache: "no-store",
       },
@@ -66,12 +66,15 @@ export const AdsDataService = {
       },
     );
   },
-  getFavorites: async (): Promise<
-    ApiResponse<PaginatedResponse<VehicleAdResponse>>
-  > => {
-    return fetchApi<PaginatedResponse<VehicleAdResponse>>("/ads/favorites", {
-      cache: "no-store",
-    });
+  getFavorites: async (
+    page: number,
+  ): Promise<ApiResponse<PaginatedResponse<VehicleAdResponse>>> => {
+    return fetchApi<PaginatedResponse<VehicleAdResponse>>(
+      `/ads/favorites?pageNumber=${page}&PageSize=10`,
+      {
+        cache: "no-store",
+      },
+    );
   },
   getMasters: async (): Promise<ApiResponse<Masters>> => {
     return fetchApi<Masters>("/Masters", {

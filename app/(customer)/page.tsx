@@ -5,6 +5,7 @@ import { PromoSlider } from "@/components/CustomerComponents/home/PromoSlider";
 import { Suspense } from "react";
 import { AdBannersDataService } from "@/lib/services/adBannersDataService";
 import { AdsDataService } from "@/lib/services/adsDataService";
+import { InfiniteAdsList } from "./components/InfiniteAdsList";
 export default async function HomePage() {
   try {
     const response = await AdsDataService.getHomeAds();
@@ -22,11 +23,7 @@ export default async function HomePage() {
             <h2 className="text-xl font-black text-slate-800">Special Ads</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-20">
-            {ads?.map((ad) => (
-              <VehicleCard key={ad.id} ad={ad} />
-            ))}
-          </div>
+          <InfiniteAdsList initialAds={ads ?? []} />
         </section>
       </div>
     );

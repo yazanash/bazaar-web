@@ -16,8 +16,8 @@ export async function getStats() {
   return response;
 }
 
-export async function getPendingAds() {
-  const response = await AdsDataService.getPendingAds();
+export async function getPendingAds(page:number) {
+  const response = await AdsDataService.getPendingAds(page);
   return response;
 }
 

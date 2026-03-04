@@ -4,18 +4,20 @@ import SearchHeader from "@/components/forms/SearchForms/SearchHeader";
 import { VehicleAdResponse } from "@/types/ad";
 import { Search } from "lucide-react";
 import { AdsDataService } from "@/lib/services/adsDataService";
+import { InfiniteSearchList } from "./InfiniteSearchList";
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: any;
+  searchParams: Promise<any>; 
 }) {
   const params = await searchParams;
   const hasFilters = Object.keys(params).length > 0;
-  let ads: VehicleAdResponse[] = [];
+  let initialAds: VehicleAdResponse[] = [];
+  const queryString = new URLSearchParams(params).toString();
+
   if (hasFilters) {
-    const query = new URLSearchParams(params).toString();
-    const response = await AdsDataService.searchAds(query);
-    ads = response.data?.items ?? [];
+    const response = await AdsDataService.searchAds(queryString);
+    initialAds = response.data?.items ?? [];
   }
 
   return (
@@ -28,25 +30,14 @@ export default async function SearchPage({
             <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center">
               <Search size={40} className="text-blue-200" />
             </div>
-            <div>
-              <h3 className="text-xl font-black text-slate-800">
-                ابدأ البحث عن مركبتك
-              </h3>
-              <p className="text-slate-400 font-bold text-sm mt-1">
-                استخدم الفلاتر في الأعلى لتخصيص بحثك
-              </p>
-            </div>
+            <h3 className="text-xl font-black text-slate-800">ابدأ البحث عن مركبتك</h3>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {ads.map((ad: VehicleAdResponse) => (
-              <VehicleCard key={ad.id} ad={ad} />
-            ))}
-            {ads.length === 0 && (
-              <p className="col-span-full text-center py-20 font-bold text-slate-400">
-                عذراً، لم نجد نتائج تطابق بحثك.
-              </p>
-            )}
+          <div className="pb-20">
+            <InfiniteSearchList 
+                initialAds={initialAds} 
+                currentQuery={queryString} 
+            />
           </div>
         )}
       </main>

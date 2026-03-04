@@ -33,8 +33,8 @@ export async function uploadImage(formData: FormData) {
   return response;
 }
 
-export async function getUserAds() {
-  const response = await AdsDataService.getUserAds();
+export async function getUserAds(nextPage: number) {
+  const response = await AdsDataService.getUserAds(nextPage);
   return response;
 }
 
