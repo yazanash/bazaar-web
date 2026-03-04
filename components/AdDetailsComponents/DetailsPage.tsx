@@ -29,7 +29,7 @@ export default function VehicleDetailsPage({ data }: { data: any }) {
         specs={
           data.category === "passenger"
             ? data.carSpecs
-            : data.category === "truck"
+            : data.category === "trucks"
               ? data.truckSpecs
               : data.motorSpecs
         }

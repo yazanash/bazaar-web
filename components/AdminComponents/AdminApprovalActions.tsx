@@ -45,80 +45,60 @@ export default function AdminApprovalActions({ adId }: { adId: number }) {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 lg:right-72 bg-white/90 backdrop-blur-xl border-t border-slate-200 p-4 z-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
-      <div className="max-w-4xl mx-auto flex flex-col gap-4">
-        {showRejectBox && (
-          <div className="animate-in slide-in-from-bottom-4 duration-300">
-            <div className="flex items-center justify-between mb-2 mr-2">
-              <p className="text-xs font-black text-red-500">
-                سبب الرفض (سيصل للمستخدم):
-              </p>
-              <button
-                onClick={() => setReason("")}
-                className="text-[10px] text-slate-400 hover:text-red-500 transition-colors flex items-center gap-1"
-              >
-                <RotateCcw size={10} /> مسح النص
-              </button>
-            </div>
+    <div className="flex items-center gap-2 w-full md:w-auto">
+      {showRejectBox && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-130 flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-lg rounded-[2.5rem] p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+            <h2 className="text-xl font-black text-slate-900 mb-2">
+              رفض الإعلان
+            </h2>
+            <p className="text-sm text-slate-500 mb-6 font-bold">
+              يرجى توضيح السبب للمستخدم لتحسين إعلانه مستقبلاً.
+            </p>
+
             <Textarea
-              placeholder="مثلاً: الصور غير واضحة، السعر مبالغ فيه..."
-              className="rounded-2xl border-red-100 bg-red-50/30 focus:bg-white transition-all h-24 resize-none font-bold"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
+              placeholder="مثلاً: الصور غير واضحة..."
+              className="rounded-3xl h-32 border-slate-100 bg-slate-50 focus:bg-white p-5 font-bold resize-none"
             />
-          </div>
-        )}
 
-        <div className="flex gap-4">
-          {!showRejectBox ? (
-            <>
+            <div className="flex gap-3 mt-6">
               <Button
-                disabled={loading}
-                className="flex-2 h-14 rounded-2xl bg-emerald-600 hover:bg-emerald-700 font-black text-lg shadow-lg shadow-emerald-100 transition-all active:scale-95"
-                onClick={() => handleUpdateStatus(PubStatus.Accepted)}
-              >
-                {loading ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  <>
-                    <Check className="ml-2" /> قبول المنشور
-                  </>
-                )}
-              </Button>
-              <Button
-                disabled={loading}
-                variant="outline"
-                className="flex-1 h-14 rounded-2xl border-red-200 text-red-600 hover:bg-red-50 font-black text-lg"
-                onClick={() => setShowRejectBox(true)}
-              >
-                <X className="ml-2" /> رفض
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                disabled={loading || !reason.trim()}
-                className="flex-2 h-14 rounded-2xl bg-red-600 hover:bg-red-700 font-black text-lg shadow-lg shadow-red-100 transition-all active:scale-95"
                 onClick={() => handleUpdateStatus(PubStatus.Rejected)}
+                disabled={loading || !reason.trim()}
+                className="flex-1 h-14 rounded-2xl bg-red-600 hover:bg-red-700 font-black"
               >
-                {loading ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  "تأكيد الرفض النهائي"
-                )}
+                تأكيد الرفض
               </Button>
               <Button
-                disabled={loading}
                 variant="ghost"
-                className="flex-1 h-14 rounded-2xl font-bold text-slate-500"
                 onClick={() => setShowRejectBox(false)}
+                className="flex-1 h-14 rounded-2xl font-bold"
               >
-                تراجع
+                إلغاء
               </Button>
-            </>
-          )}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
+
+      <Button
+        disabled={loading}
+        onClick={() => handleUpdateStatus(PubStatus.Accepted)}
+        className="h-12 px-8 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-black shadow-lg shadow-emerald-100"
+      >
+        قبول ونشر الإعلان
+      </Button>
+
+      <Button
+        disabled={loading}
+        variant="outline"
+        onClick={() => setShowRejectBox(true)}
+        className="h-12 px-6 rounded-xl border-red-100 text-red-500 hover:bg-red-50 font-black"
+      >
+        رفض الإعلان
+      </Button>
     </div>
   );
 }

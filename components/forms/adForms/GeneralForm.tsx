@@ -30,6 +30,7 @@ interface GeneralSectionProps {
   cities: CityResponse[];
   models: ManufacturerModelResponse[];
   manufacturers: ManufacturerResponse[];
+  disabled: boolean;
 }
 
 export function GeneralSection({
@@ -37,6 +38,7 @@ export function GeneralSection({
   cities,
   models,
   manufacturers,
+  disabled,
 }: GeneralSectionProps) {
   const selectedCategory = form.watch("category");
   const selectedManufacturer = form.watch("manufacturerId");
@@ -63,6 +65,7 @@ export function GeneralSection({
             <FormItem>
               <FormLabel className="font-bold">نوع المركبة</FormLabel>
               <Select
+                disabled={disabled}
                 onValueChange={(val) => {
                   field.onChange(val);
                   form.setValue("vehicleModelId", "");
@@ -93,6 +96,7 @@ export function GeneralSection({
             <FormItem>
               <FormLabel className="font-bold">الماركة</FormLabel>
               <Select
+                disabled={disabled}
                 onValueChange={field.onChange}
                 value={field.value?.toString()}
               >
@@ -125,7 +129,7 @@ export function GeneralSection({
               <Select
                 onValueChange={field.onChange}
                 value={field.value?.toString()}
-                disabled={!selectedCategory}
+                disabled={disabled || !selectedCategory}
               >
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl bg-slate-50 border-slate-200">

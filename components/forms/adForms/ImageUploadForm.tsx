@@ -5,7 +5,13 @@ import { Input } from "@/components/ui/input";
 import { uploadImage } from "@/lib/actions/ads";
 import { getImageUrl } from "@/lib/utils";
 
-export function ImageUploadSection({ form }: { form: any }) {
+export function ImageUploadSection({
+  form,
+  disabled,
+}: {
+  form: any;
+  disabled: boolean;
+}) {
   const [isUploading, setIsUploading] = useState(false);
   const gallery = form.watch("gallery") || [];
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -90,31 +96,37 @@ export function ImageUploadSection({ form }: { form: any }) {
           صور الإعلان
         </h2>
         <span className="text-xs text-slate-500 font-bold italic">
-          اسحب الصور لترتيبها (الأولى هي الأساسية)
+          {disabled
+            ? "لا يمكن تعديل الصور بعد قبول الإعلان"
+            : "اسحب الصور لترتيبها (الأولى هي الأساسية)"}
         </span>
       </div>
 
       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x items-start">
         {/* زر الإضافة المحسن */}
-        <label className="relative shrink-0 w-32 h-40 border-2 border-dashed border-blue-200 rounded-3xl flex flex-col items-center justify-center bg-blue-50/50 hover:bg-blue-100 transition-all cursor-pointer snap-start active:scale-95">
-          {isUploading ? (
-            <Loader2 className="animate-spin text-blue-500" />
-          ) : (
-            <Images className="text-blue-400" size={30} />
-          )}
-          <span className="text-[10px] font-black mt-2 text-blue-600">
-            أضف صور
-          </span>
-          <Input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            className="hidden" // إخفاء حقيقي
-            onChange={handleFileChange}
-            disabled={isUploading}
-            accept="image/*"
-          />
-        </label>
+        {!disabled && (
+          <label
+            className={`relative shrink-0 w-32 h-40 border-2 border-dashed border-blue-200 rounded-3xl flex flex-col items-center justify-center bg-blue-50/50 hover:bg-blue-100 transition-all cursor-pointer snap-start active:scale-95 ${disabled || isUploading ? "opacity-50 cursor-not-allowed" : ""}`}
+          >
+            {isUploading ? (
+              <Loader2 className="animate-spin text-blue-500" />
+            ) : (
+              <Images className="text-blue-400" size={30} />
+            )}
+            <span className="text-[10px] font-black mt-2 text-blue-600">
+              أضف صور
+            </span>
+            <Input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              className="hidden"
+              onChange={handleFileChange}
+              disabled={disabled || isUploading} // تعطيل حقيقي للمدخل
+              accept="image/*"
+            />
+          </label>
+        )}
 
         {/* عرض الصور مع السحب والإفلات */}
         {gallery.map((img: any, index: number) => (
@@ -134,16 +146,17 @@ export function ImageUploadSection({ form }: { form: any }) {
               alt="Vehicle"
             />
 
-            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button
-                type="button"
-                onClick={() => removeImage(index)}
-                className="bg-red-500/90 text-white rounded-full p-1.5 shadow-xl hover:bg-red-600"
-              >
-                <X size={14} />
-              </button>
-            </div>
-
+            {!disabled && (
+              <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  type="button"
+                  onClick={() => removeImage(index)}
+                  className="bg-red-500/90 text-white rounded-full p-1.5 shadow-xl hover:bg-red-600"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            )}
             {index === 0 && (
               <div className="absolute top-2 left-2 bg-blue-600 text-white p-1 rounded-full shadow-lg">
                 <Star size={12} fill="white" />

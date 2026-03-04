@@ -34,6 +34,7 @@ export default function AdsList({ ads }: AdsProps) {
   if (!ads) {
     return <h1>No Data</h1>;
   }
+  console.log(ads);
   return (
     <div className="space-y-6">
       <div>
@@ -68,7 +69,7 @@ export default function AdsList({ ads }: AdsProps) {
             <div className="relative w-full md:w-44 h-32 shrink-0 rounded-[1.5rem] bg-slate-50 overflow-hidden border border-slate-50">
               <img
                 src={getImageUrl(ad.thumbnail) || "/placeholder-car.png"} // تأكد من مسار الصور عندك
-                alt={ad.vehicleModel.name}
+                alt={ad.slug}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               {/* ملصق الحالة فوق الصورة */}

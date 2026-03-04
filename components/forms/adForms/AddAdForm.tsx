@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { vehicleFormSchema } from "@/lib/validations/vehicleAd";
 import { Form } from "@/components/ui/form";
-import { Category } from "@/types/enums";
+import { Category, PubStatus } from "@/types/enums";
 import * as z from "zod";
 type VehicleFormValues = z.infer<typeof vehicleFormSchema>;
 import { GeneralSection } from "./GeneralForm";
@@ -22,6 +22,7 @@ import { createAd, deleteAdById, updateAd } from "@/lib/actions/ads";
 import { mapResponseToForm, mapToVehicleRequest } from "@/lib/helpers/AdHelper";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ShieldAlert } from "lucide-react";
 export default function AddAdForm({
   cities,
   models,
@@ -106,19 +107,32 @@ export default function AddAdForm({
       </div>
     );
   }
+  const isLocked = initialData?.status === PubStatus.Accepted;
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5 max-w-4xl mx-auto p-6 bg-white rounded-[2.5rem] shadow-xl border border-slate-100"
       >
-        <ImageUploadSection form={form} />
+        {isLocked && (
+          <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex items-center gap-3 text-amber-700">
+            <div className="bg-amber-100 p-2 rounded-xl">
+              <ShieldAlert size={20} />
+            </div>
+            <p className="text-xs font-bold leading-relaxed">
+              هذا الإعلان "مقبول". لا يمكن تعديل الصور أو الماركة والموديل
+              حفاظاً على مصداقية الإعلان. يمكنك تعديل السعر والوصف فقط.
+            </p>
+          </div>
+        )}
+        <ImageUploadSection form={form} disabled={isLocked} />
 
         <GeneralSection
           manufacturers={manufacturer}
           form={form}
           cities={cities}
           models={models}
+          disabled={isLocked}
         />
 
         <hr className="border-slate-100" />

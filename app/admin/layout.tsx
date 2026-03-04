@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { checkAdmin } from "@/lib/actions/admin";
+import { logoutAction } from "@/lib/actions/auth";
 
 export default function AdminLayout({
   children,
@@ -88,7 +89,9 @@ export default function AdminLayout({
     },
     { title: "الادارة", icon: Users, href: "/admin/admins" },
   ];
-
+  const handleLogout = async () => {
+    await logoutAction();
+  };
   return (
     <div className="min-h-screen bg-slate-50 flex" dir="rtl">
       {isSidebarOpen && (
@@ -147,7 +150,10 @@ export default function AdminLayout({
 
           {/* Footer Sidebar */}
           <div className="p-4 border-t border-slate-50 space-y-2">
-            <button className="flex items-center gap-3 px-4 py-3.5 w-full text-red-500 font-bold text-sm hover:bg-red-50 rounded-2xl transition-colors">
+            <button
+              onClick={handleLogout}
+              className=" cursor-pointer flex items-center gap-3 px-4 py-3.5 w-full text-red-500 font-bold text-sm hover:bg-red-50 rounded-2xl transition-colors"
+            >
               <LogOut size={20} />
               تسجيل الخروج
             </button>

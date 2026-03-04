@@ -2,6 +2,7 @@ import {
   Masters,
   PaginatedResponse,
   UserAdsResponse,
+  UserPostPrivileges,
   VehicleAdDetailsResponse,
   VehicleAdRequest,
   VehicleAdResponse,
@@ -17,7 +18,7 @@ export const AdsDataService = {
     return fetchApi<PaginatedResponse<VehicleAdResponse>>(
       `/ads/home?pageNumber=${page}&pageSize=10`,
       {
-       cache: "no-store",
+        cache: "no-store",
       },
     );
   },
@@ -27,7 +28,7 @@ export const AdsDataService = {
     return fetchApi<PaginatedResponse<VehicleAdResponse>>(
       `/Ads/GetAdsByStatus?PubStatus=pending`,
       {
-       cache: "no-store",
+        cache: "no-store",
       },
     );
   },
@@ -37,7 +38,7 @@ export const AdsDataService = {
     return fetchApi<PaginatedResponse<UserAdsResponse>>(
       `/MyAds?pageNumber=${page}&pageSize=10`,
       {
-       cache: "no-store",
+        cache: "no-store",
       },
     );
   },
@@ -125,6 +126,11 @@ export const AdsDataService = {
   deleteAdById: async (id: number): Promise<ApiResponse<{}>> => {
     return fetchApi<{}>(`/MyAds/${id}`, {
       method: "DELETE",
+    });
+  },
+  checkPostPrivileges: async (): Promise<ApiResponse<UserPostPrivileges>> => {
+    return fetchApi<UserPostPrivileges>("/MyAds/validate", {
+      cache: "no-store",
     });
   },
 };

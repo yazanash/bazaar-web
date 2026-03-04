@@ -49,3 +49,8 @@ export async function deleteAdById(id: number) {
   revalidatePath("/");
   return response;
 }
+
+export async function checkPostPrivileges() {
+  const response = await AdsDataService.checkPostPrivileges();
+  return response;
+}

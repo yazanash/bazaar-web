@@ -130,6 +130,7 @@ export interface VehicleAdRequest {
   id?: number;
   cityId: number;
   vehicleModelId: number;
+  manufacturerId: number;
   manufactureYear: number;
   isUsed: boolean;
   fuelType: FuelType;
@@ -144,10 +145,18 @@ export interface VehicleAdRequest {
   truckSpecs?: TruckSpecsResponse;
   motorSpecs?: MotorSpecsResponse;
   gallery: ImageRequest[];
+  status: PubStatus;
 }
 
 export interface UserAdsResponse {
   pubStatus: PubStatus;
   reasone: string;
   vehicleAdResponse: VehicleAdResponse;
+}
+
+export interface UserPostPrivileges {
+  canPost: boolean;
+  hasActivePackage: boolean;
+  remainingAds: number;
+  expiryDate: string;
 }
