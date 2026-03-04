@@ -129,8 +129,11 @@ export async function revokeAdmin(id: string) {
   return response;
 }
 
-
-export async function changeAdStatus(status: PubStatus,reason:string) {
-  const response = await AdsDataService.changeAdStatus(status,reason);
+export async function changeAdStatus(
+  id: number,
+  status: PubStatus,
+  reason: string,
+) {
+  const response = await AdsDataService.changeAdStatus(status, reason, id);
   return response;
 }

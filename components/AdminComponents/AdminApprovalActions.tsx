@@ -24,7 +24,7 @@ export default function AdminApprovalActions({ adId }: { adId: number }) {
 
     setLoading(true);
     try {
-      const response = await changeAdStatus(status, reason);
+      const response = await changeAdStatus(adId,status, reason);
       if (response.success) {
         toast.success(
           status === PubStatus.Accepted

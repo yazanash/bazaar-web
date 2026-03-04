@@ -89,8 +89,9 @@ export const AdsDataService = {
   changeAdStatus: async (
     status: PubStatus,
     reason: string,
+    id: number,
   ): Promise<ApiResponse<any>> => {
-    return fetchApi<{ message: string }>("/Ads/Like", {
+    return fetchApi<{ message: string }>(`/Ads/ChangeAdStatus/${id}`, {
       method: "POST",
       body: JSON.stringify({
         pubStatus: status,
