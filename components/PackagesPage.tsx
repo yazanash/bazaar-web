@@ -70,7 +70,7 @@ export default function PackagesPage({ packages }: PackagesProps) {
           </p>
 
           <a
-            href="https://t.me/your_bot_username"
+            href="https://t.me/bazaar963_bot"
             target="_blank"
             className="flex items-center justify-center gap-2 w-full h-14 bg-blue-600 text-white rounded-2xl font-black shadow-xl active:scale-95 transition-all"
           >
