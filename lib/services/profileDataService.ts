@@ -1,3 +1,4 @@
+
 import { ProfileData, UserWalletResponse } from "@/types/profile";
 import { fetchApi } from "../api";
 import { ApiResponse } from "../utils";

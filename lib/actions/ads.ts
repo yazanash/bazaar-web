@@ -1,6 +1,5 @@
 "use server";
 
-import { api } from "@/lib/api";
 import { VehicleAdRequest } from "@/types/ad";
 import { revalidatePath } from "next/cache";
 import { AdsDataService } from "../services/adsDataService";

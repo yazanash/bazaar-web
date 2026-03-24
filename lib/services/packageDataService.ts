@@ -1,3 +1,4 @@
+
 import { Package } from "@/types/package";
 import { ApiResponse } from "../utils";
 import { fetchApi } from "../api";
@@ -5,7 +6,7 @@ import { fetchApi } from "../api";
 export const PackageDataService = {
   getPackages: async (): Promise<ApiResponse<Package[]>> => {
     return fetchApi<Package[]>(`/Packages`, {
-     cache: "no-store",
+      cache: "no-store",
     });
   },
   createPackage: async (newPackage: Package): Promise<ApiResponse<Package>> => {

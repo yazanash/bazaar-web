@@ -1,3 +1,4 @@
+"use server";
 import { api } from "@/lib/api";
 import { revalidatePath } from "next/cache";
 import { ProfileDataService } from "../services/profileDataService";

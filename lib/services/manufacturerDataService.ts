@@ -1,3 +1,4 @@
+
 import { ManufacturerResponse, PaginatedResponse } from "@/types/ad";
 import { fetchApi } from "../api";
 import { ApiResponse } from "../utils";

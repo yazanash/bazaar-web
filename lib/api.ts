@@ -1,24 +1,5 @@
-"use server"
-import {
-  CityResponse,
-  ManufacturerResponse,
-  Masters,
-  PaginatedResponse,
-  UserAdsResponse,
-  VehicleAdDetailsResponse,
-  VehicleAdRequest,
-  VehicleAdResponse,
-} from "@/types/ad";
-import { AdBannerResponse } from "@/types/adBanner";
-import { ProfileData, UserWalletResponse } from "@/types/profile";
-import { cookies } from "next/headers";
 import { ApiResponse } from "./utils";
-import { Package } from "@/types/package";
-import {
-  PaymentGateway,
-  PaymentRequest,
-  Stats,
-} from "@/types/admin";
+import { Stats } from "@/types/admin";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -28,6 +9,7 @@ export async function fetchApi<T>(
 ): Promise<ApiResponse<T>> {
   let token: string | undefined;
   try {
+    const { cookies } = await import("next/headers");
     const cookieStore = await cookies();
     token = cookieStore.get("session_token")?.value;
   } catch (e) {}
