@@ -1,44 +1,102 @@
 "use client";
-import { Heart, Home, Plus, Search, User } from "lucide-react";
+import { Heart, Home, Plus, Search, User, Languages } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-export function UnifiedHeader() {
-  return (
-   <header className="sticky top-0 z-110 bg-white/80 backdrop-blur-md border-b border-slate-300/80 w-full flex justify-center">
-      <div className="w-full max-w-5xl h-16 md:h-20 flex items-center justify-between px-4 gap-4">
-        
-        {/* اللوجو */}
-        <Link href="/" className="flex items-center shrink-0">
-          <Image src="/logo.png" alt="Bazaar" width={40} height={40} className="w-auto h-10 object-contain" priority />
-        </Link>
+import { usePathname, useRouter } from "next/navigation";
 
-        {/* البحث - صار أذكى في التوسع */}
-        <div className="flex-1 flex justify-center max-w-md">
-          <Link href="/search" className="w-full h-11 bg-slate-100 rounded-2xl flex items-center px-4 text-slate-500 text-sm border border-slate-200 hover:bg-slate-200 transition-all">
-            <Search size={18} className="ml-2" />
-            <span>بحث...</span>
+export function UnifiedHeader() {
+  const t = useTranslations("layout");
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const toggleLanguage = () => {
+    const nextLocale = locale === "ar" ? "en" : "ar";
+    const newPath = pathname.replace(`/${locale}`, `/${nextLocale}`);
+    router.push(newPath || `/${nextLocale}`);
+  };
+
+  return (
+    <header className="sticky top-0 z-110 bg-[#1A68A6] text-white shadow-md w-full">
+      {/* الحاوية الرئيسية */}
+      <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col gap-3">
+        {/* السطر الأول: اللوجو واسم التطبيق (وسط في الموبايل، يسار في الديسكتوب) */}
+        <div className="flex items-center justify-between md:justify-start gap-4">
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo.png"
+              alt="Bazaar"
+              width={32}
+              height={32}
+              className="w-auto h-8"
+              priority
+            />
+            <span className="font-bold text-xl tracking-wide">Bazaar963</span>
           </Link>
+
+          {/* أزرار الحساب والإضافة تظهر فقط في الديسكتوب بالسطر الأول */}
+          <nav className="hidden md:flex items-center gap-2 ml-auto">
+            <HeaderLink
+              href="/myads"
+              icon={<Plus size={20} />}
+              label={t("links.myAds")}
+            />
+            <HeaderLink
+              href="/user-settings"
+              icon={<User size={20} />}
+              label={t("links.myAccount")}
+            />
+          </nav>
         </div>
 
-        {/* أزرار التنقل للشاشات الكبيرة فقط */}
-        <nav className="hidden md:flex items-center gap-2">
-          <HeaderLink href="/" icon={<Home size={20} />} label="الرئيسية" />
-          <HeaderLink href="/myads" icon={<Plus size={20} />} label="إعلاناتي" />
-          <HeaderLink href="/favorites" icon={<Heart size={20} />} label="المفضلة" />
-          <HeaderLink href="/user-settings" icon={<User size={20} />} label="حسابي" />
-        </nav>
+        {/* السطر الثاني: البحث + اللغة + المفضلة */}
+        <div className="flex items-center gap-2 w-full">
+          {/* زر اللغة */}
+          <button
+            onClick={toggleLanguage}
+            className="shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 transition-all"
+            title="Change Language"
+          >
+            {locale === "ar" ? "en" : "ع"}
+          </button>
 
-        {/* زر المفضل للموبايل فقط (عشان ما يختفي الهيدر) */}
-        <div className="md:hidden">
-           <Link href="/favorites" className="p-2 text-slate-600"><Heart size={24} /></Link>
+          {/* مربع البحث - يأخذ أكبر مساحة ممكنة */}
+          <Link
+            href="/search"
+            className="flex-1 h-10 bg-white/10 backdrop-blur-sm rounded-xl flex items-center px-4 text-white/80 text-sm border border-white/20 hover:bg-white/20 transition-all"
+          >
+            <Search size={18} className={locale === "ar" ? "ml-2" : "mr-2"} />
+            <span>{t("search")}</span>
+          </Link>
+
+          {/* المفضلة */}
+          <Link
+            href="/favorites"
+            className="shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 transition-all text-white"
+          >
+            <Heart size={20} />
+          </Link>
         </div>
       </div>
     </header>
   );
 }
-function HeaderLink({ href, icon, label }: { href: string, icon: any, label: string }) {
+
+function HeaderLink({
+  href,
+  icon,
+  label,
+}: {
+  href: string;
+  icon: any;
+  label: string;
+}) {
   return (
-    <Link href={href} className="flex items-center gap-2 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-blue-600 transition-all font-bold text-sm">
+    <Link
+      href={href}
+      className="flex items-center gap-2 px-3 py-2 rounded-xl text-white hover:bg-white/20 transition-all font-bold text-sm"
+    >
       {icon}
       <span>{label}</span>
     </Link>

@@ -3,14 +3,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Plus, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export function MaterialNavBar() {
   const pathname = usePathname();
-
+  const t = useTranslations("layout");
   const navItems = [
-    { href: "/user-settings", icon: User, label: "حسابي" },
-    { href: "/", icon: Home, label: "الرئيسية" },
-    { href: "/myads", icon: Plus, label: "إعلاناتي" },
+    { href: "/user-settings", icon: User, label: t("links.myAccount") },
+    { href: "/", icon: Home, label: t("links.home") },
+    { href: "/myads", icon: Plus, label: t("links.myAds") },
   ];
 
   return (

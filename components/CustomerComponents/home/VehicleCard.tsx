@@ -6,14 +6,15 @@ import { VehicleAdResponse } from "@/types/ad";
 import { getImageUrl } from "@/lib/utils";
 import { toggleFavoriteAction } from "@/lib/actions/ads";
 import Link from "next/link";
+import { useLocale } from "next-intl";
 interface VehicleCardProps {
   ad: VehicleAdResponse;
 }
 export function VehicleCard({ ad }: VehicleCardProps) {
   const router = useRouter();
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   const [isFavorite, setIsFavorite] = useState(ad.isFavorite);
-
-
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -54,7 +55,9 @@ export function VehicleCard({ ad }: VehicleCardProps) {
           </span>
           <div className="flex items-center gap-1 text-slate-500">
             <MapPin size={14} />
-            <span className="text-xs font-bold">{ad.city.arabicName}</span>
+            <span className="text-xs font-bold">
+              {isArabic ? ad.city.arabicName : ad.city.englishName}
+            </span>
           </div>
         </div>
 

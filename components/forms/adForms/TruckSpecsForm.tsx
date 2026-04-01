@@ -16,33 +16,39 @@ import {
 import { Switch } from "@/components/ui/switch";
 import {
   ArabicLabels,
+  EnglishLabels,
   TruckBodyType,
   TrucksUsageType,
 } from "@/types/enums";
+import { useLocale, useTranslations } from "next-intl";
 
 export function TruckSpecsSection({ form }: { form: any }) {
+  const t = useTranslations("ads.truckSpecs");
+  const locale = useLocale();
+  const isArabic = locale === "ar";
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <h3 className="text-lg font-bold text-blue-700">
-        مواصفات الشاحنة التفصيلية
-      </h3>
+      <h3 className="text-lg font-bold text-blue-700">{t("title")}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <FormField
           control={form.control}
-          name="carSpecs.truckBodyType"
+          name="truckSpecs.truckBodyType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>نوع الهيكل</FormLabel>
+              <FormLabel>{t("truckBodyType")}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
-                    <SelectValue placeholder="اختر نوع الهيكل" />
+                    <SelectValue placeholder="----" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {Object.values(TruckBodyType).map((t) => (
                     <SelectItem key={t} value={t}>
-                      {ArabicLabels.TruckBodyType[t]}
+                      {isArabic
+                        ? ArabicLabels.TruckBodyType[t]
+                        : EnglishLabels.TruckBodyType[t]}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -53,20 +59,22 @@ export function TruckSpecsSection({ form }: { form: any }) {
         />
         <FormField
           control={form.control}
-          name="carSpecs.trucksUsageType"
+          name="truckSpecs.trucksUsageType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>نوع الاسنخدام</FormLabel>
+              <FormLabel>{t("trucksUsageType")}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
-                    <SelectValue placeholder="اختر نوع الاستخدام" />
+                    <SelectValue placeholder="---" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {Object.values(TrucksUsageType).map((t) => (
                     <SelectItem key={t} value={t}>
-                      {ArabicLabels.TrucksUsageType[t]}
+                       {isArabic
+                        ? ArabicLabels.TrucksUsageType[t]
+                        : EnglishLabels.TrucksUsageType[t]}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -78,11 +86,11 @@ export function TruckSpecsSection({ form }: { form: any }) {
 
         <FormField
           control={form.control}
-          name="carSpecs.isRegistered"
+          name="truckSpecs.isRegistered"
           render={({ field }) => (
             <FormItem className="flex w-full flex-row items-center justify-between rounded-xl border p-3 shadow-sm bg-white">
               <div className="space-y-0.5">
-                <FormLabel>هل المركبة مسجلة؟</FormLabel>
+                <FormLabel>{t("isRegistered")}</FormLabel>
               </div>
               <FormControl>
                 <Switch
@@ -99,7 +107,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
           name="truckSpecs.axisCount"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">عدد المحاور</FormLabel>
+              <FormLabel className="font-bold">{t("axisCount")}</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -117,7 +125,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
           name="truckSpecs.backstorageLength"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">طول الصندوق الخلفي</FormLabel>
+              <FormLabel className="font-bold">{t("backstorageLength")}</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -135,7 +143,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
           name="truckSpecs.backstorageHeight"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">ارتفاع الصندوق الخلفي</FormLabel>
+              <FormLabel className="font-bold">{t("backstorageHeight")}</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -153,7 +161,7 @@ export function TruckSpecsSection({ form }: { form: any }) {
           name="truckSpecs.payload"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">الحمولة (طن)</FormLabel>
+              <FormLabel className="font-bold">{t("payload")}</FormLabel>
               <FormControl>
                 <Input
                   type="number"

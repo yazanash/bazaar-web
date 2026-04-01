@@ -22,7 +22,8 @@ import {
   ManufacturerModelResponse,
   ManufacturerResponse,
 } from "@/types/ad";
-import { Category, FuelType, ArabicLabels } from "@/types/enums";
+import { Category, FuelType, ArabicLabels, EnglishLabels } from "@/types/enums";
+import { useLocale, useTranslations } from "next-intl";
 import { UseFormReturn } from "react-hook-form";
 
 interface GeneralSectionProps {
@@ -43,6 +44,9 @@ export function GeneralSection({
   const selectedCategory = form.watch("category");
   const selectedManufacturer = form.watch("manufacturerId");
   const isUsed = form.watch("isUsed");
+  const t = useTranslations("ads.generalForm");
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   const filteredModels = models?.filter(
     (mod) =>
       mod.category === selectedCategory &&
@@ -54,7 +58,7 @@ export function GeneralSection({
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-black text-slate-800 border-r-4 border-blue-600 pr-3">
-        المعلومات الأساسية
+        {t("title")}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -63,7 +67,7 @@ export function GeneralSection({
           name="category"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">نوع المركبة</FormLabel>
+              <FormLabel className="font-bold">{t("vCategory")}</FormLabel>
               <Select
                 disabled={disabled}
                 onValueChange={(val) => {
@@ -74,13 +78,15 @@ export function GeneralSection({
               >
                 <FormControl>
                   <SelectTrigger className="h-12 w-full text-center rounded-xl bg-slate-50 border-slate-200">
-                    <SelectValue placeholder="اختر الفئة" />
+                    <SelectValue placeholder="----" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {Object.values(Category).map((cat) => (
                     <SelectItem key={cat} value={cat}>
-                      {ArabicLabels.Category[cat]}
+                      {isArabic
+                        ? ArabicLabels.Category[cat]
+                        : EnglishLabels.Category[cat]}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -94,7 +100,7 @@ export function GeneralSection({
           name="manufacturerId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">الماركة</FormLabel>
+              <FormLabel className="font-bold">{t("vManufacturer")}</FormLabel>
               <Select
                 disabled={disabled}
                 onValueChange={field.onChange}
@@ -102,7 +108,7 @@ export function GeneralSection({
               >
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl bg-slate-50 border-slate-200">
-                    <SelectValue placeholder="اختر المصنع" />
+                    <SelectValue placeholder="-----" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="max-h-75 z-150">
@@ -125,7 +131,7 @@ export function GeneralSection({
           name="vehicleModelId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold"> الموديل</FormLabel>
+              <FormLabel className="font-bold"> {t("vModel")}</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 value={field.value?.toString()}
@@ -134,11 +140,7 @@ export function GeneralSection({
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl bg-slate-50 border-slate-200">
                     <SelectValue
-                      placeholder={
-                        selectedCategory
-                          ? "اختر الموديل..."
-                          : "اختر نوع المركبة أولاً"
-                      }
+                      placeholder={selectedCategory ? "----" : t("unvModel")}
                     />
                   </SelectTrigger>
                 </FormControl>
@@ -160,7 +162,7 @@ export function GeneralSection({
           name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">السعر ($)</FormLabel>
+              <FormLabel className="font-bold">{t("price")} ($)</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -179,20 +181,20 @@ export function GeneralSection({
           name="cityId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">المدينة</FormLabel>
+              <FormLabel className="font-bold">{t("city")}</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 value={field.value?.toString()}
               >
                 <FormControl>
                   <SelectTrigger className="h-12  w-full rounded-xl border-slate-200">
-                    <SelectValue placeholder="اختر المدينة" />
+                    <SelectValue placeholder="----" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {cities?.map((city) => (
                     <SelectItem key={city.id} value={city.id.toString()}>
-                      {city.arabicName}
+                      {isArabic ? city.arabicName : city.englishName}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -207,7 +209,9 @@ export function GeneralSection({
           name="manufactureYear"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">سنة الصنع</FormLabel>
+              <FormLabel className="font-bold">
+                {t("manufactureYear")}
+              </FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -227,7 +231,7 @@ export function GeneralSection({
           name="fuelType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">نوع الوقود</FormLabel>
+              <FormLabel className="font-bold">{t("fuelType")}</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
@@ -235,13 +239,15 @@ export function GeneralSection({
               >
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl border-slate-200">
-                    <SelectValue placeholder="اختر الوقود" />
+                    <SelectValue placeholder="----" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {Object.values(FuelType).map((f) => (
                     <SelectItem key={f} value={f}>
-                      {ArabicLabels.FuelType[f]}
+                      {isArabic
+                        ? ArabicLabels.FuelType[f]
+                        : EnglishLabels.FuelType[f]}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -256,12 +262,11 @@ export function GeneralSection({
           name="color"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">اللون</FormLabel>
+              <FormLabel className="font-bold">{t("color")}</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   className="h-12 w-full rounded-xl border-slate-200"
-                  placeholder="مثال: أسود ملوكي"
                 />
               </FormControl>
               <FormMessage />
@@ -276,7 +281,7 @@ export function GeneralSection({
             render={({ field }) => (
               <FormItem className="flex flex-row w-full items-center justify-between rounded-2xl border p-4 shadow-sm bg-white border-slate-100">
                 <FormLabel className="font-bold cursor-pointer text-slate-700">
-                  المركبة مستعملة؟
+                  {t("isUsed")}
                 </FormLabel>
                 <FormControl>
                   <Switch
@@ -294,7 +299,7 @@ export function GeneralSection({
               render={({ field }) => (
                 <FormItem className="animate-in w-full fade-in slide-in-from-top-2 duration-300">
                   <FormLabel className="font-bold">
-                    الكيلوميترات المقطوعة
+                    {t("usedKilometers")}
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -314,7 +319,7 @@ export function GeneralSection({
             render={({ field }) => (
               <FormItem className="flex w-full flex-row items-center justify-between rounded-2xl border p-4 shadow-sm bg-white border-slate-100">
                 <FormLabel className="font-bold cursor-pointer text-slate-700">
-                  قابلة للتقسيط؟
+                  {t("installment")}
                 </FormLabel>
                 <FormControl>
                   <Switch
@@ -331,12 +336,12 @@ export function GeneralSection({
           name="description"
           render={({ field }) => (
             <FormItem className="col-span-1 md:col-span-2">
-              <FormLabel className="font-bold">وصف الإعلان</FormLabel>
+              <FormLabel className="font-bold"> {t("description")}</FormLabel>
               <FormControl>
                 <Textarea
                   {...field}
                   className="rounded-2xl  w-full border-slate-200 bg-slate-50 focus:bg-white transition-colors"
-                  placeholder="اكتب تفاصيل إضافية عن حالة المركبة والمميزات..."
+                  placeholder={t("descriptionPlaceholder")}
                   rows={4}
                 />
               </FormControl>

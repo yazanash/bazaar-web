@@ -2,11 +2,14 @@
 import Link from "next/link";
 import { ChevronLeft, LogOut, ShieldCheck, User } from "lucide-react";
 import { logoutAction } from "@/lib/actions/auth";
+import { useTranslations } from "next-intl";
 
 const UserSettingsComp = () => {
   const handleLogout = async () => {
     await logoutAction();
   };
+
+  const t = useTranslations("userSettings");
   return (
     <div className="space-y-3">
       <Link
@@ -17,7 +20,7 @@ const UserSettingsComp = () => {
           <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
             <User size={20} />
           </div>
-          <span className="font-bold text-slate-700">تعديل الملف الشخصي</span>
+          <span className="font-bold text-slate-700"> {t("personalProfile")}</span>
         </div>
         <ChevronLeft size={18} className="text-slate-400" />
       </Link>
@@ -30,7 +33,7 @@ const UserSettingsComp = () => {
           <div className="p-2 bg-green-50 text-green-600 rounded-lg">
             <ShieldCheck size={20} />
           </div>
-          <span className="font-bold text-slate-700">سياسة الخصوصية</span>
+          <span className="font-bold text-slate-700">{t("privacy")}</span>
         </div>
         <ChevronLeft size={18} className="text-slate-400" />
       </Link>
@@ -43,7 +46,7 @@ const UserSettingsComp = () => {
           <div className="p-2 bg-red-50 text-red-600 rounded-lg">
             <LogOut size={20} />
           </div>
-          <span className="font-black">تسجيل الخروج</span>
+          <span className="font-black">{t("logout")}</span>
         </div>
       </button>
     </div>

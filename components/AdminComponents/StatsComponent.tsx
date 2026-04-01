@@ -25,53 +25,54 @@ import {
 import { Car, Clock, DollarSign, TrendingUp } from "lucide-react";
 import React from "react";
 import { Stats } from "@/types/admin";
+import { useTranslations } from "next-intl";
+const t = useTranslations("admin.stats");
 
 const adsConfig = {
   ads: {
-    label: "الإعلانات",
+    label: t("label"),
     color: "#3b82f6",
   },
 } satisfies ChartConfig;
 
 const statusConfig = {
-  accepted: { label: "مقبول", color: "#10b981" },
-  pending: { label: "معلق", color: "#f59e0b" },
-  rejected: { label: "مرفوض", color: "#ef4444" },
+  accepted: { label: t("accepted"), color: "#10b981" },
+  pending: { label: t("pending"), color: "#f59e0b" },
+  rejected: { label: t("rejected"), color: "#ef4444" },
 } satisfies ChartConfig;
 interface StatsProps {
   stats: Stats | null;
 }
 export default function StatsComponent({ stats }: StatsProps) {
+  const tCommon = useTranslations("common");
   if (!stats) {
-    return <h1>No Data</h1>;
+    return <h1>{tCommon("noData")}</h1>;
   }
   return (
     <div className="space-y-8 pb-10">
       <div className="flex justify-between items-end">
         <div>
-          <h1 className="text-3xl font-black text-slate-900">لوحة التحكم</h1>
-          <p className="text-slate-500 font-bold">
-            ملخص أداء النظام والعمليات الحالية
-          </p>
+          <h1 className="text-3xl font-black text-slate-900">{t("title")}</h1>
+          <p className="text-slate-500 font-bold">{t("description")}</p>
         </div>
       </div>
 
       {/* Stats Cards - الكروت العلوية */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         <StatCard
-          title="إجمالي الإعلانات"
+          title={t("totalAds")}
           value={stats?.summary.totalAds}
           icon={<Car />}
           color="text-blue-600"
         />
         <StatCard
-          title="بانتظار المراجعة"
+          title={t("pendingAds")}
           value={stats?.summary.pendingAds}
           icon={<Clock />}
           color="text-amber-600"
         />
         <StatCard
-          title="الدخل الشهري"
+          title={t("monthlyRevenue")}
           value={stats?.summary.monthlyRevenue}
           sub="$"
           icon={<DollarSign />}
@@ -84,10 +85,10 @@ export default function StatsComponent({ stats }: StatsProps) {
         <Card className="lg:col-span-2 rounded-[2rem] shadow-sm border-slate-100">
           <CardHeader>
             <CardTitle className="font-black text-lg">
-              تحليل المنشورات
+              {t("adsAnalytics")}
             </CardTitle>
             <CardDescription className="font-bold">
-              معدل إضافة الإعلانات خلال الأشهر الأخيرة
+              {t("adsAnalyticsLatest")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -126,7 +127,7 @@ export default function StatsComponent({ stats }: StatsProps) {
         <Card className="rounded-[2rem] shadow-sm border-slate-100">
           <CardHeader className="items-center pb-0">
             <CardTitle className="font-black text-lg">
-              حالات الإعلانات
+              {t("adsStatus")}
             </CardTitle>
           </CardHeader>
           <CardContent className="flex-1 pb-0">

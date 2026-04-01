@@ -11,6 +11,7 @@ import {
   ArabicLabels,
   FuelType,
   PostDateFilter,
+  EnglishLabels,
 } from "@/types/enums";
 import { GeneralFilter } from "@/types/filters";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ import {
   ManufacturerModelResponse,
   ManufacturerResponse,
 } from "@/types/ad";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Props {
   states: GeneralFilter;
@@ -44,6 +46,9 @@ export const GeneralSection = ({
   models,
   manufacturers,
 }: Props) => {
+  const t = useTranslations("ads.generalForm");
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   return (
     <div className="space-y-8">
       <section className="space-y-3">
@@ -74,7 +79,9 @@ export const GeneralSection = ({
                   : "text-slate-500 hover:text-slate-700"
               }`}
             >
-              {ArabicLabels.Category[cat]}
+              {isArabic
+                ? ArabicLabels.Category[cat]
+                : EnglishLabels.Category[cat]}
             </button>
           ),
         )}
@@ -83,20 +90,20 @@ export const GeneralSection = ({
       <div className="grid grid-cols-1 gap-6">
         <div className="space-y-2">
           <Label className="text-sm font-bold text-slate-600 flex items-center gap-2">
-            <MapPin size={16} className="text-blue-500" /> المدينة
+            <MapPin size={16} className="text-blue-500" /> {t("city")}
           </Label>
           <Select
             value={states.CityId?.toString()}
             onValueChange={(v) => setStates({ CityId: Number(v) })}
           >
             <SelectTrigger className="h-12 bg-slate-50 border-slate-200 rounded-xl font-bold">
-              <SelectValue placeholder="كل المدن" />
+              <SelectValue placeholder="---" />
             </SelectTrigger>
 
             <SelectContent className="z-200">
               {cities?.map((city) => (
                 <SelectItem key={city.id} value={String(city.id)}>
-                  {city.arabicName}
+                  {isArabic ? city.arabicName : city.englishName}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -104,14 +111,14 @@ export const GeneralSection = ({
         </div>
         <div className="space-y-2">
           <Label className="text-sm font-bold text-slate-600 flex items-center gap-2">
-            <Search size={16} className="text-blue-500" /> المصنع
+            <Search size={16} className="text-blue-500" /> {t("vManufacturer")}
           </Label>
           <Select
             value={states.ManufacturerId?.toString()}
             onValueChange={(v) => setStates({ ManufacturerId: Number(v) })}
           >
             <SelectTrigger className="h-12 bg-slate-50 border-slate-200 rounded-xl font-bold">
-              <SelectValue placeholder="كل المصانع" />
+              <SelectValue placeholder="---" />
             </SelectTrigger>
             <SelectContent className="z-200">
               {manufacturers?.map((manufacturer) => (
@@ -127,14 +134,14 @@ export const GeneralSection = ({
         </div>
         <div className="space-y-2">
           <Label className="text-sm font-bold text-slate-600 flex items-center gap-2">
-            <Search size={16} className="text-blue-500" /> الماركة
+            <Search size={16} className="text-blue-500" /> {t("vModel")}
           </Label>
           <Select
             value={states.VehicleModelId?.toString()}
             onValueChange={(v) => setStates({ VehicleModelId: Number(v) })}
           >
             <SelectTrigger className="h-12 bg-slate-50 border-slate-200 rounded-xl font-bold">
-              <SelectValue placeholder="كل الماركات" />
+              <SelectValue placeholder="---" />
             </SelectTrigger>
             <SelectContent className="z-200">
               {models?.map((model) => (
@@ -153,7 +160,7 @@ export const GeneralSection = ({
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
               <CreditCard size={18} className="text-blue-600" />
             </div>
-            <span className="font-bold text-slate-700">مستعمل فقط</span>
+            <span className="font-bold text-slate-700">{t("isUsedOnly")}</span>
           </div>
           <Switch
             checked={states.IsUsed}
@@ -166,7 +173,9 @@ export const GeneralSection = ({
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
               <Banknote size={18} className="text-green-600" />
             </div>
-            <span className="font-bold text-slate-700">متاح للتقسيط</span>
+            <span className="font-bold text-slate-700">
+              {t("installmentOnly")}
+            </span>
           </div>
           <Switch
             checked={states.Installment}
@@ -177,19 +186,19 @@ export const GeneralSection = ({
 
       <div className="space-y-3">
         <Label className="text-sm font-bold text-slate-600">
-          نطاق السعر ($)
+          {t("priceRange")}($)
         </Label>
         <div className="grid grid-cols-2 gap-3">
           <Input
             type="number"
-            placeholder="من"
+            placeholder={t("priceRangeFrom")}
             value={states.PriceFrom || ""}
             onChange={(e) => setStates({ PriceFrom: Number(e.target.value) })}
             className="h-12 bg-slate-50 border-slate-200 rounded-xl font-bold focus-visible:ring-blue-500"
           />
           <Input
             type="number"
-            placeholder="إلى"
+            placeholder={t("priceRangeTo")}
             value={states.PriceTo || ""}
             onChange={(e) => setStates({ PriceTo: Number(e.target.value) })}
             className="h-12 bg-slate-50 border-slate-200 rounded-xl font-bold focus-visible:ring-blue-500"
@@ -200,19 +209,21 @@ export const GeneralSection = ({
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label className="text-xs font-bold text-slate-500 flex items-center gap-1">
-            <Fuel size={14} /> الوقود
+            <Fuel size={14} /> {t("fuelType")}
           </Label>
           <Select
             value={states.FuelType}
             onValueChange={(v) => setStates({ FuelType: v as FuelType })}
           >
             <SelectTrigger className="h-11 bg-white border-slate-200 rounded-xl font-bold text-xs">
-              <SelectValue placeholder="الكل" />
+              <SelectValue placeholder="---" />
             </SelectTrigger>
             <SelectContent className="z-200">
               {Object.values(FuelType).map((f) => (
                 <SelectItem key={f} value={f} className="text-xs font-bold">
-                  {ArabicLabels.FuelType[f]}
+                  {isArabic
+                    ? ArabicLabels.FuelType[f]
+                    : EnglishLabels.FuelType[f]}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -221,19 +232,27 @@ export const GeneralSection = ({
 
         <div className="space-y-2">
           <Label className="text-xs font-bold text-slate-500 flex items-center gap-1">
-            <CalendarDays size={14} /> التاريخ
+            <CalendarDays size={14} /> {t("postDate")}
           </Label>
           <Select
             value={states.PostDate}
             onValueChange={(v) => setStates({ PostDate: v as PostDateFilter })}
           >
             <SelectTrigger className="h-11 bg-white border-slate-200 rounded-xl font-bold text-xs">
-              <SelectValue placeholder="أي وقت" />
+              <SelectValue
+                placeholder={
+                  isArabic
+                    ? ArabicLabels.PostDateFilter[PostDateFilter.AnyTime]
+                    : EnglishLabels.PostDateFilter[PostDateFilter.AnyTime]
+                }
+              />
             </SelectTrigger>
             <SelectContent className="z-200">
               {Object.values(PostDateFilter).map((d) => (
                 <SelectItem key={d} value={d} className="text-xs font-bold">
-                  {ArabicLabels.PostDateFilter[d]}
+                  {isArabic
+                    ? ArabicLabels.PostDateFilter[d]
+                    : EnglishLabels.PostDateFilter[d]}
                 </SelectItem>
               ))}
             </SelectContent>

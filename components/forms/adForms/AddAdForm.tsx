@@ -23,6 +23,7 @@ import { mapResponseToForm, mapToVehicleRequest } from "@/lib/helpers/AdHelper";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShieldAlert } from "lucide-react";
+import { useTranslations } from "next-intl";
 export default function AddAdForm({
   cities,
   models,
@@ -34,6 +35,8 @@ export default function AddAdForm({
   manufacturer: ManufacturerResponse[];
   initialData?: VehicleAdRequest;
 }) {
+  const t = useTranslations("ads");
+  const tCommon = useTranslations("common");
   const router = useRouter();
   const [isReady, setIsReady] = useState(false);
   const form = useForm<VehicleFormValues>({
@@ -77,17 +80,17 @@ export default function AddAdForm({
       }
 
       if (result.success) {
-        alert(initialData ? "تم التعديل بنجاح!" : "تم النشر بنجاح!");
+        alert(tCommon("saveMessage"));
       } else {
-        alert("فشلت العملية، تحقق من البيانات");
+        alert(tCommon("fieldMessage"));
       }
     } catch (error) {
       console.error("Submission error:", error);
-      alert("حدث خطأ غير متوقع أثناء الحفظ");
+      alert(tCommon("fieldMessage"));
     }
   };
   const handleDelete = async () => {
-    if (confirm("هل أنت متأكد من حذف هذا الإعلان نهائياً؟")) {
+    if (confirm(tCommon("deleteMessage"))) {
       try {
         if (initialData?.id) {
           const result = await deleteAdById(initialData?.id);
@@ -103,7 +106,7 @@ export default function AddAdForm({
     return (
       <div className="flex flex-col items-center justify-center min-h-100 space-y-4">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        <p className="text-slate-500 font-bold">جاري تحميل بيانات الإعلان...</p>
+        <p className="text-slate-500 font-bold">{tCommon("loading")}</p>
       </div>
     );
   }
@@ -120,8 +123,7 @@ export default function AddAdForm({
               <ShieldAlert size={20} />
             </div>
             <p className="text-xs font-bold leading-relaxed">
-              هذا الإعلان "مقبول". لا يمكن تعديل الصور أو الماركة والموديل
-              حفاظاً على مصداقية الإعلان. يمكنك تعديل السعر والوصف فقط.
+              {t("acceptedLock")}
             </p>
           </div>
         )}
@@ -153,7 +155,7 @@ export default function AddAdForm({
           type="submit"
           className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xl font-black rounded-2xl shadow-lg shadow-blue-200 transition-all active:scale-[0.98]"
         >
-          نشر الإعلان
+          {t("post")}
         </button>
         {initialData?.id && (
           <button
@@ -161,7 +163,7 @@ export default function AddAdForm({
             onClick={handleDelete}
             className="w-full py-2 bg-red-600 hover:bg-red-700 text-white text-xl font-black rounded-2xl shadow-lg shadow-red-200 transition-all active:scale-[0.98]"
           >
-            حذف الإعلان
+            {t("delete")}
           </button>
         )}
       </form>

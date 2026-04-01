@@ -7,7 +7,9 @@ import {
   ArrowUpCircle,
   Wallet,
 } from "lucide-react";
-import Link from "next/link"; // استيراد Link
+import { useTranslations } from "next-intl";
+import Link from "next/link";
+
 
 interface UserWalletProps {
   UserWallet: UserWalletResponse;
@@ -21,7 +23,7 @@ export default function WalletCard({ UserWallet }: UserWalletProps) {
       day: "numeric",
     },
   );
-
+  const t = useTranslations("wallet");
   return (
     <Link
       href="/get-packages"
@@ -35,7 +37,7 @@ export default function WalletCard({ UserWallet }: UserWalletProps) {
         <div className="flex-1 flex justify-around items-center px-4 border-x border-slate-50 mx-4">
           <div className="text-center">
             <p className="text-[15px] text-slate-400 font-bold mb-0.5">
-              الإعلانات
+              {t("ads")}
             </p>
             <span className="text-sm font-black text-slate-800">
               {UserWallet.adsLimit}
@@ -43,7 +45,10 @@ export default function WalletCard({ UserWallet }: UserWalletProps) {
           </div>
 
           <div className="text-center">
-            <p className="text-[15px] text-slate-400 font-bold mb-0.5">تمييز</p>
+            <p className="text-[15px] text-slate-400 font-bold mb-0.5">
+              {" "}
+              {t("star")}
+            </p>
             <div className="flex items-center justify-center gap-1 text-amber-500">
               <Star size={12} fill="currentColor" />
               <span className="text-sm font-black text-slate-800">
@@ -56,7 +61,7 @@ export default function WalletCard({ UserWallet }: UserWalletProps) {
         <div className="shrink-0 flex items-center gap-2">
           <div className="text-left">
             <p className="text-[9px] text-slate-400 font-bold mb-0.5">
-              صالحة حتى
+              {t("until")}
             </p>
             <div className="flex items-center gap-1 text-slate-600">
               <Calendar size={12} className="text-slate-300" />

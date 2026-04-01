@@ -4,6 +4,7 @@ import { Images, Loader2, X, Star } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { uploadImage } from "@/lib/actions/ads";
 import { getImageUrl } from "@/lib/utils";
+import { useTranslations } from "use-intl";
 
 export function ImageUploadSection({
   form,
@@ -15,7 +16,7 @@ export function ImageUploadSection({
   const [isUploading, setIsUploading] = useState(false);
   const gallery = form.watch("gallery") || [];
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const t = useTranslations("ads.imageForm");
   // 1. تحسين الرفع المتوازي
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -93,12 +94,12 @@ export function ImageUploadSection({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-black text-slate-800 border-r-4 border-blue-600 pr-3">
-          صور الإعلان
+         {t("adsImages")}
         </h2>
         <span className="text-xs text-slate-500 font-bold italic">
           {disabled
-            ? "لا يمكن تعديل الصور بعد قبول الإعلان"
-            : "اسحب الصور لترتيبها (الأولى هي الأساسية)"}
+            ? t("adsImagesLock")
+            : t("adsImageDrag")}
         </span>
       </div>
 
@@ -114,7 +115,7 @@ export function ImageUploadSection({
               <Images className="text-blue-400" size={30} />
             )}
             <span className="text-[10px] font-black mt-2 text-blue-600">
-              أضف صور
+             {t("addImage")}
             </span>
             <Input
               ref={fileInputRef}
@@ -168,7 +169,7 @@ export function ImageUploadSection({
 
       {form.formState.errors.gallery && (
         <p className="text-red-500 text-xs font-bold mt-1">
-          يرجى إضافة صورة واحدة على الأقل
+         {t("addImageError")}
         </p>
       )}
     </div>

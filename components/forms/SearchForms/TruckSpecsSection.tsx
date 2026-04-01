@@ -1,4 +1,9 @@
-import { TruckBodyType, TrucksUsageType, ArabicLabels } from "@/types/enums";
+import {
+  TruckBodyType,
+  TrucksUsageType,
+  ArabicLabels,
+  EnglishLabels,
+} from "@/types/enums";
 import { TruckSpecs } from "@/types/filters";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -10,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Truck, Weight } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Props {
   states: TruckSpecs;
@@ -17,13 +23,16 @@ interface Props {
 }
 
 export const TruckSpecsSection = ({ states, setStates }: Props) => {
+  const t = useTranslations("ads.truckSpecs");
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
       <div className="grid grid-cols-1 gap-4">
         {/* هيكل الشاحنة */}
         <div className="space-y-2">
           <Label className="text-xs font-black text-slate-500 mr-1 flex items-center gap-2">
-            <Truck size={14} className="text-slate-400" /> هيكل الشاحنة
+            <Truck size={14} className="text-slate-400" /> {t("truckBodyType")}
           </Label>
           <Select
             value={states.TruckBodyType?.toString()}
@@ -32,7 +41,7 @@ export const TruckSpecsSection = ({ states, setStates }: Props) => {
             }
           >
             <SelectTrigger className="h-12 bg-white border-slate-200 rounded-xl font-bold shadow-sm text-right">
-              <SelectValue placeholder="اختر نوع الهيكل" />
+              <SelectValue placeholder="---" />
             </SelectTrigger>
             <SelectContent className="z-200">
               {[
@@ -46,7 +55,9 @@ export const TruckSpecsSection = ({ states, setStates }: Props) => {
                 TruckBodyType.NotSpecified,
               ].map((b) => (
                 <SelectItem key={b} value={b.toString()} className="font-bold">
-                  {ArabicLabels.TruckBodyType[b]}
+                  {isArabic
+                    ? ArabicLabels.TruckBodyType[b]
+                    : EnglishLabels.TruckBodyType[b]}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -55,7 +66,7 @@ export const TruckSpecsSection = ({ states, setStates }: Props) => {
 
         <div className="space-y-2">
           <Label className="text-xs font-black text-slate-500 mr-1">
-            نوع الاستخدام
+            {t("trucksUsageType")}
           </Label>
           <Select
             value={states.TrucksUsageType?.toString()}
@@ -64,7 +75,7 @@ export const TruckSpecsSection = ({ states, setStates }: Props) => {
             }
           >
             <SelectTrigger className="h-12 bg-white border-slate-200 rounded-xl font-bold shadow-sm text-right">
-              <SelectValue placeholder="اختر الاستخدام" />
+              <SelectValue placeholder="---" />
             </SelectTrigger>
             <SelectContent className="z-200">
               {[
@@ -77,7 +88,9 @@ export const TruckSpecsSection = ({ states, setStates }: Props) => {
                 TrucksUsageType.Construction,
               ].map((u) => (
                 <SelectItem key={u} value={u.toString()} className="font-bold">
-                  {ArabicLabels.TrucksUsageType[u]}
+                  {isArabic
+                    ? ArabicLabels.TrucksUsageType[u]
+                    : EnglishLabels.TrucksUsageType[u]}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -87,13 +100,13 @@ export const TruckSpecsSection = ({ states, setStates }: Props) => {
 
       <div className="space-y-3">
         <Label className="text-xs font-black text-slate-500 mr-1 flex items-center gap-2">
-          <Weight size={14} className="text-slate-400" /> سعة الحمولة (طن)
+          <Weight size={14} className="text-slate-400" /> {t("payload")}
         </Label>
         <div className="grid grid-cols-2 gap-3">
           <div className="relative">
             <Input
               type="number"
-              placeholder="من"
+              placeholder={t("payloadFrom")}
               value={states.PayloadFrom || ""}
               onChange={(e) =>
                 setStates({
@@ -108,7 +121,7 @@ export const TruckSpecsSection = ({ states, setStates }: Props) => {
           <div className="relative">
             <Input
               type="number"
-              placeholder="إلى"
+              placeholder={t("payloadTo")}
               value={states.PayloadTo || ""}
               onChange={(e) =>
                 setStates({
@@ -125,7 +138,7 @@ export const TruckSpecsSection = ({ states, setStates }: Props) => {
 
       <div className="p-3 bg-slate-100 rounded-xl border border-dashed border-slate-300">
         <p className="text-[10px] text-slate-500 text-center font-medium leading-relaxed">
-          تأكد من اختيار نوع الهيكل الصحيح لفلترة النتائج بدقة للمعدات الثقيلة.
+          {t("searchNote")}
         </p>
       </div>
     </div>

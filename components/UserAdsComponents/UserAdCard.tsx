@@ -14,33 +14,34 @@ import {
 } from "@/components/ui/dialog"; // تأكد من تثبيت الـ Dialog من shadcn
 import { Button } from "@/components/ui/button";
 import { AdsDataService } from "@/lib/services/adsDataService";
+import { useTranslations } from "next-intl";
 
 export function UserAdCard({ ad }: { ad: UserAdsResponse }) {
   const [showBoostModal, setShowBoostModal] = useState(false);
   const [isBoosting, setIsBoosting] = useState(false);
-
+  const t = useTranslations("userAdCard");
   const getStatusConfig = (status: string) => {
     switch (status) {
       case "accepted":
         return {
-          label: "تم النشر",
+          label: t("acceptedLabel"),
           color: "bg-green-500",
-          text: "تم قبول إعلانك وهو الآن ظاهر للجميع.",
+          text: t("acceptedText"),
         };
       case "pending":
         return {
-          label: "قيد المعالجة",
+          label: t("pendingLabel"),
           color: "bg-orange-400",
-          text: "إعلانك قيد المراجعة من قبل الإدارة حالياً.",
+          text: t("pendingText"),
         };
       case "rejected":
         return {
-          label: "رفض الطلب",
+          label: t("rejectedLabel"),
           color: "bg-red-500",
-          text: ad.reasone || "هناك مشكلة في محتوى الإعلان.",
+          text: ad.reasone || t("rejectedText"),
         };
       default:
-        return { label: "غير معروف", color: "bg-slate-400", text: "" };
+        return { label: t("unknownLabel"), color: "bg-slate-400", text: "" };
     }
   };
 
@@ -50,7 +51,7 @@ export function UserAdCard({ ad }: { ad: UserAdsResponse }) {
   const handleBoost = async () => {
     setIsBoosting(true);
     try {
-       await AdsDataService.boostAd(vehicle.id);
+      await AdsDataService.boostAd(vehicle.id);
       console.log("Boosting ad:", vehicle.id);
       setShowBoostModal(false);
     } catch (error) {
@@ -114,13 +115,14 @@ export function UserAdCard({ ad }: { ad: UserAdsResponse }) {
               {status.text}
             </p>
           </div>
-          
+
           <div className="flex flex-row gap-3 mt-2 text-slate-500">
             <div className="flex items-center gap-1 text-[10px] font-bold bg-slate-100 px-2 py-0.5 rounded-lg">
               <Eye size={12} className="text-slate-400" /> {vehicle.viewsCount}
             </div>
             <div className="flex items-center gap-1 text-[10px] font-bold bg-slate-100 px-2 py-0.5 rounded-lg">
-              <Heart size={12} className="text-slate-400" /> {vehicle.favoritesCount}
+              <Heart size={12} className="text-slate-400" />{" "}
+              {vehicle.favoritesCount}
             </div>
           </div>
         </div>
@@ -128,16 +130,23 @@ export function UserAdCard({ ad }: { ad: UserAdsResponse }) {
 
       {/* مودال التأكيد */}
       <Dialog open={showBoostModal} onOpenChange={setShowBoostModal}>
-        <DialogContent className="rounded-[2.5rem] max-w-[90%] sm:max-w-100" dir="rtl">
+        <DialogContent
+          className="rounded-[2.5rem] max-w-[90%] sm:max-w-100"
+          dir="rtl"
+        >
           <DialogHeader className="text-center flex flex-col items-center">
             <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
               <Rocket size={32} className="text-blue-600" />
             </div>
-            <DialogTitle className="text-2xl font-black text-slate-800">تمييز الإعلان</DialogTitle>
+            <DialogTitle className="text-2xl font-black text-slate-800">
+              {t("starAd")}
+            </DialogTitle>
             <DialogDescription className="font-bold text-slate-500 pt-2">
-              هل تريد تمييز هذا الإعلان ليظهر في النتائج الأولى ويصل لعدد أكبر من المشترين؟
+              {t("starAdQuestion")}
               <br />
-              <span className="text-blue-600 text-xs mt-2 block">سيتم خصم النقاط من محفظتك.</span>
+              <span className="text-blue-600 text-xs mt-2 block">
+                {t("starAdNote")}
+              </span>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex flex-row gap-3 mt-4">
@@ -146,14 +155,18 @@ export function UserAdCard({ ad }: { ad: UserAdsResponse }) {
               onClick={() => setShowBoostModal(false)}
               className="flex-1 h-12 rounded-2xl font-black border-slate-200"
             >
-              إلغاء
+              {t("starAdCancel")}
             </Button>
             <Button
               onClick={handleBoost}
               disabled={isBoosting}
               className="flex-1 h-12 rounded-2xl font-black bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-100"
             >
-              {isBoosting ? <Loader2 className="animate-spin" /> : "تأكيد التمييز"}
+              {isBoosting ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                t("starAdVerify")
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

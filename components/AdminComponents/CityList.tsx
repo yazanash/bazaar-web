@@ -24,10 +24,12 @@ import { Plus, Pencil, Trash2, MapPin, Search } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import React from "react";
 import { createCity, updateCity } from "@/lib/actions/admin";
+import { useTranslations } from "next-intl";
 interface CitiesProps {
   initialCities: CityResponse[] | [];
 }
 export default function CitiesManagement({ initialCities }: CitiesProps) {
+  const t = useTranslations("admin.cities");
   const [cities, setCities] = useState<CityResponse[]>(initialCities);
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,17 +60,15 @@ export default function CitiesManagement({ initialCities }: CitiesProps) {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-black text-slate-900">إدارة المدن</h1>
-          <p className="text-slate-500 font-bold mt-1">
-            إضافة وتعديل المدن المتاحة في النظام
-          </p>
+          <h1 className="text-3xl font-black text-slate-900">{t("title")}</h1>
+          <p className="text-slate-500 font-bold mt-1">{t("description")}</p>
         </div>
         <Button
           onClick={() => handleOpenModal()}
           className="rounded-2xl h-12 px-6 bg-blue-600 hover:bg-blue-700 font-bold shadow-lg shadow-blue-100"
         >
           <Plus className="ml-2" size={20} />
-          إضافة مدينة جديدة
+          {t("addNew")}
         </Button>
       </div>
 
@@ -78,7 +78,7 @@ export default function CitiesManagement({ initialCities }: CitiesProps) {
           size={18}
         />
         <Input
-          placeholder="ابحث عن مدينة..."
+          placeholder={t("searchPlaceholder")}
           className="pr-10 h-12 rounded-xl border-slate-200 bg-white"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -154,6 +154,7 @@ function CityModal({
   onCreated: (newCity: CityResponse) => void;
   onUpdated: (updatedCity: CityResponse) => void;
 }) {
+  const t = useTranslations("admin.cities");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<CityResponse>({
     id: 0,
@@ -170,7 +171,7 @@ function CityModal({
   }, [city, isOpen]);
   const handleSubmit = async () => {
     if (!formData.arabicName || !formData.englishName) {
-      alert("يرجى تعبئة كافة الحقول");
+      alert(t("vlidationError"));
       return;
     }
     setLoading(true);
@@ -182,7 +183,7 @@ function CityModal({
           onUpdated(res.data);
           onClose();
         } else {
-          alert(`حدث خطا اثناء الحفظ ${res.message}`);
+          alert(t("failed"));
         }
       } else {
         const res = await createCity(formData);
@@ -190,12 +191,12 @@ function CityModal({
           onCreated(res.data);
           onClose();
         } else {
-          alert(`حدث خطا اثناء الحفظ ${res.message}`);
+          alert(t("failed"));
         }
       }
       onClose();
     } catch (error) {
-      console.error("خطأ في العملية", error);
+      console.error(t("failed"), error);
     } finally {
       setLoading(false);
     }
@@ -205,33 +206,31 @@ function CityModal({
       <DialogContent className="sm:max-w-106.25 rounded-[2rem] p-8" dir="rtl">
         <DialogHeader>
           <DialogTitle className="text-2xl font-black text-slate-800 text-right">
-            {city ? "تعديل مدينة" : "إضافة مدينة جديدة"}
+            {city ? t("edit") : t("addNew")}
           </DialogTitle>
         </DialogHeader>
 
         <div className="grid gap-6 py-6">
           <div className="space-y-2">
-            <Label className="font-bold text-slate-700">الاسم بالعربية</Label>
+            <Label className="font-bold text-slate-700">{t("nameAr")}</Label>
             <Input
               value={formData.arabicName}
               className="h-12 rounded-xl border-slate-200 focus:ring-blue-500"
-              placeholder="مثال: دمشق"
+              placeholder={t("placeholderAr")}
               onChange={(e) =>
                 setFormData({ ...formData, arabicName: e.target.value })
               }
             />
           </div>
           <div className="space-y-2">
-            <Label className="font-bold text-slate-700">
-              الاسم بالإنجليزية
-            </Label>
+            <Label className="font-bold text-slate-700">{t("nameEn")}</Label>
             <Input
               value={formData.englishName}
               onChange={(e) =>
                 setFormData({ ...formData, englishName: e.target.value })
               }
               className="h-12 rounded-xl border-slate-200 focus:ring-blue-500"
-              placeholder="Example: Damascus"
+              placeholder={t("placeholderEn")}
             />
           </div>
         </div>
@@ -242,11 +241,7 @@ function CityModal({
             className="w-full h-12 rounded-xl bg-blue-600 font-bold text-lg hover:bg-blue-700 shadow-lg shadow-blue-100"
             onClick={handleSubmit}
           >
-            {loading
-              ? "جاري المعالجة..."
-              : city
-                ? "حفظ التعديلات"
-                : "إضافة المدينة"}
+            {loading ? t("saving") : t("save")}
           </Button>
 
           <Button
@@ -254,7 +249,7 @@ function CityModal({
             className="w-full h-12 rounded-xl font-bold text-slate-500 hover:bg-slate-50"
             onClick={onClose}
           >
-            إلغاء
+            {t("cancel")}
           </Button>
         </div>
       </DialogContent>

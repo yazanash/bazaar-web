@@ -21,31 +21,36 @@ import {
   RegistrationType,
   DriveSystem,
   UsageType,
+  EnglishLabels,
 } from "@/types/enums";
+import { useLocale, useTranslations } from "next-intl";
 
 export function CarSpecsSection({ form }: { form: any }) {
+  const t = useTranslations("ads.carSpecs");
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <h3 className="text-lg font-bold text-blue-700">
-        مواصفات السيارة التفصيلية
-      </h3>
+      <h3 className="text-lg font-bold text-blue-700">{t("title")}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <FormField
           control={form.control}
           name="carSpecs.transmission"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>ناقل الحركة</FormLabel>
+              <FormLabel> {t("transmission")}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
-                    <SelectValue placeholder="آلي / عادي" />
+                    <SelectValue placeholder="----" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {Object.values(Transmission).map((t) => (
                     <SelectItem key={t} value={t}>
-                      {ArabicLabels.Transmission[t]}
+                      {isArabic
+                        ? ArabicLabels.Transmission[t]
+                        : EnglishLabels.Transmission[t]}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -59,17 +64,19 @@ export function CarSpecsSection({ form }: { form: any }) {
           name="carSpecs.carBodyType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>الهيكل</FormLabel>
+              <FormLabel>{t("carBodyType")}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
-                    <SelectValue placeholder="اختر نوع الهيكل" />
+                    <SelectValue placeholder="---" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {Object.values(CarBodyType).map((t) => (
                     <SelectItem key={t} value={t}>
-                      {ArabicLabels.CarBodyType[t]}
+                      {isArabic
+                        ? ArabicLabels.CarBodyType[t]
+                        : EnglishLabels.CarBodyType[t]}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -84,17 +91,19 @@ export function CarSpecsSection({ form }: { form: any }) {
           name="carSpecs.registrationType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>التسجيل</FormLabel>
+              <FormLabel>{t("registrationType")}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
-                    <SelectValue placeholder="اختر نوع التسجيل" />
+                    <SelectValue placeholder="----" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {Object.values(RegistrationType).map((t) => (
                     <SelectItem key={t} value={t}>
-                      {ArabicLabels.RegistrationType[t]}
+                      {isArabic
+                        ? ArabicLabels.RegistrationType[t]
+                        : EnglishLabels.RegistrationType[t]}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -108,17 +117,19 @@ export function CarSpecsSection({ form }: { form: any }) {
           name="carSpecs.driveSystem"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>نظام الدفع</FormLabel>
+              <FormLabel>{t("driveSystem")}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
-                    <SelectValue placeholder="اختر نظام الدفع " />
+                    <SelectValue placeholder="---" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {Object.values(DriveSystem).map((t) => (
                     <SelectItem key={t} value={t}>
-                      {ArabicLabels.DriveSystem[t]}
+                      {isArabic
+                        ? ArabicLabels.DriveSystem[t]
+                        : EnglishLabels.DriveSystem[t]}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -133,7 +144,7 @@ export function CarSpecsSection({ form }: { form: any }) {
           render={({ field }) => (
             <FormItem className="flex w-full flex-row items-center justify-between rounded-xl border p-3 shadow-sm bg-white">
               <div className="space-y-0.5">
-                <FormLabel>هل المركبة معدلة؟</FormLabel>
+                <FormLabel>{t("isModified")}</FormLabel>
               </div>
               <FormControl>
                 <Switch
@@ -151,12 +162,12 @@ export function CarSpecsSection({ form }: { form: any }) {
             name="carSpecs.modificationDescription"
             render={({ field }) => (
               <FormItem className="col-span-full">
-                <FormLabel>تفاصيل التعديل</FormLabel>
+                <FormLabel>{t("modificationDescription")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     value={field.value ?? ""}
-                    placeholder="اذكر التعديلات التي تمت على السيارة..."
+                    placeholder={t("modificationDescriptionPlaceholder")}
                     className="h-12 w-full rounded-xl"
                   />
                 </FormControl>
@@ -170,7 +181,7 @@ export function CarSpecsSection({ form }: { form: any }) {
           name="carSpecs.seatsCount"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">عدد المقاعد</FormLabel>
+              <FormLabel className="font-bold">{t("seatsCount")}</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -189,7 +200,7 @@ export function CarSpecsSection({ form }: { form: any }) {
           name="carSpecs.doorsCount"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-bold">عدد الابواب</FormLabel>
+              <FormLabel className="font-bold">{t("doorsCount")}</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -208,17 +219,19 @@ export function CarSpecsSection({ form }: { form: any }) {
           name="carSpecs.usageType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>نوع الاستخدام</FormLabel>
+              <FormLabel>{t("usageType")}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-12 w-full rounded-xl border-blue-100">
-                    <SelectValue placeholder="اختر نوع الاستخدام " />
+                    <SelectValue placeholder="---" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {Object.values(UsageType).map((t) => (
                     <SelectItem key={t} value={t}>
-                      {ArabicLabels.UsageType[t]}
+                      {isArabic
+                        ? ArabicLabels.UsageType[t]
+                        : EnglishLabels.UsageType[t]}
                     </SelectItem>
                   ))}
                 </SelectContent>

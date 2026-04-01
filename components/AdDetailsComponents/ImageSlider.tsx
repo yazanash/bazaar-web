@@ -6,10 +6,11 @@ import { useRouter } from "next/navigation";
 import { getImageUrl } from "@/lib/utils";
 import "swiper/css";
 import "swiper/css/pagination";
+import { useTranslations } from "next-intl";
 
 export function ImageSlider({ images }: { images: string[] }) {
   const router = useRouter();
-
+  const t = useTranslations("ads.imageForm");
   return (
     <div className="relative w-full aspect-4/3 bg-slate-200">
       <div className="absolute top-4 left-4 right-4 z-20 flex justify-between items-center pointer-events-none">
@@ -38,7 +39,7 @@ export function ImageSlider({ images }: { images: string[] }) {
           ))
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400 font-bold">
-            لا توجد صور متوفرة
+            {t("noImages")}
           </div>
         )}
       </Swiper>

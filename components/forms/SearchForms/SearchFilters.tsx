@@ -29,7 +29,11 @@ import {
   ManufacturerResponse,
 } from "@/types/ad";
 import { getMasters } from "@/lib/actions/masterData";
+import { useLocale, useTranslations } from "next-intl";
 export function SearchFilters() {
+  const t = useTranslations("search");
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   const router = useRouter();
   const searchParams = useSearchParams();
   const { getGeneral, getCarSpecs, getTruckSpecs, getMotorSpecs } =
@@ -110,9 +114,9 @@ export function SearchFilters() {
         <DrawerHeader className="p-6 border-b flex items-center justify-between">
           <div className="text-right">
             <DrawerTitle className="text-xl font-black">
-              تصفية النتائج
+              {t("title")}
             </DrawerTitle>
-            <DrawerDescription>خصص بحثك بدقة</DrawerDescription>
+            <DrawerDescription>{t("description")}</DrawerDescription>
           </div>
           <Search size={24} className="text-blue-600" />
         </DrawerHeader>
@@ -161,7 +165,7 @@ export function SearchFilters() {
             onClick={handleApply}
             className="h-14 bg-blue-600 text-white rounded-2xl font-black flex items-center justify-center gap-2"
           >
-            <Check size={20} /> تطبيق
+            <Check size={20} /> {t("apply")}
           </button>
           <button
             onClick={() => {
@@ -170,7 +174,8 @@ export function SearchFilters() {
             }}
             className="h-14 bg-slate-100 text-slate-600 rounded-2xl font-black flex items-center justify-center gap-2"
           >
-            <RotateCcw size={20} /> إعادة ضبط
+            <RotateCcw size={20} />
+            {t("reset")}
           </button>
         </div>
       </DrawerContent>

@@ -13,6 +13,7 @@ import { ManufacturerResponse } from "@/types/ad";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "../ui/input";
+import { useTranslations } from "next-intl";
 
 interface ManufacturersListProps {
   manufacturers: ManufacturerResponse[];
@@ -21,6 +22,7 @@ interface ManufacturersListProps {
 export default function ManufacturersList({
   manufacturers: initialManufacturers,
 }: ManufacturersListProps) {
+  const t = useTranslations("admin.manufacturer");
   const router = useRouter();
   const [manufacturers, setManufacturers] = useState(initialManufacturers);
   const [search, setSearch] = useState("");
@@ -49,12 +51,12 @@ export default function ManufacturersList({
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-black text-slate-900">المصانع</h1>
+        <h1 className="text-3xl font-black text-slate-900">{t("title")}</h1>
         <Button
           onClick={() => handleOpenModal()}
           className="rounded-2xl h-12 bg-blue-600 font-bold shadow-lg shadow-blue-100"
         >
-          <Plus className="ml-2" /> إضافة مصنع جديد
+          <Plus className="ml-2" /> {t("addNew")}
         </Button>
       </div>
 
@@ -65,7 +67,7 @@ export default function ManufacturersList({
         />
 
         <Input
-          placeholder="ابحث عن مصنع (مثلاً: تويوتا، نيسان...)"
+          placeholder={t("searchPlaceholder")}
           className="h-14 pr-12 rounded-2xl bg-white border-none shadow-sm text-lg font-bold"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -116,7 +118,7 @@ export default function ManufacturersList({
 
             <div className="px-8 py-5 bg-slate-50/50 group-hover:bg-blue-600 transition-colors duration-500 flex items-center justify-between mt-auto">
               <span className="text-xs font-black text-slate-500 group-hover:text-white/90 transition-colors">
-                إدارة الموديلات
+                {t("manageModels")}
               </span>
               <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-400 group-hover:text-blue-600 transition-all">
                 <ChevronLeft size={16} />

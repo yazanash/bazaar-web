@@ -25,6 +25,7 @@ import { VehicleAdResponse } from "@/types/ad";
 import { getImageUrl } from "@/lib/utils";
 import { getPendingAds } from "@/lib/actions/admin";
 import { useInView } from "react-intersection-observer";
+import { useLocale, useTranslations } from "next-intl";
 interface AdsProps {
   initialAds: VehicleAdResponse[];
 }
@@ -35,9 +36,12 @@ export default function AdsList({ initialAds }: AdsProps) {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-
+  const tCommon = useTranslations("Common");
+  const t = useTranslations("admin.review");
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   if (!ads) {
-    return <h1>No Data</h1>;
+    return <h1>{tCommon("noData")}</h1>;
   }
   const { ref, inView } = useInView();
 
@@ -72,10 +76,8 @@ export default function AdsList({ initialAds }: AdsProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-black text-slate-900">إدارة الإعلانات</h1>
-        <p className="text-slate-500 font-bold mt-1">
-          ابحث، فلتر، وراجع المنشورات
-        </p>
+        <h1 className="text-3xl font-black text-slate-900">{t("title")}</h1>
+        <p className="text-slate-500 font-bold mt-1">{t("description")}</p>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -106,7 +108,7 @@ export default function AdsList({ initialAds }: AdsProps) {
                   AD #{ad.id}
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">
-                  {ad.city?.arabicName || "كل المدن"}
+                  {isArabic ? ad.city?.arabicName : ad.city?.englishName}
                 </span>
               </div>
 
@@ -124,7 +126,7 @@ export default function AdsList({ initialAds }: AdsProps) {
 
             <div className="flex flex-col items-center md:items-end md:px-6 w-full md:w-auto">
               <span className="text-[9px] font-black text-slate-400 uppercase mb-1">
-                السعر المطلوب
+                {t("price")}
               </span>
               <div className="text-xl font-black text-blue-600 tracking-tight">
                 {ad.price.toLocaleString()}
@@ -138,7 +140,7 @@ export default function AdsList({ initialAds }: AdsProps) {
                 className="w-full md:w-32 h-14 rounded-2xl bg-slate-900 hover:bg-blue-600 text-white font-black text-sm shadow-lg shadow-slate-100 transition-all active:scale-95 flex items-center justify-center gap-2"
               >
                 <Eye size={18} />
-                مراجعة
+                {t("review")}
               </Button>
             </div>
           </div>
@@ -149,43 +151,15 @@ export default function AdsList({ initialAds }: AdsProps) {
           <div className="flex flex-col items-center gap-2">
             <Loader2 className="animate-spin text-blue-600" size={32} />
             <span className="text-xs text-slate-400 font-bold">
-              جاري تحميل المزيد...
+              {tCommon("loading")}
             </span>
           </div>
         )}
         {!hasMore && ads.length > 0 && (
-          <p className="text-slate-400 font-bold text-sm italic">
-            لا يوجد مزيد من الإعلانات المعلقة
-          </p>
+          <p className="text-slate-400 font-bold text-sm italic"></p>
         )}
       </div>
     </div>
   );
 }
 
-// مكون Badge الحالة
-function StatusBadge({ status }: { status: string }) {
-  const configs: any = {
-    pending: {
-      label: "قيد المراجعة",
-      className: "bg-amber-50 text-amber-600 border-amber-100",
-    },
-    accepted: {
-      label: "تم القبول",
-      className: "bg-emerald-50 text-emerald-600 border-emerald-100",
-    },
-    rejected: {
-      label: "مرفوض",
-      className: "bg-red-50 text-red-600 border-red-100",
-    },
-  };
-  const config = configs[status];
-  return (
-    <Badge
-      variant="outline"
-      className={`rounded-lg px-3 py-1 font-bold ${config.className}`}
-    >
-      {config.label}
-    </Badge>
-  );
-}

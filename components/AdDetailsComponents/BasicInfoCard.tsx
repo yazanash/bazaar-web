@@ -7,10 +7,11 @@ import {
   Clock,
   GroupIcon,
 } from "lucide-react";
-import { ArabicLabels, Category } from "@/types/enums";
+import { ArabicLabels, Category, EnglishLabels } from "@/types/enums";
 import { VehicleAdDetailsResponse } from "@/types/ad";
 import { useState } from "react";
 import { toggleFavoriteAction } from "@/lib/actions/ads";
+import { useLocale, useTranslations } from "next-intl";
 export function BasicInfoCard({ data }: { data: VehicleAdDetailsResponse }) {
   const [isFavorite, setIsFavorite] = useState(data.isFavorite);
   const handleShare = (e: React.MouseEvent) => {
@@ -28,6 +29,9 @@ export function BasicInfoCard({ data }: { data: VehicleAdDetailsResponse }) {
     setIsFavorite(!isFavorite);
     await toggleFavoriteAction(data.id);
   };
+  const t = useTranslations("ads.generalForm");
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   return (
     <section className="px-4">
       <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
@@ -39,10 +43,13 @@ export function BasicInfoCard({ data }: { data: VehicleAdDetailsResponse }) {
             <div className="flex items-center gap-3 text-slate-500 font-bold text-sm">
               <span className="flex items-center gap-1">
                 <GroupIcon size={14} />{" "}
-                {ArabicLabels.Category[data.category as Category]}
+                {isArabic
+                  ? ArabicLabels.Category[data.category as Category]
+                  : EnglishLabels.Category[data.category as Category]}
               </span>
               <span className="flex items-center gap-1">
-                <MapPin size={14} /> {data.city?.arabicName}
+                <MapPin size={14} />{" "}
+                {isArabic ? data.city?.arabicName : data.city?.englishName}
               </span>
               <span className="flex items-center gap-1">
                 <Calendar size={14} /> {data.manufactureYear}

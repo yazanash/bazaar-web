@@ -2,7 +2,12 @@
 import { useState, useTransition } from "react";
 import { User, Phone, Save, Loader2 } from "lucide-react";
 import { ProfileData } from "@/types/profile";
-import { GenderType, SellerType } from "@/types/enums";
+import {
+  ArabicLabels,
+  EnglishLabels,
+  GenderType,
+  SellerType,
+} from "@/types/enums";
 import { saveProfileAction } from "@/lib/actions/profile";
 import { Label } from "@/components/ui/label";
 import {
@@ -12,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function ProfileForm({
   initialData,
@@ -20,7 +26,9 @@ export default function ProfileForm({
 }) {
   const [isPending, startTransition] = useTransition();
   const isUpdate = !!initialData;
-
+  const t = useTranslations("profile");
+  const tCommon = useTranslations("common");
+  const locale = useLocale();
   const [formData, setFormData] = useState<ProfileData>({
     name: initialData?.name || "",
     phoneNumber: initialData?.phoneNumber || "",
@@ -34,9 +42,9 @@ export default function ProfileForm({
     startTransition(async () => {
       const result = await saveProfileAction(formData, isUpdate);
       if (result.success) {
-        alert("تم حفظ الملف الشخصي بنجاح!");
+        alert(tCommon("saveMessage"));
       } else {
-        alert("حدث خطأ أثناء الحفظ");
+        alert(tCommon("fieldMessage"));
       }
     });
   };
@@ -44,14 +52,14 @@ export default function ProfileForm({
   return (
     <div className="min-h-screen bg-[#F8FAFC] p-6 pb-24" dir="rtl">
       <div className="text-center mb-10 mt-4">
-        <h2 className="text-2xl font-black text-blue-900">الملف الشخصي</h2>
+        <h2 className="text-2xl font-black text-blue-900">{t("title")}</h2>
       </div>
 
       <div className="max-w-md mx-auto space-y-6">
         {/* الاسم */}
         <div className="space-y-2">
           <Label className="text-[11px] font-black text-slate-400 mr-2 uppercase tracking-widest">
-            الاسم الكامل
+            {t("fullName")}
           </Label>
           <div className="relative">
             <User
@@ -72,7 +80,7 @@ export default function ProfileForm({
         {/* الهاتف */}
         <div className="space-y-2">
           <Label className="text-[11px] font-black text-slate-400 mr-2 uppercase tracking-widest">
-            رقم الهاتف
+            {t("phone")}
           </Label>
           <div className="relative">
             <Phone
@@ -95,7 +103,7 @@ export default function ProfileForm({
           {/* الجنس - التصحيح هنا */}
           <div className="space-y-2">
             <Label className="text-xs font-black text-slate-500 mr-1">
-              الجنس
+              {t("gender")}
             </Label>
             <Select
               value={formData.gender.toString()}
@@ -104,20 +112,24 @@ export default function ProfileForm({
               }
             >
               <SelectTrigger className="h-12 bg-white border-slate-200 rounded-xl font-bold shadow-sm">
-                <SelectValue placeholder="اختر" />
+                <SelectValue placeholder={t("choose")} />
               </SelectTrigger>
               <SelectContent className="z-200">
                 <SelectItem
                   value={GenderType.Male.toString()}
                   className="font-bold text-right"
                 >
-                  ذكر
+                  {locale === "ar"
+                    ? ArabicLabels.GenderType[GenderType.Male]
+                    : EnglishLabels.GenderType[GenderType.Male]}
                 </SelectItem>
                 <SelectItem
                   value={GenderType.Female.toString()}
                   className="font-bold text-right"
                 >
-                  أنثى
+                  {locale === "ar"
+                    ? ArabicLabels.GenderType[GenderType.Female]
+                    : EnglishLabels.GenderType[GenderType.Female]}
                 </SelectItem>
               </SelectContent>
             </Select>
@@ -126,7 +138,7 @@ export default function ProfileForm({
           {/* التاريخ */}
           <div className="space-y-2">
             <Label className="text-[11px] font-black text-slate-400 mr-2 uppercase tracking-widest">
-              تاريخ الميلاد
+              {t("birthDate")}
             </Label>
             <input
               type="date"
@@ -152,7 +164,7 @@ export default function ProfileForm({
           ) : (
             <Save size={20} />
           )}
-          {isUpdate ? "تحديث التعديلات" : "حفظ لأول مرة"}
+          {isUpdate ? tCommon("update") : tCommon("save")}
         </button>
       </div>
     </div>

@@ -4,12 +4,13 @@ import { Car, Motorbike, Truck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import { ArabicLabels, Category } from "@/types/enums";
+import { ArabicLabels, EnglishLabels, Category } from "@/types/enums";
+import { useLocale } from "next-intl";
 export function Categories() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
+  const locale = useLocale();
   const handleCategoryClick = (categoryValue: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -22,9 +23,9 @@ export function Categories() {
     router.push(`/search?${params.toString()}`);
   };
   const cats = [
-    { id: Category.Passenger, label: "سيارات", icon: Car },
-    { id: Category.Motorcycles, label: "موتورات", icon: Motorbike },
-    { id: Category.Trucks, label: "شاحنات", icon: Truck },
+    { id: Category.Passenger, icon: Car },
+    { id: Category.Motorcycles, icon: Motorbike },
+    { id: Category.Trucks, icon: Truck },
   ];
 
   return (
@@ -49,7 +50,9 @@ export function Categories() {
               />
 
               <span className="text-sm font-black text-slate-700 group-hover:text-blue-700">
-                {item.label}
+                {locale === "en"
+                  ? EnglishLabels.Category[item.id]
+                  : ArabicLabels.Category[item.id]}
               </span>
             </button>
           );

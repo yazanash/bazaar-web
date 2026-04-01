@@ -12,6 +12,7 @@ import { ManufacturerDataService } from "@/lib/services/manufacturerDataService"
 import { useEffect, useState } from "react";
 import { ManufacturerResponse } from "@/types/ad";
 import { createManufacturers, updateManufacturers } from "@/lib/actions/admin";
+import { useTranslations } from "next-intl";
 
 export function ManufacturerModal({
   isOpen,
@@ -20,6 +21,7 @@ export function ManufacturerModal({
   onCreated,
   onUpdated,
 }: any) {
+  const t = useTranslations("admin.manufacturer");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<ManufacturerResponse>({
     id: 0,
@@ -56,20 +58,20 @@ export function ManufacturerModal({
       <DialogContent className="sm:max-w-100 rounded-[2rem] p-8" dir="rtl">
         <DialogHeader>
           <DialogTitle className="text-2xl font-black text-slate-800 text-right">
-            {manufacturer ? "تعديل مصنع" : "إضافة مصنع جديد"}
+            {manufacturer ? t("edit") : t("addNew")}
           </DialogTitle>
         </DialogHeader>
 
         <div className="py-6">
           <div className="space-y-2 text-right">
-            <Label className="font-bold text-slate-700">اسم المصنع</Label>
+            <Label className="font-bold text-slate-700">t('name')</Label>
             <Input
               value={formData.name}
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
               className="h-12 rounded-xl border-slate-200"
-              placeholder="مثال: Mercedes, Toyota..."
+              placeholder={t("namePlaceholder")}
             />
           </div>
         </div>
@@ -81,14 +83,14 @@ export function ManufacturerModal({
             className="w-full h-12 rounded-xl bg-blue-600 font-bold text-lg hover:bg-blue-700 shadow-lg shadow-blue-100"
             onClick={handleSubmit}
           >
-            {loading ? "جاري الحفظ..." : manufacturer ? "تعديل" : "إضافة"}
+            {loading ? t("saving") : t("save")}
           </Button>
           <Button
             variant="ghost"
             className="w-full h-12 rounded-xl font-bold text-slate-500"
             onClick={onClose}
           >
-            إلغاء
+            {t("cancel")}
           </Button>
         </div>
       </DialogContent>

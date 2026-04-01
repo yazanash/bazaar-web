@@ -1,10 +1,11 @@
-import { ArabicLabels } from "@/types/enums";
+import { ArabicLabels, EnglishLabels } from "@/types/enums";
+import { useLocale } from "next-intl";
 interface EnumSelectProps {
   label: string;
-  value: string | number; 
+  value: string | number;
   onChange: (val: any) => void;
-  options: any[]; 
-  enumKey: keyof typeof ArabicLabels; 
+  options: any[];
+  enumKey: keyof typeof ArabicLabels;
 }
 
 export function EnumSelect({
@@ -14,6 +15,8 @@ export function EnumSelect({
   options,
   enumKey,
 }: EnumSelectProps) {
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   return (
     <div className="space-y-2 text-right">
       <label className="text-xs font-bold text-slate-400 mr-2">{label}</label>
@@ -25,7 +28,9 @@ export function EnumSelect({
         <option value="">غير محدد</option>
         {options.map((optValue: string | number) => (
           <option key={optValue} value={optValue}>
-            {ArabicLabels[enumKey][optValue as any] || optValue}
+            {isArabic
+              ? ArabicLabels[enumKey][optValue as any] || optValue
+              : EnglishLabels[enumKey][optValue as any] || optValue}
           </option>
         ))}
       </select>

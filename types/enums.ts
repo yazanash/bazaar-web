@@ -209,6 +209,113 @@ export const ArabicLabels: Record<string, Record<string, string>> = {
     [RegistrationType.NotSpecified]: "غير محدد",
   },
 };
+
+export const EnglishLabels: Record<string, Record<string, string>> = {
+  PostDateFilter: {
+    [PostDateFilter.AnyTime]: "Any Time",
+    [PostDateFilter.Past24]: "Last 24 Hours",
+    [PostDateFilter.PastWeek]: "Last Week",
+    [PostDateFilter.PastMonth]: "Last Month",
+  },
+  GenderType: {
+    [GenderType.NotSpecified]: "Not Specified",
+    [GenderType.Male]: "Male",
+    [GenderType.Female]: "Female",
+  },
+  CarBodyType: {
+    [CarBodyType.NotSpecified]: "Not Specified",
+    [CarBodyType.Sedan]: "Sedan",
+    [CarBodyType.Hatchback]: "Hatchback",
+    [CarBodyType.Station]: "Station",
+    [CarBodyType.Coupe]: "Coupe",
+    [CarBodyType.Convertible]: "Convertible",
+    [CarBodyType.SUV]: "SUV",
+    [CarBodyType.OffRoad]: "OffRoad",
+  },
+  FuelType: {
+    [FuelType.NotSpecified]: "Not Specified",
+    [FuelType.Diesel]: "Diesel",
+    [FuelType.Gasoline]: "Gasoline",
+    [FuelType.Electric]: "Electric",
+    [FuelType.Hybrid]: "Hybrid",
+  },
+  SellerType: {
+    [SellerType.NotSpecified]: "Not Specified",
+    [SellerType.Owner]: "Owner",
+    [SellerType.Broker]: "Broker",
+    [SellerType.Agency]: "Agency",
+  },
+  Category: {
+    [Category.NotSpecified]: "Not Specified",
+    [Category.Passenger]: "Passenger Cars",
+    [Category.Motorcycles]: "Motorcycles",
+    [Category.Trucks]: "Trucks",
+  },
+  Transmission: {
+    [Transmission.NotSpecified]: "Not Specified",
+    [Transmission.Manual]: "(Manual)",
+    [Transmission.Automatic]: "Automatic",
+    [Transmission.CVT]: "CVT",
+    [Transmission.DualClutch]: "DualClutch",
+  },
+  DriveSystem: {
+    [DriveSystem.NotSpecified]: "Not Specified",
+    [DriveSystem.FWD]: "Front-Wheel Drive",
+    [DriveSystem.RWD]: "Rear-Wheel Drive",
+    [DriveSystem.AWD]: "All-Wheel Drive",
+    [DriveSystem.FourWD]: "4-Wheel Drive (4x4)",
+  },
+  PubStatus: {
+    [PubStatus.NotSpecified]: "Not Specified",
+    [PubStatus.Accepted]: "Accepted",
+    [PubStatus.Rejected]: "Rejected",
+    [PubStatus.Pending]: "Pending",
+    [PubStatus.Closed]: "Closed",
+  },
+  TruckBodyType: {
+    [TruckBodyType.NotSpecified]: "Not Specified",
+    [TruckBodyType.Refrigerated]: "Refrigerated",
+    [TruckBodyType.Closed]: "Closed",
+    [TruckBodyType.Open]: "Open",
+    [TruckBodyType.Tanker]: "Tanker",
+    [TruckBodyType.Chassis]: "Chassis",
+    [TruckBodyType.Tipper]: "Tipper",
+    [TruckBodyType.Pickup]: "Pickup",
+  },
+  TrucksUsageType: {
+    [TrucksUsageType.NotSpecified]: "Not Specified",
+    [TrucksUsageType.Construction]: "Construction",
+    [TrucksUsageType.FurnitureMoving]: "Furniture Moving",
+    [TrucksUsageType.HeavyTransport]: "Heavy Transport",
+    [TrucksUsageType.Personal]: "Personal",
+    [TrucksUsageType.Refrigerated]: "Refrigerated",
+    [TrucksUsageType.WaterTanker]: "Water Tanker",
+  },
+  MotorTransmission: {
+    [MotorTransmission.NotSpecified]: "Not Specified",
+    [MotorTransmission.Manual]: "Manual",
+    [MotorTransmission.Automatic]: "Automatic",
+    [MotorTransmission.SemiAutomatic]: "SemiAutomatic",
+  },
+  UsageType: {
+    [UsageType.NotSpecified]: "Not Specified",
+    [UsageType.ExternalUsage]: "External Usage",
+    [UsageType.InternalUsage]: "Internal Usage",
+    [UsageType.Personal]: "Personal",
+  },
+  MotorBodyType: {
+    [MotorBodyType.Aluminum]: "Aluminum",
+    [MotorBodyType.CarbonFiber]: "CarbonFiber",
+    [MotorBodyType.Chrome]: "Chrome",
+    [MotorBodyType.Steel]: "Steel",
+    [MotorBodyType.NotSpecified]: "Not Specified",
+  },
+  RegistrationType: {
+    [RegistrationType.PrivateReg]: "Private Regestration",
+    [RegistrationType.PublicReg]: "Public Regestration",
+    [RegistrationType.NotSpecified]: "Not Specified",
+  },
+};
 // واجهة البيانات القادمة من السيرفر
 export interface AdminUser {
   id: string;

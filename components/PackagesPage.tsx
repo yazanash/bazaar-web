@@ -1,17 +1,19 @@
 import { Package } from "@/types/package";
 import { Check, Zap, Star, MessageCircle, LayoutGrid } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface PackagesProps {
   packages: Package[];
 }
 
 export default function PackagesPage({ packages }: PackagesProps) {
+  const t = useTranslations("packages");
   return (
     <div className="min-h-screen bg-[#F8FAFC] p-6 pb-24" dir="rtl">
       <div className="text-center mb-10">
-        <h1 className="text-2xl font-black text-slate-900">باقات الاشتراك</h1>
+        <h1 className="text-2xl font-black text-slate-900">{t("title")}</h1>
         <p className="text-sm text-slate-500 mt-2 font-bold">
-          اختر الباقة المناسبة لزيادة مبيعاتك
+          {t("description")}
         </p>
       </div>
 
@@ -41,7 +43,7 @@ export default function PackagesPage({ packages }: PackagesProps) {
                   <LayoutGrid size={16} />
                 </div>
                 <span className="text-sm font-bold">
-                  عدد الإعلانات:{" "}
+                  {t("adsCount")}{" "}
                   <span className="text-slate-900">{pkg.adLimits}</span>
                 </span>
               </div>
@@ -51,7 +53,7 @@ export default function PackagesPage({ packages }: PackagesProps) {
                   <Star size={16} />
                 </div>
                 <span className="text-sm font-bold">
-                  إعلانات مميزة:{" "}
+                  {t("starredCount")}{" "}
                   <span className="text-slate-900">{pkg.featuredLimit}</span>
                 </span>
               </div>
@@ -64,10 +66,10 @@ export default function PackagesPage({ packages }: PackagesProps) {
           <div className="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-200">
             <MessageCircle size={24} />
           </div>
-          <h4 className="text-blue-900 font-black mb-2">هل تريد شحن رصيدك؟</h4>
-          <p className="text-blue-700/70 text-xs font-bold mb-6">
-            سيتم تحويلك إلى خدمة العملاء عبر تيليجرام لإتمام عملية الدفع
-          </p>
+          <h4 className="text-blue-900 font-black mb-2">
+            {" "}
+            {t("needMoreCharge")}
+          </h4>
 
           <a
             href="https://t.me/bazaar963_bot"
@@ -75,7 +77,7 @@ export default function PackagesPage({ packages }: PackagesProps) {
             className="flex items-center justify-center gap-2 w-full h-14 bg-blue-600 text-white rounded-2xl font-black shadow-xl active:scale-95 transition-all"
           >
             <Zap size={20} className="fill-white" />
-            اشحن الآن عبر تيليجرام
+            {t("needMoreAction")}
           </a>
         </div>
       </div>
