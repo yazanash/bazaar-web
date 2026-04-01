@@ -3,18 +3,14 @@ import { getRequestConfig } from "next-intl/server";
 import { routing } from "./routing";
 
 export default getRequestConfig(async ({ requestLocale }) => {
-  // طباعة للتأكد في السيرفر
-  const locale = await requestLocale;
-  console.log("Resolved Locale:", locale);
+  let locale = await requestLocale;
 
-  // تأكد أن اللغة المطلوبة موجودة في الإعدادات، وإلا استخدم الافتراضية
-  const finalLocale = routing.locales.includes(locale as any)
-    ? locale
-    : routing.defaultLocale;
+  if (!locale || !routing.locales.includes(locale as any)) {
+    locale = routing.defaultLocale;
+  }
 
   return {
-    locale: finalLocale,
-    // لا تنسَ استيراد ملفات الترجمة هنا
-    messages: (await import(`../messages/${finalLocale}.json`)).default,
+    locale,
+    messages: (await import(`../messages/${locale}.json`)).default,
   };
 });
