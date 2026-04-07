@@ -7,6 +7,7 @@ import { AdBannersDataService } from "@/lib/services/adBannersDataService";
 import { AdsDataService } from "@/lib/services/adsDataService";
 import { InfiniteAdsList } from "./components/InfiniteAdsList";
 import { getTranslations } from "next-intl/server";
+import { InstallAppBanner } from "@/components/InstallAppBanner";
 export default async function HomePage() {
   const t = await getTranslations("common");
 
@@ -18,6 +19,7 @@ export default async function HomePage() {
     return (
       <div className="space-y-8 max-w-full">
         <PromoSlider adBanners={adBanners} />
+        <InstallAppBanner />
         <Suspense fallback={<div>{t("loading")}</div>}>
           <Categories />
         </Suspense>

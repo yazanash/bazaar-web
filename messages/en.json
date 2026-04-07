@@ -17,8 +17,14 @@
     "update": "Update",
     "saveMessage": "Changes saved successfully",
     "failedMessage": "Something went wrong",
-    "deleteMessage": "Are you sure? This action cannot be undone"
+    "deleteMessage": "Are you sure? This action cannot be undone",
+    "installBanner": {
+      "title": "Download Bazaar963 app ",
+      "subtitle": "A faster and easier experience for buying and selling cars",
+      "button": "Download"
+    }
   },
+
   "wallet": {
     "star": "Star",
     "ads": "Ads",
