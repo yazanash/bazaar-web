@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/routing";
 import { Home, Plus, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";

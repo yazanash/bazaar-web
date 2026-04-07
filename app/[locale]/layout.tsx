@@ -22,15 +22,15 @@ const geistMono = Geist_Mono({
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>; // استخدام locale ليتناسب مع next-intl
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
   const isAr = locale === "ar";
-  const baseUrl = "https://bazaar-963.com";
-  const ogImage = `${baseUrl}/og-image.png`; // تأكد من وضع صورة بهذا الاسم في مجلد public
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://bazaar-963.com";
+  const ogImage = `${baseUrl}/og-image.png`;
 
   return {
-    metadataBase: new URL(baseUrl), // مهم جداً لحل روابط الصور تلقائياً
+    metadataBase: new URL(baseUrl),
     title: {
       template: isAr ? "%s | بازار 963" : "%s | Bazaar 963",
       default: isAr
