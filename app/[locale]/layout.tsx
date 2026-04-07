@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -17,10 +18,70 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Bazaar 963 ",
-  description: "Syrian Cars Market",
-};
+// دالة توليد الميتا داتا الديناميكية للـ Layout
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>; // استخدام locale ليتناسب مع next-intl
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isAr = locale === "ar";
+  const baseUrl = "https://bazaar-963.com";
+  const ogImage = `${baseUrl}/og-image.png`; // تأكد من وضع صورة بهذا الاسم في مجلد public
+
+  return {
+    metadataBase: new URL(baseUrl), // مهم جداً لحل روابط الصور تلقائياً
+    title: {
+      template: isAr ? "%s | بازار 963" : "%s | Bazaar 963",
+      default: isAr
+        ? "بازار 963 - سوق السيارات الأول في سوريا"
+        : "Bazaar 963 - Leading Car Marketplace",
+    },
+    description: isAr
+      ? "بازار 963 هو منصتك الأولى لبيع وشراء السيارات بأفضل الأسعار. تصفح آلاف الإعلانات اليوم."
+      : "Bazaar 963 is your premier platform to buy and sell cars at the best prices. Browse thousands of ads today.",
+
+    // إعدادات الصورة عند مشاركة الرابط
+    openGraph: {
+      title: isAr ? "بازار 963 - سوق السيارات" : "Bazaar 963 - Car Marketplace",
+      description: isAr
+        ? "بيع واشتري سيارتك بأفضل الأسعار"
+        : "Buy and sell your car easily",
+      url: baseUrl,
+      siteName: "Bazaar 963",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: isAr ? "لوجو بازار 963" : "Bazaar 963 Logo",
+        },
+      ],
+      locale: isAr ? "ar_SA" : "en_US",
+      type: "website",
+    },
+
+    // إعدادات تويتر
+    twitter: {
+      card: "summary_large_image",
+      title: isAr ? "بازار 963" : "Bazaar 963",
+      description: isAr ? "سوق السيارات الأول" : "Leading Car Marketplace",
+      images: [ogImage],
+    },
+
+    alternates: {
+      canonical: locale === "ar" ? `${baseUrl}/ar` : `${baseUrl}/en`,
+      languages: {
+        "ar-SA": `${baseUrl}/ar`,
+        "en-US": `${baseUrl}/en`,
+      },
+    },
+    icons: {
+      icon: "/favicon.ico",
+      apple: "/apple-touch-icon.png",
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
@@ -30,11 +91,13 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
+
   if (!routing.locales.includes(locale as any)) {
-    console.log("not found ")
     notFound();
   }
+
   const messages = await getMessages();
+
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <body

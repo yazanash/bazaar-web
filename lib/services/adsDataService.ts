@@ -1,4 +1,3 @@
-
 import {
   Masters,
   PaginatedResponse,
@@ -142,5 +141,14 @@ export const AdsDataService = {
     return fetchApi<any>(`/MyAds/star-ad/${id}`, {
       method: "POST",
     });
+  },
+  getAllAdsForSitemap: async () => {
+    // جلب الحد الأدنى من البيانات (فقط السلوغ والتاريخ) لتسريع العملية
+    return fetchApi<Array<{ slug: string; updatedAt: string }>>(
+      "/Ads/SitemapData",
+      {
+        cache: "no-store",
+      },
+    );
   },
 };
