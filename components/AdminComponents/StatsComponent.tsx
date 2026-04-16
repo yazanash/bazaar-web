@@ -26,25 +26,25 @@ import { Car, Clock, DollarSign, TrendingUp } from "lucide-react";
 import React from "react";
 import { Stats } from "@/types/admin";
 import { useTranslations } from "next-intl";
-const t = useTranslations("admin.stats");
 
-const adsConfig = {
-  ads: {
-    label: t("label"),
-    color: "#3b82f6",
-  },
-} satisfies ChartConfig;
-
-const statusConfig = {
-  accepted: { label: t("accepted"), color: "#10b981" },
-  pending: { label: t("pending"), color: "#f59e0b" },
-  rejected: { label: t("rejected"), color: "#ef4444" },
-} satisfies ChartConfig;
 interface StatsProps {
   stats: Stats | null;
 }
 export default function StatsComponent({ stats }: StatsProps) {
+  const t = useTranslations("admin.stats");
   const tCommon = useTranslations("common");
+  const adsConfig = {
+    ads: {
+      label: t("label"),
+      color: "#3b82f6",
+    },
+  } satisfies ChartConfig;
+
+  const statusConfig = {
+    accepted: { label: t("accepted"), color: "#10b981" },
+    pending: { label: t("pending"), color: "#f59e0b" },
+    rejected: { label: t("rejected"), color: "#ef4444" },
+  } satisfies ChartConfig;
   if (!stats) {
     return <h1>{tCommon("noData")}</h1>;
   }
