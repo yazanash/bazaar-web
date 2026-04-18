@@ -3,15 +3,15 @@ import { getAdBySlug } from "@/lib/actions/ads";
 import { notFound } from "next/navigation";
 import AdminApprovalActions from "@/components/AdminComponents/AdminApprovalActions";
 import AdminVehicleReview from "./AdminVehicleReview";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export default async function AdminAdReviewPage({
   params,
 }: {
   params: { slug: string };
 }) {
-  const t = useTranslations("admin.review");
-  const tCommon = useTranslations("Common");
+  const t =await getTranslations("admin.review");
+  const tCommon = await getTranslations("Common");
   const { slug } = await params;
   const adData = await getAdBySlug(slug);
   if (adData.status == 404) return notFound();
