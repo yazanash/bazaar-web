@@ -152,7 +152,7 @@ export default function PackagesList({ packages }: PackageProps) {
                 {t("price")}
               </span>
               <div className="text-xl font-black text-slate-900">
-                {pkg.price.toLocaleString()}{" "}
+                {pkg.price}{" "}
               </div>
             </div>
 
