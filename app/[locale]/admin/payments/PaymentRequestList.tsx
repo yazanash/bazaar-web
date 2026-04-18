@@ -224,7 +224,7 @@ export default function PaymentRequestsList({
               variant="destructive"
               className="h-14 rounded-2xl font-black text-lg"
             >
-              placeholder= {t("reject")}
+              {t("reject")}
             </Button>
           </div>
         </SheetContent>
