@@ -216,7 +216,7 @@ export default function PaymentRequestsList({
               onClick={() => handleAction("accepted")}
               className="h-14 rounded-2xl bg-emerald-600 hover:bg-emerald-700 font-black text-lg"
             >
-              placeholder= {t("accept")}
+             {t("accept")}
             </Button>
             <Button
               disabled={isSubmitting || !rejectReason}

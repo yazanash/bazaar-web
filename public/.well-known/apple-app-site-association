@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "ABC123DE45.com.example.bazaarcars",
+        "paths": ["*"]
+      }
+    ]
+  }
+}

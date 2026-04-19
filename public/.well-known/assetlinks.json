@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.trioverse.bazaar963",
+      "sha256_cert_fingerprints": [
+        "AB:BC:C9:74:03:F7:AD:7C:C4:08:92:F9:72:AD:13:96:61:8D:32:99:CB:10:A7:F8:7B:AF:57:76:6A:80:93:F8"
+      ]
+    }
+  }
+]
